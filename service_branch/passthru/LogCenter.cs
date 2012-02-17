@@ -1,0 +1,276 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using System.IO;
+using System.Globalization;
+using FM;
+
+namespace PassThru
+{
+        /*
+         * Object used to describe an incoming event
+         * houses local vars and constructor
+         */
+		public class LogEvent
+        {
+            /*
+             * @param mo is the module of the log
+             * @param me is the message to log
+             */
+			public LogEvent(string mo, string me) 
+            {
+				Module = mo;
+				Message = me;
+				time = DateTime.Now;
+			}
+			public string Message = null;
+			public string Module = null;
+			public DateTime time;
+		}
+
+		public class LogCenter
+        {
+            static Thread pusher = new Thread(new ThreadStart(PushLoop));
+            public static TrayIcon ti = new TrayIcon();
+            static DataTransport dt;
+
+			LogCenter() 
+            {
+                dt = new DataTransport(DataTransport.StaticTransportType.LogCenter);
+                dt.NewStaticMessage += new DataTransport.StaticMessage(dt_NewStaticMessage);
+                dt.NewMessage += new DataTransport.Message(dt_NewMessage);
+                DataHub.Instance.RegisterStaticTransport(DataTransport.StaticTransportType.LogCenter, dt);
+                pusher.Start();
+			}
+
+            void dt_NewMessage(Guid from, object data)
+            {
+                
+            }
+
+            void dt_NewStaticMessage(DataTransport.StaticTransportType from, object data)
+            {
+                if (from == DataTransport.StaticTransportType.Program)
+                {
+                    Kill();
+                }
+            }
+
+            static void Kill()
+            {
+                pusher.Abort();
+            }
+
+            static void PushLoop()
+            {
+                while (true)
+                {
+                    Thread.Sleep(50);
+                    LogEvent[] temp = null;
+                    lock (lpadlock)
+                    {
+                        if (logQueue.Count != 0)
+                        {
+                            temp = logQueue.ToArray();
+                            logQueue.Clear();
+                        }
+                    }
+                    if (temp != null)
+                    {
+                        foreach (LogEvent le in temp)
+                            SendLogEvent(le);
+                    }
+                }
+            }
+
+            static Queue<LogEvent> logQueue = new Queue<LogEvent>();
+            static object lpadlock = new object();
+
+			public delegate void NewLogEvent(LogEvent e);
+			static readonly object padlock = new object();
+
+            // generates the LogEvent object and pushes it out to be logged
+			public void Push(string Module, string Message) 
+            {
+				LogEvent le = new LogEvent(Module, Message);
+                lock (lpadlock)
+                {
+                    logQueue.Enqueue(le);
+                }
+			}
+
+            /*
+             * pushes a log message to the tray icon, as well as the
+             * log window
+             * 
+             * @param le is the log event to be logged
+             */
+			static void SendLogEvent(LogEvent le) 
+            {
+				if (PushLogEvent != null)
+				{
+                    ti.AddLine(le.Message);
+					PushLogEvent(le);
+                    WriteLogFile(le);
+				}
+			}
+
+            // Write the exception out to the error log
+            public static void WriteErrorLog(Exception e)
+            {
+                string currentdate = DateTime.Now.ToString("M-d-yyyy");
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string filepath = folder;
+                string filename = Path.DirectorySeparatorChar + "ErrorLog.log";
+
+                FileStream stream;
+                if (e != null)
+                {
+                    if (Directory.Exists(filepath))
+                    {
+                        if (File.Exists(filepath + filename))
+                            stream = new FileStream(filepath + filename, FileMode.Append, FileAccess.Write, FileShare.Write);
+                        else
+                            stream = new FileStream(filepath + filename, FileMode.CreateNew, FileAccess.Write, FileShare.Write);
+
+                            StreamWriter m_streamWriter = new StreamWriter(stream);
+                            // write out the current date and message
+                            // followed by the source and a stack trace
+                            m_streamWriter.WriteLine(currentdate + " " + e.Message);
+                            m_streamWriter.WriteLine(e.Source);
+                            m_streamWriter.WriteLine(e.StackTrace);
+
+                            m_streamWriter.Close();
+                            stream.Close();
+                    }
+                }
+            }
+            
+            /*
+             * pushes log events to the event log file
+             * Log\Event_<date>.log
+             * 
+             * These logs are purged by the cleanLogs() method.
+             */
+            private static void WriteLogFile(LogEvent le)
+            {
+                string currentdate = DateTime.Now.ToString("M-d-yyyy");
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                folder = folder + Path.DirectorySeparatorChar + "Log";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string filepath = folder;
+                string filename = Path.DirectorySeparatorChar + "Event_" + currentdate + ".log";
+
+                FileStream stream;
+                // if the log event is not null
+                if (le != null)
+                {
+                    // if the Log folder exists already
+                    if (Directory.Exists(filepath))
+                    {
+                        // if the file exists, open in append and write to it
+                        if (File.Exists(filepath + filename))
+                            stream = new FileStream(filepath + filename, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                        else
+                            stream = new FileStream(filepath + filename, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
+
+                        StreamWriter m_streamWriter = new StreamWriter(stream);
+                        m_streamWriter.WriteLine(le.time.ToString() + " " + le.Module + ": " + le.Message + "\r");
+                        m_streamWriter.Close();
+                        stream.Close();
+                    }
+
+                    // if the log path does not exist, create it and write out the log
+                    if (!(Directory.Exists(filepath)))
+                    {
+                        Directory.CreateDirectory(filepath);
+                        stream = new FileStream(filepath + filename, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
+                        StreamWriter m_streamWriter = new StreamWriter(stream);
+                        m_streamWriter.WriteLine(le.time.ToString() + " " + le.Module + ": " + le.Message + "\r");
+                        m_streamWriter.Close();
+                        stream.Close();
+                    }
+                }
+            }
+
+            /*
+             * Method called once per run, used to check log paths to 
+             * clean up any old logs.  Called from MainWindow.cs - Load().
+             * 
+             * Logs are retained for up to 5 days before being purged.
+             */
+            public static void cleanLogs()
+            {
+                try
+                {
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    folder = folder + Path.DirectorySeparatorChar + "Log";
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    string filepath = folder;
+
+                    if (Directory.Exists(filepath))
+                    {
+                        // grab all the logs in the directory
+                        string[] files = Directory.GetFiles(filepath);
+
+                        // iterate through them all looking for any that are old (>5)
+                        foreach (string s in files)
+                        {
+                            // grab the log date from file path name and 
+                            // convert to DateTime for day check                            
+                            string logdate = s.Substring(s.LastIndexOf("_") + 1, 
+                                (s.LastIndexOf(".") - s.LastIndexOf("_")) - 1);
+                            
+                            DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+                            dtfi.ShortDatePattern = "MM-dd-yyyy";
+                            dtfi.DateSeparator = "-";
+                            DateTime logDate = Convert.ToDateTime(logdate, dtfi);
+
+                            // if it's old, get rid of it
+                            if ((DateTime.Now - logDate).Days > 5)
+                            {
+                                File.Delete(s);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogCenter.WriteErrorLog(e);
+                }
+            }
+            
+            public static LogCenter Instance 
+            {
+				get 
+                {
+					lock (padlock)
+					{
+						if (instance==null)
+						{
+								instance = new LogCenter();
+						}
+						return instance;
+					}
+				}
+			}
+			static LogCenter instance = null;
+
+			public static event NewLogEvent PushLogEvent;
+		}
+}
