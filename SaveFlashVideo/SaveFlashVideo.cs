@@ -4,6 +4,7 @@ using System.Text;
 using FM;
 using System.IO;
 using System.Threading;
+using System.Security.Cryptography;
 
 namespace SaveFlashVideo
 {
@@ -54,7 +55,7 @@ namespace SaveFlashVideo
             Quad quad;
             uint NextSequence = 0;
             Queue<byte[]> dataQueue = new Queue<byte[]>();
-            string outputFile;
+            string outputFile = null;
             string tempFile;
             public Thread dumpThread;
             SortedDictionary<uint, byte[]> outOfOrder = new SortedDictionary<uint, byte[]>();
@@ -117,6 +118,15 @@ namespace SaveFlashVideo
                 done = true;
             }
 
+            protected string GetMD5HashFromFile(string fileName)
+            {
+                FileStream file = new FileStream(fileName, FileMode.Open);
+                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+                return BitConverter.ToString(retVal).Replace("-", "");
+            }
+
             void DumpFileAsync()
             {
                 string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -128,17 +138,25 @@ namespace SaveFlashVideo
                 string extension = ".flv";
                 switch (Type)
                 {
-                    case "video/x-msvideo":
-                    case "video/x-mp4":
+                    case "video/vnd.avi":
+                    case "video/avi":
+                    case "video/masvideo":
+                    case "video/x-msvideo":                    
                         extension = ".avi";
                         break;
-                    case "audio/mpeg":
+                    case "video/x-mp4":
+                        extension = ".mp4";
+                        break;
                     case "audio/mp4":
+                        extension = ".m4a";
+                        break;
+                    case "audio/mpeg":
+                    case "audio/MPA":
+                    case "audio/mpa-robust":
                         extension = ".mp3";
                         break;
                 }
-                tempFile = folder + "temp" + Path.DirectorySeparatorChar + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;
-                outputFile = folder + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;
+                tempFile = folder + "temp" + Path.DirectorySeparatorChar + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;                
                 FileStream bin = new FileStream(tempFile, FileMode.Append);
                 DateTime last = DateTime.Now;
                 while (!done || dataQueue.Count != 0)
@@ -160,6 +178,10 @@ namespace SaveFlashVideo
                 lock (dataQueue)
                 {
                     dataQueue.Clear();
+                }
+                if (outputFile == null)
+                {
+                    outputFile = folder + GetMD5HashFromFile(tempFile) + extension;
                 }
                 File.Move(tempFile, outputFile);
             }
