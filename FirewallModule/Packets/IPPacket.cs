@@ -16,6 +16,16 @@ namespace FM
             if (!isIP())
                 throw new Exception("Not an IP packet!");
             start = base.LayerStart() + base.LayerLength();
+            if (eth.CodeGenerated)
+            {
+                this.CodeGenerated = true;
+                data->m_IBuffer[start] = 0x45;
+                this.DiffServicesField = 0x00;
+                this.Identification = 23950;
+                this.FragmentOffset = 0;
+                this.Flags = 0x40;
+                this.TTL = 128;
+            }            
             length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
         }
 

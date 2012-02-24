@@ -75,6 +75,7 @@ namespace FM
         public abstract bool CodeGenerated
         {
             get;
+            set;
         }
 
         public abstract void ClearGeneratedPacket();

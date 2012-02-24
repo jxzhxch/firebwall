@@ -16,6 +16,7 @@ namespace FM
         public override bool CodeGenerated
         {
             get { return generated; }
+            set { generated = value; }
         }
 
         public override INTERMEDIATE_BUFFER* IB

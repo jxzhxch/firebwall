@@ -38,7 +38,7 @@ namespace PassThru
                             mod = (FirewallModule)Activator.CreateInstance(t);
                             mod.adapter = na;
                             mod.Enabled = false;
-                            mod.ModuleStart();
+                            //mod.ModuleStart();
                             AddModule(mod);
                             loadedMods.Add(mod.MetaData.Name, file);
                         }

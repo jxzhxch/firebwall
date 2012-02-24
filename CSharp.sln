@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPGuard", "IPGuard\IPGuard.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMacEncryption", "SimpleMacEncryption\SimpleMacEncryption.csproj", "{7E44A3E9-FF0C-4652-B5F0-655743AA563E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScan", "PortScan\PortScan.csproj", "{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,18 @@ Global
 		{7E44A3E9-FF0C-4652-B5F0-655743AA563E}.Release|Win32.ActiveCfg = Release|x86
 		{7E44A3E9-FF0C-4652-B5F0-655743AA563E}.Release|x86.ActiveCfg = Release|x86
 		{7E44A3E9-FF0C-4652-B5F0-655743AA563E}.Release|x86.Build.0 = Release|x86
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E168AE99-74B4-4F9F-92A2-EF9D2A2EBDAB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

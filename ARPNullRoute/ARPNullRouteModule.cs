@@ -52,8 +52,9 @@ namespace ARPNullRoute
 
         public override ModuleError ModuleStop()
         {
-            Enabled = false;
-            t.Abort();
+            if(Enabled)
+                t.Abort();
+            Enabled = false;            
             return new ModuleError() { errorType = ModuleErrorType.Success };
         }
 

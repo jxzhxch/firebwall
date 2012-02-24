@@ -53,6 +53,14 @@ namespace PassThru.Modules
             {
                 int temp = checkedListBoxModules.SelectedIndex;
                 modules[checkedListBoxModules.SelectedIndex].Enabled = !modules[checkedListBoxModules.SelectedIndex].Enabled;
+                if (modules[checkedListBoxModules.SelectedIndex].Enabled)
+                {
+                    modules[checkedListBoxModules.SelectedIndex].ModuleStart();
+                }
+                else
+                {
+                    modules[checkedListBoxModules.SelectedIndex].ModuleStop();
+                }
                 UpdateView();
                 checkedListBoxModules.SelectedIndex = temp;
             }
@@ -62,6 +70,14 @@ namespace PassThru.Modules
         private void checkedListBoxModules_ItemCheck_1(object sender, ItemCheckEventArgs e)
         {
             modules[e.Index].Enabled = (e.NewValue == CheckState.Checked);
+            if (modules[e.Index].Enabled)
+            {
+                modules[e.Index].ModuleStart();
+            }
+            else
+            {
+                modules[e.Index].ModuleStop();
+            }
         }
 
         private void buttonOpenConfiguration_Click(object sender, EventArgs e)

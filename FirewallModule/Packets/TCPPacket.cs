@@ -25,6 +25,23 @@ namespace FM
             if (!isTCP())
                 throw new Exception("Not a TCP packet!");
             start = base.LayerStart() + base.LayerLength();
+            if (eth.CodeGenerated)
+            {
+                this.CodeGenerated = true;
+                data->m_IBuffer[start + 12] = 0x70;
+                
+                data->m_IBuffer[start + 18] = 0x00;
+                data->m_IBuffer[start + 19] = 0x00;
+                
+                data->m_IBuffer[start + 20] = 0x02;
+                data->m_IBuffer[start + 21] = 0x04;
+                data->m_IBuffer[start + 22] = 0x04;
+                data->m_IBuffer[start + 23] = 0xec;
+                data->m_IBuffer[start + 24] = 0x01;
+                data->m_IBuffer[start + 25] = 0x01;
+                data->m_IBuffer[start + 26] = 0x04;
+                data->m_IBuffer[start + 27] = 0x02;
+            }
             length = (uint)((data->m_IBuffer[start + 12] >> 4) * 4);
         }
 
@@ -132,7 +149,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 5);
+                if (((data->m_IBuffer[start + 13] & 0x10) == 0x10) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x10) == 0x10)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x10;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x10;
+                    }
+                }
             }
         }
 
@@ -159,7 +186,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 1);
+                if (((data->m_IBuffer[start + 13] & 0x01) == 0x01) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x01) == 0x01)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x01;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x01;
+                    }
+                }
             }
         }
 
@@ -172,7 +209,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 4);
+                if (((data->m_IBuffer[start + 13] & 0x08) == 0x08) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x08) == 0x08)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x08;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x08;
+                    }
+                }
             }
         }
 
@@ -185,7 +232,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 3);
+                if (((data->m_IBuffer[start + 13] & 0x04) == 0x04) != value)
+                {
+                    if (((data->m_IBuffer[start + 13] & 0x04) == 0x04) != value && (data->m_IBuffer[start + 13] & 0x04) == 0x04)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x04;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x04;
+                    }
+                }
             }
         }
 
@@ -198,7 +255,7 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start] = (byte)(value << 8);
+                data->m_IBuffer[start] = (byte)(value >> 8);
                 data->m_IBuffer[start + 1] = (byte)(value & 0xff);
             }
         }
@@ -212,7 +269,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 2);
+                if (((data->m_IBuffer[start + 13] & 0x02) == 0x02) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x02) == 0x02)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x02;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x02;
+                    }
+                }
             }
         }
 
@@ -225,7 +292,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 6);
+                if (((data->m_IBuffer[start + 13] & 0x20) == 0x20) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x20) == 0x20)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x20;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x20;
+                    }
+                }
             }
         }
 
@@ -238,7 +315,17 @@ namespace FM
             }
             set
             {
-                data->m_IBuffer[start + 13] |= (1 << 7);
+                if (((data->m_IBuffer[start + 13] & 0x40) == 0x40) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x40) == 0x40)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x40;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x40;
+                    }
+                }
             }
         }
 
@@ -251,7 +338,17 @@ namespace FM
             }
             set
             {
-                // data->m_IBuffer[start + 13] |= (1 << 8);
+                if (((data->m_IBuffer[start + 13] & 0x80) == 0x80) != value)
+                {
+                    if ((data->m_IBuffer[start + 13] & 0x80) == 0x80)
+                    {
+                        data->m_IBuffer[start + 13] -= 0x80;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 13] |= 0x80;
+                    }
+                }
             }
         }
 
@@ -260,11 +357,21 @@ namespace FM
         {
             get
             {
-                return ((data->m_IBuffer[start + 13] & 0x100) == 0x100);
+                return ((data->m_IBuffer[start + 12] & 0x01) == 0x01);
             }
             set
             {
-                // data->m_IBuffer[start + 13] |= (1 << 9);
+                if (((data->m_IBuffer[start + 12] & 0x01) == 0x01) != value)
+                {
+                    if ((data->m_IBuffer[start + 12] & 0x01) == 0x01)
+                    {
+                        data->m_IBuffer[start + 12] -= 0x01;
+                    }
+                    else
+                    {
+                        data->m_IBuffer[start + 12] |= 0x01;
+                    }
+                }
             }
         }
 
