@@ -129,61 +129,65 @@ namespace SaveFlashVideo
 
             void DumpFileAsync()
             {
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                folder = folder + Path.DirectorySeparatorChar + "firebwall";
-                folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar;
-                folder = folder + Path.DirectorySeparatorChar + "SaveFlashVideo" + Path.DirectorySeparatorChar;
-                if (!Directory.Exists(folder + "temp"))
-                    Directory.CreateDirectory(folder + "temp");
-                string extension = ".flv";
-                switch (Type)
+                try
                 {
-                    case "video/vnd.avi":
-                    case "video/avi":
-                    case "video/masvideo":
-                    case "video/x-msvideo":                    
-                        extension = ".avi";
-                        break;
-                    case "video/x-mp4":
-                        extension = ".mp4";
-                        break;
-                    case "audio/mp4":
-                        extension = ".m4a";
-                        break;
-                    case "audio/mpeg":
-                    case "audio/MPA":
-                    case "audio/mpa-robust":
-                        extension = ".mp3";
-                        break;
-                }
-                tempFile = folder + "temp" + Path.DirectorySeparatorChar + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;                
-                FileStream bin = new FileStream(tempFile, FileMode.Append);
-                DateTime last = DateTime.Now;
-                while (!done || dataQueue.Count != 0)
-                {
-                    Thread.Sleep(1);
-                    if ((DateTime.Now - last).TotalMinutes > 5)
-                        break;
-                    lock (dataQueue)
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                    folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar;
+                    folder = folder + Path.DirectorySeparatorChar + "SaveFlashVideo" + Path.DirectorySeparatorChar;
+                    if (!Directory.Exists(folder + "temp"))
+                        Directory.CreateDirectory(folder + "temp");
+                    string extension = ".flv";
+                    switch (Type)
                     {
-                        if (dataQueue.Count != 0)
+                        case "video/vnd.avi":
+                        case "video/avi":
+                        case "video/masvideo":
+                        case "video/x-msvideo":
+                            extension = ".avi";
+                            break;
+                        case "video/x-mp4":
+                            extension = ".mp4";
+                            break;
+                        case "audio/mp4":
+                            extension = ".m4a";
+                            break;
+                        case "audio/mpeg":
+                        case "audio/MPA":
+                        case "audio/mpa-robust":
+                            extension = ".mp3";
+                            break;
+                    }
+                    tempFile = folder + "temp" + Path.DirectorySeparatorChar + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;
+                    FileStream bin = new FileStream(tempFile, FileMode.Append);
+                    DateTime last = DateTime.Now;
+                    while (!done || dataQueue.Count != 0)
+                    {
+                        Thread.Sleep(1);
+                        if ((DateTime.Now - last).TotalMinutes > 5)
+                            break;
+                        lock (dataQueue)
                         {
-                            last = DateTime.Now;
-                            byte[] t = dataQueue.Dequeue();
-                            bin.Write(t, 0, t.Length);
+                            if (dataQueue.Count != 0)
+                            {
+                                last = DateTime.Now;
+                                byte[] t = dataQueue.Dequeue();
+                                bin.Write(t, 0, t.Length);
+                            }
                         }
                     }
+                    bin.Close();
+                    lock (dataQueue)
+                    {
+                        dataQueue.Clear();
+                    }
+                    if (outputFile == null)
+                    {
+                        outputFile = folder + GetMD5HashFromFile(tempFile) + extension;
+                    }
+                    File.Move(tempFile, outputFile);
                 }
-                bin.Close();
-                lock (dataQueue)
-                {
-                    dataQueue.Clear();
-                }
-                if (outputFile == null)
-                {
-                    outputFile = folder + GetMD5HashFromFile(tempFile) + extension;
-                }
-                File.Move(tempFile, outputFile);
+                catch { }
             }
         }
 
