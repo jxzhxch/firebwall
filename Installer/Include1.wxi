@@ -6,7 +6,7 @@
   -->
   <?define MajorVersion="0" ?>
   <?define MinorVersion="3" ?>
-  <?define BuildVersion="8" ?>
+  <?define BuildVersion="9" ?>
   <!-- Revision is NOT used by WiX in the upgrade procedure -->
   <?define Revision="0" ?>
   <!-- Full version number to display -->

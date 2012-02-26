@@ -14,7 +14,7 @@ namespace PassThru
     {
         int versionA = 0;
         int versionB = 3;
-        int versionC = 8;
+        int versionC = 9;
         int versionD = 0;
         Thread updateThread;
 
@@ -123,47 +123,13 @@ namespace PassThru
                     string ret = CheckForNewVersion();
                     if (ret != null)
                     {
-                        string questionA = "Would you like to download the newest version of fireBwall?  You can also download it from " + ret;
-                        string questionB = "Would you like the update to install now?";
+                        string questionA = "Would you like to download the newest version of fireBwall?";
                         string headerA = "New Update Available!";
-                        string headerB = "Update has finished downloading.";
-                        //switch (LanguageConfig.GetCurrentLanguage())
-                        //{
-                        //    case LanguageConfig.Language.NONE:
-                        //    case LanguageConfig.Language.ENGLISH:
-                        //        questionA = "Would you like to download the newest version of fireBwall?";
-                        //        headerA = "New Update Available!";
-                        //        questionB = "Would you like the update to install now?";
-                        //        headerB = "Update has finished downloading.";
-                        //        break;
-                        //    case LanguageConfig.Language.PORTUGUESE:
-
-                        //        break;
-                        //}
                         if (MessageBox.Show(questionA, headerA, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                            folder = folder + Path.DirectorySeparatorChar + "firebwall";
-                            if (!Directory.Exists(folder))
-                                Directory.CreateDirectory(folder);
-                            folder = folder + Path.DirectorySeparatorChar + "updates";
-                            if (!Directory.Exists(folder))
-                                Directory.CreateDirectory(folder);
-                            string file = ret.Substring(ret.IndexOf("/files/") + "/files/".Length);
-                            MyDownloadFile(new Uri(ret), folder + Path.DirectorySeparatorChar + file);
-                            if (MessageBox.Show(questionB, headerB, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            {
-                                System.Diagnostics.Process.Start(folder + Path.DirectorySeparatorChar + file);
-                            }
-                            else
-                            {
-                                return;
-                            }
+                            System.Diagnostics.Process.Start(ret);                            
                         }
-                        else
-                        {
-                            return;
-                        }
+                        return;
                     }
                 }
                 firstTime = false;
@@ -178,7 +144,7 @@ namespace PassThru
             {
                 WebClient wc = new WebClient();
                 string xml = wc.DownloadString("http://www.firebwall.com/currentVersion.php");
-                string url = "http://www.firebwall.com/files/firebwall-" + xml + ".msi";
+                string url = "http://www.firebwall.com/index.php#fireBwall " + xml;
                 string version = xml;
                 string a = version.Substring(0, version.IndexOf("."));
                 if (versionA == int.Parse(a))

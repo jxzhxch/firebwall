@@ -35,11 +35,11 @@
                 this.tabPage2 = new System.Windows.Forms.TabPage();
                 this.tabPage4 = new System.Windows.Forms.TabPage();
                 this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-                this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-                this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-                this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-                this.linkLabel4 = new System.Windows.Forms.LinkLabel();
                 this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+                this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+                this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+                this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+                this.linkLabel1 = new System.Windows.Forms.LinkLabel();
                 this.optionsTab.SuspendLayout();
                 this.tabPage1.SuspendLayout();
                 this.splitContainer1.Panel1.SuspendLayout();
@@ -92,7 +92,7 @@
                 this.tabPage3.Location = new System.Drawing.Point(4, 22);
                 this.tabPage3.Name = "tabPage3";
                 this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage3.Size = new System.Drawing.Size(776, 536);
+                this.tabPage3.Size = new System.Drawing.Size(776, 507);
                 this.tabPage3.TabIndex = 2;
                 this.tabPage3.Text = "Adapters";
                 this.tabPage3.UseVisualStyleBackColor = true;
@@ -102,7 +102,7 @@
                 this.tabPage2.Location = new System.Drawing.Point(4, 22);
                 this.tabPage2.Name = "tabPage2";
                 this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage2.Size = new System.Drawing.Size(776, 536);
+                this.tabPage2.Size = new System.Drawing.Size(776, 507);
                 this.tabPage2.TabIndex = 3;
                 this.tabPage2.Text = "Help";
                 this.tabPage2.UseVisualStyleBackColor = true;
@@ -111,7 +111,7 @@
                 // 
                 this.tabPage4.Location = new System.Drawing.Point(4, 22);
                 this.tabPage4.Name = "tabPage4";
-                this.tabPage4.Size = new System.Drawing.Size(776, 536);
+                this.tabPage4.Size = new System.Drawing.Size(776, 507);
                 this.tabPage4.TabIndex = 4;
                 this.tabPage4.Text = "Help";
                 this.tabPage4.UseVisualStyleBackColor = true;
@@ -138,38 +138,16 @@
                 this.splitContainer1.SplitterDistance = 533;
                 this.splitContainer1.TabIndex = 2;
                 // 
-                // linkLabel1
+                // linkLabel5
                 // 
-                this.linkLabel1.AutoSize = true;
-                this.linkLabel1.Location = new System.Drawing.Point(9, 7);
-                this.linkLabel1.Name = "linkLabel1";
-                this.linkLabel1.Size = new System.Drawing.Size(69, 13);
-                this.linkLabel1.TabIndex = 0;
-                this.linkLabel1.TabStop = true;
-                this.linkLabel1.Text = "fireBwall.com";
-                this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-                // 
-                // linkLabel2
-                // 
-                this.linkLabel2.AutoSize = true;
-                this.linkLabel2.Location = new System.Drawing.Point(84, 7);
-                this.linkLabel2.Name = "linkLabel2";
-                this.linkLabel2.Size = new System.Drawing.Size(112, 13);
-                this.linkLabel2.TabIndex = 1;
-                this.linkLabel2.TabStop = true;
-                this.linkLabel2.Text = "fireBwall on Facebook";
-                this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-                // 
-                // linkLabel3
-                // 
-                this.linkLabel3.AutoSize = true;
-                this.linkLabel3.Location = new System.Drawing.Point(202, 7);
-                this.linkLabel3.Name = "linkLabel3";
-                this.linkLabel3.Size = new System.Drawing.Size(95, 13);
-                this.linkLabel3.TabIndex = 2;
-                this.linkLabel3.TabStop = true;
-                this.linkLabel3.Text = "fireBwall on Reddit";
-                this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+                this.linkLabel5.AutoSize = true;
+                this.linkLabel5.Location = new System.Drawing.Point(398, 7);
+                this.linkLabel5.Name = "linkLabel5";
+                this.linkLabel5.Size = new System.Drawing.Size(96, 13);
+                this.linkLabel5.TabIndex = 4;
+                this.linkLabel5.TabStop = true;
+                this.linkLabel5.Text = "fireBwall on Twitter";
+                this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
                 // 
                 // linkLabel4
                 // 
@@ -182,16 +160,38 @@
                 this.linkLabel4.Text = "fireBwall Modules";
                 this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
                 // 
-                // linkLabel5
+                // linkLabel3
                 // 
-                this.linkLabel5.AutoSize = true;
-                this.linkLabel5.Location = new System.Drawing.Point(398, 7);
-                this.linkLabel5.Name = "linkLabel5";
-                this.linkLabel5.Size = new System.Drawing.Size(96, 13);
-                this.linkLabel5.TabIndex = 4;
-                this.linkLabel5.TabStop = true;
-                this.linkLabel5.Text = "fireBwall on Twitter";
-                this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+                this.linkLabel3.AutoSize = true;
+                this.linkLabel3.Location = new System.Drawing.Point(202, 7);
+                this.linkLabel3.Name = "linkLabel3";
+                this.linkLabel3.Size = new System.Drawing.Size(95, 13);
+                this.linkLabel3.TabIndex = 2;
+                this.linkLabel3.TabStop = true;
+                this.linkLabel3.Text = "fireBwall on Reddit";
+                this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+                // 
+                // linkLabel2
+                // 
+                this.linkLabel2.AutoSize = true;
+                this.linkLabel2.Location = new System.Drawing.Point(84, 7);
+                this.linkLabel2.Name = "linkLabel2";
+                this.linkLabel2.Size = new System.Drawing.Size(112, 13);
+                this.linkLabel2.TabIndex = 1;
+                this.linkLabel2.TabStop = true;
+                this.linkLabel2.Text = "fireBwall on Facebook";
+                this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+                // 
+                // linkLabel1
+                // 
+                this.linkLabel1.AutoSize = true;
+                this.linkLabel1.Location = new System.Drawing.Point(9, 7);
+                this.linkLabel1.Name = "linkLabel1";
+                this.linkLabel1.Size = new System.Drawing.Size(69, 13);
+                this.linkLabel1.TabIndex = 0;
+                this.linkLabel1.TabStop = true;
+                this.linkLabel1.Text = "fireBwall.com";
+                this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
                 // 
                 // MainWindow
                 // 
@@ -203,7 +203,7 @@
                 this.Controls.Add(this.splitContainer1);
                 this.ForeColor = System.Drawing.Color.Black;
                 this.Name = "MainWindow";
-                this.Text = "fireBwall v0.3.8.0";
+                this.Text = "fireBwall v0.3.9.0";
                 this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
                 this.Load += new System.EventHandler(this.MainWindow_Load);
                 this.optionsTab.ResumeLayout(false);
