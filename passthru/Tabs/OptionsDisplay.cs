@@ -35,8 +35,7 @@ namespace PassThru
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OptionsDisplay_Load(object sender, EventArgs e)
-        {
-            languageBox.SelectedIndex = 1;
+        {            
             switch (LanguageConfig.GetCurrentLanguage())
             {
                 case LanguageConfig.Language.NONE:
@@ -44,31 +43,37 @@ namespace PassThru
                     displayTrayLogs.Text = "Display Icon Popups";
                     languageLabel.Text = "Language: ";
                     linkLabel1.Text = "Report Issue";
+                    languageBox.SelectedIndex = 1;
                     break;
                 case LanguageConfig.Language.PORTUGUESE:
                     displayTrayLogs.Text = "Mostrar Popups Icon";
                     languageLabel.Text = "Linguagem: ";
                     linkLabel1.Text = "Reportagem Edição";
+                    languageBox.SelectedIndex = 6;
                     break;
                 case LanguageConfig.Language.CHINESE:
                     displayTrayLogs.Text = "显示图标弹出窗口";
                     languageLabel.Text = "語言標籤:";
                     linkLabel1.Text = "报告问题";
+                    languageBox.SelectedIndex = 4;
                     break;
                 case LanguageConfig.Language.GERMAN:
                     displayTrayLogs.Text = "Anzeige Icon Popups";
                     languageLabel.Text = "Sprachensiegel:";
                     linkLabel1.Text = "Report Issue";
+                    languageBox.SelectedIndex = 3;
                     break;
                 case LanguageConfig.Language.RUSSIAN:
                     displayTrayLogs.Text = "Показать Иконка всплывающие окна";
                     languageLabel.Text = "Язык этикетки:";
                     linkLabel1.Text = "Сообщить о проблеме";
+                    languageBox.SelectedIndex = 5;
                     break;
                 case LanguageConfig.Language.SPANISH:
                     displayTrayLogs.Text = "Mostrar ventanas emergentes Icono";
                     languageLabel.Text = "Lenguaje de etiquetas:";
                     linkLabel1.Text = "informe del problema";
+                    languageBox.SelectedIndex = 2;
                     break;
             }
             checkBox1.Checked = Program.uc.Config.StartUpCheck;
