@@ -32,6 +32,20 @@ namespace PassThru
 			}
 		}
 
+        void UpdateNetworkInterface(string name)
+        {
+            ndisDeviveName = name;
+            ndisDeviveName = this.ndisDeviveName.Substring(0, this.ndisDeviveName.IndexOf((char)0x00));
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (name.StartsWith("\\DEVICE\\" + ni.Id))
+                {
+                    inter = ni;
+                    ndisDeviveName = ni.Id;
+                }
+            }
+        }
+
 		NetworkAdapter() 
         {
 			lock (staticPadlock)
@@ -388,6 +402,7 @@ namespace PassThru
                     {
                         if (adList.m_nAdapterHandle[y] == currentAdapters[x].adapterHandle)
                         {
+                            currentAdapters[x].UpdateNetworkInterface(Encoding.ASCII.GetString(adList.m_szAdapterNameList, y * 256, 256));
                             tempList.Add(currentAdapters[x]);
                             found = true;
                         }
@@ -464,6 +479,16 @@ namespace PassThru
             TCP_AdapterList adList = new TCP_AdapterList();
             Ndisapi.GetTcpipBoundAdaptersInfo(hNdisapi, ref adList);
             List<NetworkAdapter> tempList = new List<NetworkAdapter>();
+            for (int x = 0; x < currentAdapters.Count; x++)
+            {
+                for (int y = 0; y < adList.m_nAdapterCount; y++)
+                {
+                    if (adList.m_nAdapterHandle[y] == currentAdapters[x].adapterHandle)
+                    {
+                        currentAdapters[x].UpdateNetworkInterface(Encoding.ASCII.GetString(adList.m_szAdapterNameList, y * 256, 256));
+                    }
+                }
+            }
             for (int x = 0; x < adList.m_nAdapterCount; x++)
             {
                 bool found = false;

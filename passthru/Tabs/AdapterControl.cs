@@ -94,7 +94,7 @@ namespace PassThru
             {
                 pointer = P;
                 this.deviceName = N;
-                ni = NI;
+                ni = na.InterfaceInformation;
                 this.In = In;
                 this.Out = Out;
                 this.na = na;
@@ -211,6 +211,7 @@ namespace PassThru
             {
                 get
                 {
+                    ni = na.InterfaceInformation;
                     return NIName + ":(" + na.InterfaceInformation.GetPhysicalAddress().ToString() + ") " + IPv4 + 
                         "\t" + IPv6 + "\r\nIn(" + DataIn + " | " + DataInPerSecond + ")\tOut(" + DataOut + " | " + DataOutPerSecond + ")";
                 }
