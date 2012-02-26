@@ -57,6 +57,7 @@ namespace PassThru
             TCPIPPORT,
             TCPPORT,
             TCPALL,
+            IP,
             ALL
         }
 
@@ -66,6 +67,8 @@ namespace PassThru
             {
                 switch (ruleType)
                 {
+                    case RuleType.IP:
+                        return new IPRule(ps, IPAddress.Parse(args), dir, log);
                     case RuleType.TCPALL:
                         return new TCPAllRule(ps, dir, log);
                     case RuleType.TCPIPPORT:
@@ -80,6 +83,100 @@ namespace PassThru
                         return new AllRule(ps, dir, log);
                 }
                 return null;
+            }
+        }
+
+        [Serializable]
+        public class IPRule : Rule
+        {
+            PacketStatus ps;
+            Direction direction;
+            bool log = true;
+            IPAddress ip;
+            string message = "";
+
+            public IPRule(PacketStatus ps, IPAddress ip, Direction direction, bool log)
+            {
+                this.ps = ps;
+                this.direction = direction;
+                this.ip = ip;
+                this.log = log;
+            }
+
+            public PacketStatus GetStatus(Packet pkt)
+            {
+                if (pkt.ContainsLayer(Protocol.IP))
+                {
+                    IPPacket tcppkt = (IPPacket)pkt;
+                    if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
+                    {
+                        if (tcppkt.DestIP == ip)
+                        {
+                            if (log)
+                                message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
+                            return ps;
+                        }
+                    }
+                    else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
+                    {
+                        if (tcppkt.DestIP == ip)
+                        {
+                            if (log)
+                                message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
+                            return ps;
+                        }
+                    }                 
+                }
+                return PacketStatus.UNDETERMINED;
+            }
+
+            public string ToFileString()
+            {
+                return null;
+            }
+
+            public string GetLogMessage()
+            {
+                if (!log) return null;
+                if (ps == PacketStatus.ALLOWED)
+                {
+                    return "Allowed " + message;
+                }
+                return "Blocked " + message;
+            }
+
+            public string String
+            {
+                get { return ToString(); }
+            }
+
+            public override string ToString()
+            {
+                string ret = "";
+                if (ps == PacketStatus.ALLOWED)
+                {
+                    ret = "Allows";
+                }
+                else
+                {
+                    ret = "Blocks";
+                }
+                ret += " TCP ip:port " + ip.ToString(); ;
+                if (direction == (Direction.IN | Direction.OUT))
+                {
+                    ret += " in and out";
+                }
+                else if (direction == Direction.OUT)
+                {
+                    ret += " out";
+                }
+                else if (direction == Direction.IN)
+                {
+                    ret += " in";
+                }
+                if (log)
+                    ret += " and logs";
+                return ret;
             }
         }
 

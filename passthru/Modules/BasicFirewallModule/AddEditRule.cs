@@ -25,49 +25,30 @@ namespace PassThru
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox1.Text)
+            switch (comboBox1.SelectedIndex)
             {
-                case "All UDP Rule":
-                case "所有的UDP規則":
-                case "Alle UDP Regel":
-                case "Все правила UDP":
-                case "Todos los Regla UDP":
+                case 3:
                     // most of these aren't going to translate very differently 
                     // into their foreign tongue, so i'm leaving it as is
                     labelArgs.Text = "(Space Separated) No args";
                     break;
-                case "UDP Port Rule":
-                case "UDP端口規則":
-                case "UDP-порта Правило":
-                case "El puerto UDP Regla":
+                case 4:
                     labelArgs.Text = "(Space Separated) Port";
                     break;
-                case "TCP IP and Port Rule":
-                case "TCP IP和端口規則":
-                case "TCP IP und Port Regel":
-                case "TCP-IP и порт Правило":
-                case "TCP IP y puerto de Regla":
+                case 1:
                     labelArgs.Text = "(Space Separated) IP Port";
                     break;
-                case "TCP Port Rule":
-                case "TCP端口規則":
-                case "TCP-порт Правило":
-                case "Puerto TCP Regla":
+                case 2:
                     labelArgs.Text = "(Space Separated) Port";
                     break;
-                case "All TCP Rule":
-                case "所有的TCP規則":
-                case "Alle TCP Rule":
-                case "Все правила TCP":
-                case "Todos los Regla TCP":
+                case 0:
                     labelArgs.Text = "(Space Separated) No args";
                     break;
-                case "All Rule":
-                case "所有規則":
-                case "Alle Rule":
-                case "Все правила":
-                case "todos los Regla":
+                case 5:
                     labelArgs.Text = "(Space Separated) No args";
+                    break;
+                case 6:
+                    labelArgs.Text = "(Space Separated) IP";
                     break;
             }
         }
@@ -79,53 +60,28 @@ namespace PassThru
                 try
                 {
                     BasicFirewall.RuleType rt = BasicFirewall.RuleType.ALL;
-                    switch (comboBox1.Text)
+                    switch (comboBox1.SelectedIndex)
                     {
-                        case "All UDP Rule":
-                        case "所有的UDP規則":
-                        case "Alle UDP Regel":
-                        case "Все правила UDP":
-                        case "Todos Regra UDP":
-                        case "Todos los Regla UDP":
+                        case 3:
                             rt = BasicFirewall.RuleType.UDPALL;
                             break;
-                        case "UDP Port Rule":
-                        case "UDP端口規則":
-                        case "UDP-порта Правило":
-                        case "Porta UDP Regra":
-                        case "El puerto UDP Regla":
+                        case 4:
                             rt = BasicFirewall.RuleType.UDPPORT;
                             break;
-                        case "TCP IP and Port Rule":
-                        case "TCP IP e regra de porta":
-                        case "TCP IP和端口規則":
-                        case "TCP IP und Port Regel":
-                        case "TCP-IP и порт Правило":
-                        case "TCP IP y puerto de Regla":
+                        case 1:
                             rt = BasicFirewall.RuleType.TCPIPPORT;
                             break;
-                        case "TCP Port Rule":
-                        case "Porta TCP Regra":
-                        case "TCP端口規則":
-                        case "TCP-порт Правило":
-                        case "Puerto TCP Regla":
+                        case 2:
                             rt = BasicFirewall.RuleType.TCPPORT;
                             break;
-                        case "All TCP Rule":
-                        case "Todos Regra TCP":
-                        case "所有的TCP規則":
-                        case "Alle TCP Rule":
-                        case "Все правила TCP":
-                        case "Todos los Regla TCP":
+                        case 0:
                             rt = BasicFirewall.RuleType.TCPALL;
                             break;
-                        case "All Rule":
-                        case "Todos Regra":
-                        case "所有規則":
-                        case "Alle Rule":
-                        case "Все правила":
-                        case "todos los Regla":
+                        case 5:
                             rt = BasicFirewall.RuleType.ALL;
+                            break;
+                        case 6:
+                            rt = BasicFirewall.RuleType.IP;
                             break;
                     }
                     BasicFirewall.Direction dir;
@@ -172,58 +128,58 @@ namespace PassThru
             switch (LanguageConfig.GetCurrentLanguage())
             {
                 case LanguageConfig.Language.ENGLISH:
-                    comboBox1.Text = "All Rule";
-                    comboBox1.Items.Add("All TCP Rule");
-                    comboBox1.Items.Add("TCP IP and Port Rule");
-                    comboBox1.Items.Add("TCP Port Rule");
-                    comboBox1.Items.Add("All UDP Rule");
-                    comboBox1.Items.Add("UDP Port Rule");
-                    comboBox1.Items.Add("All Rule");
+                    comboBox1.Items.Add("All TCP Rule");//0
+                    comboBox1.Items.Add("TCP IP and Port Rule");//1
+                    comboBox1.Items.Add("TCP Port Rule");//2
+                    comboBox1.Items.Add("All UDP Rule");//3
+                    comboBox1.Items.Add("UDP Port Rule");//4
+                    comboBox1.Items.Add("All Rule");//5
+                    comboBox1.Items.Add("IP Rule");//6
                     break;
                 case LanguageConfig.Language.PORTUGUESE:
-                    comboBox1.Text = "Todos Regra";
                     comboBox1.Items.Add("Todos Regra TCP");
                     comboBox1.Items.Add("TCP IP e regra de porta");
                     comboBox1.Items.Add("Porta TCP Regra");
                     comboBox1.Items.Add("Todos Regra UDP");
                     comboBox1.Items.Add("Porta UDP Regra");
                     comboBox1.Items.Add("Todos Regra");
+                    comboBox1.Items.Add("Regra IP");
                     break;
                 case LanguageConfig.Language.CHINESE:
-                    comboBox1.Text = "所有規則";
                     comboBox1.Items.Add("所有的TCP規則");
                     comboBox1.Items.Add("TCP IP和端口規則");
                     comboBox1.Items.Add("TCP端口規則");
                     comboBox1.Items.Add("所有的UDP規則");
                     comboBox1.Items.Add("UDP端口規則");
                     comboBox1.Items.Add("所有規則");
+                    comboBox1.Items.Add("IP规则");
                     break;
                 case LanguageConfig.Language.GERMAN:
-                    comboBox1.Text = "Alle Rule";
                     comboBox1.Items.Add("Alle TCP Rule");
                     comboBox1.Items.Add("TCP IP und Port Regel");
                     comboBox1.Items.Add("TCP Port Rule");
                     comboBox1.Items.Add("Alle UDP Regel");
                     comboBox1.Items.Add("UDP Port Rule");
                     comboBox1.Items.Add("Alle Rule");
+                    comboBox1.Items.Add("IP Rule");
                     break;
                 case LanguageConfig.Language.RUSSIAN:
-                    comboBox1.Text = "Все правила";
                     comboBox1.Items.Add("Все правила TCP");
                     comboBox1.Items.Add("TCP-IP и порт Правило");
                     comboBox1.Items.Add("TCP-порт Правило");
                     comboBox1.Items.Add("Все правила UDP");
                     comboBox1.Items.Add("UDP-порта Правило");
                     comboBox1.Items.Add("Все правила");
+                    comboBox1.Items.Add("IP правила");
                     break;
                 case LanguageConfig.Language.SPANISH:
-                    comboBox1.Text = "todos los Regla";
                     comboBox1.Items.Add("Todos los Regla TCP");
                     comboBox1.Items.Add("TCP IP y puerto de Regla");
                     comboBox1.Items.Add("Puerto TCP Regla");
                     comboBox1.Items.Add("Todos los Regla UDP");
                     comboBox1.Items.Add("El puerto UDP Regla");
                     comboBox1.Items.Add("todos los Regla");
+                    comboBox1.Items.Add("Regla IP");
                     break;
             }
         }

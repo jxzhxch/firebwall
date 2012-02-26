@@ -70,6 +70,7 @@ namespace PassThru
             public bool Save = true;
             public bool LogUnsolic = true;
             public bool LogAttacks = true;
+            public bool RectifyAttacks = false;
         }
 
         public ArpData data;
@@ -127,7 +128,10 @@ namespace PassThru
                                     if (!Compare(data.arpCache[arpp.ASenderIP], arpp.ASenderMac))
                                     {
                                         PacketMainReturn pmr = new PacketMainReturn("Simple ARP Poisoning Protection");
-                                        pmr.returnType = PacketMainReturnType.Edited;                                        
+                                        if (data.RectifyAttacks)
+                                            pmr.returnType = PacketMainReturnType.Edited;
+                                        else
+                                            pmr.returnType = PacketMainReturnType.Drop;
                                         if (data.LogAttacks)
                                             pmr.returnType |= PacketMainReturnType.Log;
                                         switch (LanguageConfig.GetCurrentLanguage())
@@ -151,22 +155,25 @@ namespace PassThru
                                             case LanguageConfig.Language.PORTUGUESE:
                                                 pmr.logMessage = "Resposta da ARP " + new PhysicalAddress(arpp.ASenderMac).ToString() + " para " + arpp.ASenderIP.ToString() + " não coincide com o cache ARP.";
                                                 break;
-                                        }                                        
-                                        arpp.ATargetIP = arpp.ASenderIP;
-                                        arpp.ATargetMac = data.arpCache[arpp.ATargetIP];
-                                        arpp.ASenderMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
-                                        arpp.FromMac = arpp.ASenderMac;
-                                        arpp.ToMac = arpp.ATargetMac;
-                                        foreach (UnicastIPAddressInformation ipv4 in adapter.InterfaceInformation.GetIPProperties().UnicastAddresses)
+                                        }
+                                        if (data.RectifyAttacks)
                                         {
-                                            if (ipv4.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                            arpp.ATargetIP = arpp.ASenderIP;
+                                            arpp.ATargetMac = data.arpCache[arpp.ATargetIP];
+                                            arpp.ASenderMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
+                                            arpp.FromMac = arpp.ASenderMac;
+                                            arpp.ToMac = arpp.ATargetMac;
+                                            foreach (UnicastIPAddressInformation ipv4 in adapter.InterfaceInformation.GetIPProperties().UnicastAddresses)
                                             {
-                                                arpp.ASenderIP = ipv4.Address;
-                                                break;
+                                                if (ipv4.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                                {
+                                                    arpp.ASenderIP = ipv4.Address;
+                                                    break;
+                                                }
                                             }
-                                        }                                        
-                                        arpp.Outbound = true;
-                                        in_packet = arpp;
+                                            arpp.Outbound = true;
+                                            in_packet = arpp;
+                                        }
                                         return pmr;
                                     }
                                     else
@@ -192,9 +199,10 @@ namespace PassThru
                                     if (!Compare(data.arpCache[arpp.ASenderIP], arpp.ASenderMac))
                                     {
                                         PacketMainReturn pmra = new PacketMainReturn("Simple ARP Poisoning Protection");
-                                        pmra.returnType = PacketMainReturnType.Edited;
-                                        if (data.LogAttacks)
-                                            pmra.returnType |= PacketMainReturnType.Log;
+                                        if (data.RectifyAttacks)
+                                            pmra.returnType = PacketMainReturnType.Edited;
+                                        else
+                                            pmra.returnType = PacketMainReturnType.Drop;
                                         switch (LanguageConfig.GetCurrentLanguage())
                                         {
                                             case LanguageConfig.Language.NONE:
@@ -216,22 +224,25 @@ namespace PassThru
                                             case LanguageConfig.Language.PORTUGUESE:
                                                 pmra.logMessage = "Resposta da ARP " + new PhysicalAddress(arpp.ASenderMac).ToString() + " para " + arpp.ASenderIP.ToString() + " não coincide com o cache ARP.";
                                                 break;
-                                        }     
-                                        arpp.ATargetIP = arpp.ASenderIP;
-                                        arpp.ATargetMac = data.arpCache[arpp.ATargetIP];
-                                        arpp.ASenderMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
-                                        arpp.FromMac = arpp.ASenderMac;
-                                        arpp.ToMac = arpp.ATargetMac;
-                                        foreach (UnicastIPAddressInformation ipv4 in adapter.InterfaceInformation.GetIPProperties().UnicastAddresses)
-                                        {
-                                            if (ipv4.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                                            {
-                                                arpp.ASenderIP = ipv4.Address;
-                                                break;
-                                            }
                                         }
-                                        arpp.Outbound = true;
-                                        in_packet = arpp;
+                                        if (data.RectifyAttacks)
+                                        {
+                                            arpp.ATargetIP = arpp.ASenderIP;
+                                            arpp.ATargetMac = data.arpCache[arpp.ATargetIP];
+                                            arpp.ASenderMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
+                                            arpp.FromMac = arpp.ASenderMac;
+                                            arpp.ToMac = arpp.ATargetMac;
+                                            foreach (UnicastIPAddressInformation ipv4 in adapter.InterfaceInformation.GetIPProperties().UnicastAddresses)
+                                            {
+                                                if (ipv4.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                                {
+                                                    arpp.ASenderIP = ipv4.Address;
+                                                    break;
+                                                }
+                                            }
+                                            arpp.Outbound = true;
+                                            in_packet = arpp;
+                                        }
                                         return pmra;
                                     }
                                 }

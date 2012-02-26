@@ -83,6 +83,7 @@ namespace PassThru
             checkBoxLogPoisoning.Checked = saap.data.LogAttacks;
             checkBoxLogUnsolicited.Checked = saap.data.LogUnsolic;
             checkBoxSave.Checked = saap.data.Save;
+            checkBoxRectify.Checked = saap.data.RectifyAttacks;
             switch (LanguageConfig.GetCurrentLanguage())
             {
                 case LanguageConfig.Language.NONE:
@@ -91,39 +92,50 @@ namespace PassThru
                     checkBoxLogUnsolicited.Text = "Log Unsolicited";
                     checkBoxLogPoisoning.Text = "Log Attacks";
                     button1.Text = "Remove Entry";
+                    checkBoxRectify.Text = "Rectify Attacks";
                     break;
                 case LanguageConfig.Language.PORTUGUESE:
                     checkBoxSave.Text = "Salve Cache ARP";
                     checkBoxLogUnsolicited.Text = "Entrar Unsolicited";
                     checkBoxLogPoisoning.Text = "Entrar Ataques";
                     button1.Text = "remover Entrada";
+                    checkBoxRectify.Text = "Eliminar os ataques";
                     break;
                 case LanguageConfig.Language.CHINESE:
                     checkBoxSave.Text = "保存ARP缓存";
                     checkBoxLogUnsolicited.Text = "登录未经请求";
                     checkBoxLogPoisoning.Text = "登录攻击";
                     button1.Text = "删除条目";
+                    checkBoxRectify.Text = "纠正攻击";
                     break;
                 case LanguageConfig.Language.GERMAN:
                     checkBoxSave.Text = "Save ARP Cache";
                     checkBoxLogUnsolicited.Text = "Log Initiativbewerbung";
                     checkBoxLogPoisoning.Text = "Log Attacks";
                     button1.Text = "Eintrag entfernen";
+                    checkBoxRectify.Text = "beheben Sie Angriffe";
                     break;
                 case LanguageConfig.Language.RUSSIAN:
                     checkBoxSave.Text = "Сохранить ARP кэш";
                     checkBoxLogUnsolicited.Text = "Вход Незапрошенные";
                     checkBoxLogPoisoning.Text = "Вход атак";
                     button1.Text = "Удалить Вступление";
+                    checkBoxRectify.Text = "Устранение атак";
                     break;
                 case LanguageConfig.Language.SPANISH:
                     checkBoxSave.Text = "Guardar la caché ARP";
                     checkBoxLogUnsolicited.Text = "registro no solicitados";
                     checkBoxLogPoisoning.Text = "Los ataques de registro";
                     button1.Text = "eliminar entrada";
+                    checkBoxRectify.Text = "rectificar los ataques";
                     break;
             }
             saap_UpdatedArpCache();
+        }
+
+        private void checkBoxRectify_CheckedChanged(object sender, EventArgs e)
+        {
+            saap.data.RectifyAttacks = checkBoxRectify.Checked;
         }
     }
 }

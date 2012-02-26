@@ -35,6 +35,7 @@
             this.checkBoxSave = new System.Windows.Forms.CheckBox();
             this.checkBoxLogPoisoning = new System.Windows.Forms.CheckBox();
             this.checkBoxLogUnsolicited = new System.Windows.Forms.CheckBox();
+            this.checkBoxRectify = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -78,13 +79,15 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.55087F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.07692F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Controls.Add(this.checkBoxSave, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.checkBoxLogPoisoning, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.checkBoxLogUnsolicited, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.checkBoxRectify, 3, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 212);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -98,7 +101,7 @@
             this.checkBoxSave.AutoSize = true;
             this.checkBoxSave.Location = new System.Drawing.Point(3, 3);
             this.checkBoxSave.Name = "checkBoxSave";
-            this.checkBoxSave.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxSave.Size = new System.Drawing.Size(95, 17);
             this.checkBoxSave.TabIndex = 0;
             this.checkBoxSave.Text = "Save ARP Cache";
             this.checkBoxSave.UseVisualStyleBackColor = true;
@@ -107,7 +110,7 @@
             // checkBoxLogPoisoning
             // 
             this.checkBoxLogPoisoning.AutoSize = true;
-            this.checkBoxLogPoisoning.Location = new System.Drawing.Point(271, 3);
+            this.checkBoxLogPoisoning.Location = new System.Drawing.Point(211, 3);
             this.checkBoxLogPoisoning.Name = "checkBoxLogPoisoning";
             this.checkBoxLogPoisoning.Size = new System.Drawing.Size(83, 17);
             this.checkBoxLogPoisoning.TabIndex = 1;
@@ -118,13 +121,24 @@
             // checkBoxLogUnsolicited
             // 
             this.checkBoxLogUnsolicited.AutoSize = true;
-            this.checkBoxLogUnsolicited.Location = new System.Drawing.Point(137, 3);
+            this.checkBoxLogUnsolicited.Location = new System.Drawing.Point(104, 3);
             this.checkBoxLogUnsolicited.Name = "checkBoxLogUnsolicited";
             this.checkBoxLogUnsolicited.Size = new System.Drawing.Size(99, 17);
             this.checkBoxLogUnsolicited.TabIndex = 2;
             this.checkBoxLogUnsolicited.Text = "Log Unsolicited";
             this.checkBoxLogUnsolicited.UseVisualStyleBackColor = true;
             this.checkBoxLogUnsolicited.CheckedChanged += new System.EventHandler(this.checkBoxLogUnsolicited_CheckedChanged);
+            // 
+            // checkBoxRectify
+            // 
+            this.checkBoxRectify.AutoSize = true;
+            this.checkBoxRectify.Location = new System.Drawing.Point(304, 3);
+            this.checkBoxRectify.Name = "checkBoxRectify";
+            this.checkBoxRectify.Size = new System.Drawing.Size(93, 17);
+            this.checkBoxRectify.TabIndex = 3;
+            this.checkBoxRectify.Text = "Rectify Attack";
+            this.checkBoxRectify.UseVisualStyleBackColor = true;
+            this.checkBoxRectify.CheckedChanged += new System.EventHandler(this.checkBoxRectify_CheckedChanged);
             // 
             // ArpPoisoningProtection
             // 
@@ -150,5 +164,6 @@
         private System.Windows.Forms.CheckBox checkBoxSave;
         private System.Windows.Forms.CheckBox checkBoxLogPoisoning;
         private System.Windows.Forms.CheckBox checkBoxLogUnsolicited;
+        private System.Windows.Forms.CheckBox checkBoxRectify;
     }
 }
