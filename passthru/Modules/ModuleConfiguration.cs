@@ -45,6 +45,52 @@ namespace PassThru.Modules
         private void ModuleConfiguration_Load(object sender, EventArgs e)
         {
             UpdateView();
+            switch (FM.LanguageConfig.GetCurrentLanguage())
+            {
+                case FM.LanguageConfig.Language.NONE:
+                case FM.LanguageConfig.Language.ENGLISH:
+                    buttonEnable.Text = "Enable/Disable";
+                    buttonOpenConfiguration.Text = "Open Configuration";
+                    buttonHelp.Text = "Help";
+                    buttonMoveDown.Text = "Move Down";
+                    buttonMoveUp.Text = "Move Up";
+                    break;
+                case FM.LanguageConfig.Language.PORTUGUESE:
+                    buttonEnable.Text = "Activar / Desactivar";
+                    buttonOpenConfiguration.Text = "Abrir Configuração";
+                    buttonHelp.Text = "ajudar";
+                    buttonMoveDown.Text = "mover para Baixo";
+                    buttonMoveUp.Text = "mover para cima";
+                    break;
+                case FM.LanguageConfig.Language.RUSSIAN:
+                    buttonEnable.Text = "Включение / выключение";
+                    buttonOpenConfiguration.Text = "Открытая конфигурация";
+                    buttonHelp.Text = "Помогите";
+                    buttonMoveDown.Text = "спускать";
+                    buttonMoveUp.Text = "вверх";
+                    break;
+                case FM.LanguageConfig.Language.SPANISH:
+                    buttonEnable.Text = "Activar / Desactivar";
+                    buttonOpenConfiguration.Text = "Abrir Configuración";
+                    buttonHelp.Text = "ayuda";
+                    buttonMoveDown.Text = "Bajar";
+                    buttonMoveUp.Text = "Subir";
+                    break;
+                case FM.LanguageConfig.Language.CHINESE:
+                    buttonEnable.Text = "启用/禁用";
+                    buttonOpenConfiguration.Text = "打开配置";
+                    buttonHelp.Text = "帮助";
+                    buttonMoveDown.Text = "下移";
+                    buttonMoveUp.Text = "动起来";
+                    break;
+                case FM.LanguageConfig.Language.GERMAN:
+                    buttonEnable.Text = "Aktivieren / Deaktivieren";
+                    buttonOpenConfiguration.Text = "Konfiguration öffnen";
+                    buttonHelp.Text = "Hilfe";
+                    buttonMoveDown.Text = "Nach unten";
+                    buttonMoveUp.Text = "Nach oben";
+                    break;
+            }
         }
 
         private void buttonEnable_Click(object sender, EventArgs e)
