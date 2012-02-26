@@ -17,36 +17,57 @@ namespace PassThru.Modules.MacFilter
             InitializeComponent();
         }
 
-        MacFilterModule.MacRule dragged = null;
-
-        private void listBox1_MouseDown(object sender, MouseEventArgs e)
+        private void MacFilterControl_Load(object sender, EventArgs e)
         {
-            int index = this.listBox1.IndexFromPoint(new Point(e.X, e.Y));
-            if (index == -1) return;
-            dragged = (MacFilterModule.MacRule)listBox1.Items[index];
-            listBox1.SelectedIndex = index;
-        }
-
-        private void listBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (dragged == null) return;
-            int index = this.listBox1.IndexFromPoint(new Point(e.X, e.Y));
-            if (listBox1.Items.IndexOf(dragged) == index) return;
-            if (index < 0) index = this.listBox1.Items.Count - 1;
-            this.listBox1.Items.Remove(dragged);
-            this.listBox1.Items.Insert(index, dragged);
-            dragged = null;
-
-            List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>();
-            foreach (object rule in listBox1.Items)
+            listBox1.DisplayMember = "String";
+            List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>(mf.rules);
+            foreach (MacFilterModule.MacRule rule in r)
             {
-                r.Add((MacFilterModule.MacRule)rule);
+                listBox1.Items.Add(rule);
             }
-
-            mf.InstanceGetRuleUpdates(r);
+            switch (FM.LanguageConfig.GetCurrentLanguage())
+            {
+                case FM.LanguageConfig.Language.NONE:
+                case FM.LanguageConfig.Language.ENGLISH:
+                    button1.Text = "Add Rule";
+                    button2.Text = "Remove Rule";
+                    buttonMoveDown.Text = "Move Down";
+                    buttonMoveUp.Text = "Move Up";
+                    break;
+                case FM.LanguageConfig.Language.PORTUGUESE:
+                    button1.Text = "Adicionar regra";
+                    button2.Text = "remover Regra";
+                    buttonMoveDown.Text = "mover para Baixo";
+                    buttonMoveUp.Text = "mover para cima";
+                    break;
+                case FM.LanguageConfig.Language.RUSSIAN:
+                    button1.Text = "Добавить правило";
+                    button2.Text = "Удалить правило";
+                    buttonMoveDown.Text = "спускать";
+                    buttonMoveUp.Text = "вверх";
+                    break;
+                case FM.LanguageConfig.Language.SPANISH:
+                    button1.Text = "Añadir regla";
+                    button2.Text = "Eliminar la regla";
+                    buttonMoveDown.Text = "Bajar";
+                    buttonMoveUp.Text = "Subir";
+                    break;
+                case FM.LanguageConfig.Language.CHINESE:
+                    button1.Text = "新增规则";
+                    button2.Text = "删除规则";
+                    buttonMoveDown.Text = "下移";
+                    buttonMoveUp.Text = "动起来";
+                    break;
+                case FM.LanguageConfig.Language.GERMAN:
+                    button1.Text = "Regel hinzufügen";
+                    button2.Text = "Regel entfernen";
+                    buttonMoveDown.Text = "Nach unten";
+                    buttonMoveUp.Text = "Nach oben";
+                    break;
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -64,13 +85,13 @@ namespace PassThru.Modules.MacFilter
                 }
                 aer.Dispose();
             }
-            catch (Exception exception) 
+            catch (Exception exception)
             {
                 LogCenter.WriteErrorLog(exception);
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -88,14 +109,52 @@ namespace PassThru.Modules.MacFilter
             catch { }
         }
 
-        private void MacFilterControl_Load(object sender, EventArgs e)
+        private void buttonMoveUp_Click(object sender, EventArgs e)
         {
-            listBox1.DisplayMember = "String";
-            List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>(mf.rules);
-            foreach (MacFilterModule.MacRule rule in r)
+            try
             {
-                listBox1.Items.Add(rule);
+                int index = listBox1.SelectedIndex;
+                if (index != 0)
+                {
+                    MacFilterModule.MacRule rule = (MacFilterModule.MacRule)listBox1.Items[index];
+                    listBox1.Items.RemoveAt(index);
+                    index--;
+                    listBox1.Items.Insert(index, rule);
+                    listBox1.SelectedIndex = index;
+                    List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>();
+                    foreach (object ru in listBox1.Items)
+                    {
+                        r.Add((MacFilterModule.MacRule)ru);
+                    }
+
+                    mf.InstanceGetRuleUpdates(r);
+                }
             }
+            catch { }
+        }
+
+        private void buttonMoveDown_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = listBox1.SelectedIndex;
+                if (index != listBox1.Items.Count - 1)
+                {
+                    MacFilterModule.MacRule rule = (MacFilterModule.MacRule)listBox1.Items[index];
+                    listBox1.Items.RemoveAt(index);
+                    index++;
+                    listBox1.Items.Insert(index, rule);
+                    listBox1.SelectedIndex = index;
+                    List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>();
+                    foreach (object ru in listBox1.Items)
+                    {
+                        r.Add((MacFilterModule.MacRule)ru);
+                    }
+
+                    mf.InstanceGetRuleUpdates(r);
+                }
+            }
+            catch { }
         }
     }
 }
