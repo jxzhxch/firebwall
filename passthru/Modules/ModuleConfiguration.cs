@@ -11,17 +11,15 @@ namespace PassThru.Modules
 {
     public partial class ModuleConfiguration : UserControl
     {
-        List<FirewallModule> modules = new List<FirewallModule>();
+        //List<FirewallModule> modules = new List<FirewallModule>();
+        List<KeyValuePair<bool, string>> moduleOrder = new List<KeyValuePair<bool, string>>();
         NetworkAdapter na;
         string dragged = null;
         
         public ModuleConfiguration(NetworkAdapter na)
         {
             this.na = na;
-            for (int x = 0; x < na.modules.Count; x++)
-            {
-                modules.Add(na.modules.GetModule(x));
-            }
+            moduleOrder = na.modules.GetModuleOrder();
             InitializeComponent();
         }
 
@@ -35,9 +33,9 @@ namespace PassThru.Modules
             else
             {
                 checkedListBoxModules.Items.Clear();
-                for (int x = 0; x < modules.Count; x++)
+                for (int x = 0; x < moduleOrder.Count; x++)
                 {
-                    checkedListBoxModules.Items.Add(modules[x].MetaData.Name, modules[x].Enabled);
+                    checkedListBoxModules.Items.Add(moduleOrder[x].Value, moduleOrder[x].Key);
                 }
             }
         }
@@ -98,15 +96,9 @@ namespace PassThru.Modules
             try
             {
                 int temp = checkedListBoxModules.SelectedIndex;
-                modules[checkedListBoxModules.SelectedIndex].Enabled = !modules[checkedListBoxModules.SelectedIndex].Enabled;
-                if (modules[checkedListBoxModules.SelectedIndex].Enabled)
-                {
-                    modules[checkedListBoxModules.SelectedIndex].ModuleStart();
-                }
-                else
-                {
-                    modules[checkedListBoxModules.SelectedIndex].ModuleStop();
-                }
+                moduleOrder[checkedListBoxModules.SelectedIndex] = new KeyValuePair<bool,string>(!moduleOrder[checkedListBoxModules.SelectedIndex].Key, moduleOrder[checkedListBoxModules.SelectedIndex].Value);
+                na.modules.UpdateModuleOrder(moduleOrder);
+                moduleOrder = na.modules.GetModuleOrder();
                 UpdateView();
                 checkedListBoxModules.SelectedIndex = temp;
             }
@@ -115,29 +107,23 @@ namespace PassThru.Modules
 
         private void checkedListBoxModules_ItemCheck_1(object sender, ItemCheckEventArgs e)
         {
-            modules[e.Index].Enabled = (e.NewValue == CheckState.Checked);
-            if (modules[e.Index].Enabled)
-            {
-                modules[e.Index].ModuleStart();
-            }
-            else
-            {
-                modules[e.Index].ModuleStop();
-            }
+            moduleOrder[e.Index] = new KeyValuePair<bool,string>(e.NewValue == CheckState.Checked, moduleOrder[e.Index].Value);
+            na.modules.UpdateModuleOrder(moduleOrder);
+            moduleOrder = na.modules.GetModuleOrder();
         }
 
         private void buttonOpenConfiguration_Click(object sender, EventArgs e)
         {
             try
             {
-                UserControl uc = modules[checkedListBoxModules.SelectedIndex].GetControl();
+                UserControl uc = na.modules.GetModule(checkedListBoxModules.SelectedIndex).GetControl();
                 if (uc != null)
                 {
                     Form f = new Form();
                     f.Size = new System.Drawing.Size(640, 480);
                     System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                     f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
-                    f.Text = na.InterfaceInformation.Name + ": " + modules[checkedListBoxModules.SelectedIndex].MetaData.Name + " - " + modules[checkedListBoxModules.SelectedIndex].MetaData.Version;
+                    f.Text = na.InterfaceInformation.Name + ": " + na.modules.GetModule(checkedListBoxModules.SelectedIndex).MetaData.Name + " - " + na.modules.GetModule(checkedListBoxModules.SelectedIndex).MetaData.Version;
                     f.Controls.Add(uc);
                     f.Show();
                 }
@@ -151,13 +137,12 @@ namespace PassThru.Modules
             {
                 if (checkedListBoxModules.SelectedIndex != 0)
                 {
-                    na.modules.InsertPIndex(checkedListBoxModules.SelectedIndex, checkedListBoxModules.SelectedIndex - 1);
+                    KeyValuePair<bool, string> temp = moduleOrder[checkedListBoxModules.SelectedIndex];
+                    moduleOrder.RemoveAt(checkedListBoxModules.SelectedIndex);
+                    moduleOrder.Insert(checkedListBoxModules.SelectedIndex - 1, temp);
+                    na.modules.UpdateModuleOrder(moduleOrder);
+                    moduleOrder = na.modules.GetModuleOrder();
                     int newIndex = checkedListBoxModules.SelectedIndex - 1;
-                    modules.Clear();
-                    for (int x = 0; x < na.modules.Count; x++)
-                    {
-                        modules.Add(na.modules.GetModule(x));
-                    }
                     UpdateView();
                     checkedListBoxModules.SelectedIndex = newIndex;
                 }
@@ -170,15 +155,14 @@ namespace PassThru.Modules
         {
             try
             {
-                if (checkedListBoxModules.SelectedIndex != modules.Count - 1)
+                if (checkedListBoxModules.SelectedIndex != moduleOrder.Count - 1)
                 {
-                    na.modules.InsertPIndex(checkedListBoxModules.SelectedIndex, checkedListBoxModules.SelectedIndex + 1);
+                    KeyValuePair<bool, string> temp = moduleOrder[checkedListBoxModules.SelectedIndex];
+                    moduleOrder.RemoveAt(checkedListBoxModules.SelectedIndex);
+                    moduleOrder.Insert(checkedListBoxModules.SelectedIndex + 1, temp);
+                    na.modules.UpdateModuleOrder(moduleOrder);
+                    moduleOrder = na.modules.GetModuleOrder();
                     int newIndex = checkedListBoxModules.SelectedIndex + 1;
-                    modules.Clear();
-                    for (int x = 0; x < na.modules.Count; x++)
-                    {
-                        modules.Add(na.modules.GetModule(x));
-                    }
                     UpdateView();
                     checkedListBoxModules.SelectedIndex = newIndex;
                 }

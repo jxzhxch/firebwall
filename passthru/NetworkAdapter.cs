@@ -189,6 +189,8 @@ namespace PassThru
 
                 modules.LoadExternalModules();
 
+                modules.UpdateModuleOrder();
+
                 string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 folder = folder + System.IO.Path.DirectorySeparatorChar + "firebwall";
                 if (!System.IO.Directory.Exists(folder))

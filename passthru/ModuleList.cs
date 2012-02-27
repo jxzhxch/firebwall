@@ -3,6 +3,8 @@ using System;
 using FM;
 using System.Reflection;
 using System.IO;
+using FM;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PassThru
 {
@@ -12,11 +14,54 @@ namespace PassThru
             List<FirewallModule> modules = new List<FirewallModule>();
             object padlock = new object();
             Dictionary<string, string> loadedMods = new Dictionary<string, string>();
+            List<KeyValuePair<bool, string>> moduleOrder = new List<KeyValuePair<bool, string>>();
             NetworkAdapter na;
+
+            public void SaveModuleOrder()
+            {
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                folder = folder + Path.DirectorySeparatorChar + "Adapters";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                folder = folder + Path.DirectorySeparatorChar + na.Name;
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string file = folder + Path.DirectorySeparatorChar + "modules.cfg";
+                FileStream stream = File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+                BinaryFormatter bFormatter = new BinaryFormatter();
+                bFormatter.Serialize(stream, moduleOrder);
+                stream.Close();
+            }
+
+            public void LoadModuleOrder()
+            {
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                folder = folder + Path.DirectorySeparatorChar + "Adapters";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                folder = folder + Path.DirectorySeparatorChar + na.Name;
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string file = folder + Path.DirectorySeparatorChar + "modules.cfg";
+                if (File.Exists(file))
+                {
+                    FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    BinaryFormatter bFormatter = new BinaryFormatter();
+                    moduleOrder = (List<KeyValuePair<bool, string>>)bFormatter.Deserialize(stream);
+                    stream.Close();
+                }
+            }
 
 			public ModuleList(NetworkAdapter na) 
             {
                 this.na = na;
+                LoadModuleOrder();
 			}
 
             public void LoadModule(string file)
@@ -73,7 +118,54 @@ namespace PassThru
                     {
                         LoadModule(fi.FullName);
                     }
+                }                
+            }
+
+            public List<KeyValuePair<bool, string>> GetModuleOrder()
+            {
+                return moduleOrder;
+            }
+
+            public void UpdateModuleOrder(List<KeyValuePair<bool, string>> mO)
+            {
+                moduleOrder = mO;
+                UpdateModuleOrder();
+            }
+
+            public void UpdateModuleOrder()
+            {
+                int index = 0;
+                for (int i = 0; i < moduleOrder.Count; i++)
+                {
+                    for (int x = 0; x < modules.Count; x++)
+                    {
+                        if (GetModule(x).MetaData.Name == moduleOrder[i].Value)
+                        {
+                            if (GetModule(x).Enabled != moduleOrder[i].Key)
+                            {
+                                if (GetModule(x).Enabled)
+                                {
+                                    GetModule(x).ModuleStop();
+                                }
+                                else
+                                {
+                                    GetModule(x).ModuleStart();
+                                }
+                                GetModule(x).Enabled = moduleOrder[i].Key;
+                            }                            
+                            InsertPIndex(x, index);
+                            index++;
+                            break;
+                        }
+                    }
                 }
+                moduleOrder.Clear();
+                for (int i = 0; i < Count; i++)
+                {
+                    FirewallModule fm = GetModule(i);
+                    moduleOrder.Add(new KeyValuePair<bool, string>(fm.Enabled, fm.MetaData.Name));
+                }
+                SaveModuleOrder();
             }
 
             public void InsertPIndex(int oIndex, int nIndex)
