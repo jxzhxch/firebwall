@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
 
 namespace PassThru
 {
@@ -11,8 +12,14 @@ namespace PassThru
     /// </summary>
 	public class TrayIcon
     {
+        static bool showPopups;
+
         // var updated whenever options checkbox changes
-        public static bool displayTrayLogs;
+        public static bool displayTrayLogs
+        {
+            get { return showPopups; }
+            set { showPopups = value; SaveConfig(); }
+        }
 
         /// <summary>
         /// Makes the actual NotifyIcon, and hooks up all the events for it
@@ -29,9 +36,35 @@ namespace PassThru
 			tray.Visible = true;
 			tray.BalloonTipClosed += new EventHandler(tray_BalloonTipClosed);
 			tray.DoubleClick += new EventHandler(tray_DoubleClick);
-            displayTrayLogs = true;
+            LoadConfig();
 		}
 		NotifyIcon tray;
+
+        public static void SaveConfig()
+        {
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string file = folder + Path.DirectorySeparatorChar + "tray.cfg";
+            File.WriteAllText(file, displayTrayLogs.ToString());
+        }
+
+        public static void LoadConfig()
+        {
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string file = folder + Path.DirectorySeparatorChar + "tray.cfg";
+            showPopups = true;
+            if (File.Exists(file))
+            {
+                string config = File.ReadAllText(file);
+                if (config == "False")
+                    showPopups = false;
+            }
+        }
 
         /// <summary>
         /// Queue of lines to display in the pop up balloon
@@ -50,19 +83,6 @@ namespace PassThru
                 tray.BalloonTipText = line;
                 tray.ShowBalloonTip(5000);
             }
-            //if (lines.Count == 5)
-            //{
-            //    lines.Dequeue();
-            //}
-            //lines.Enqueue(line);
-
-            //if (lines.Count > 0)
-            //{
-            //    for (int x = lines.Count - 1; x >= 0; x--)
-            //    {
-            //        tray.BalloonTipText += lines.ToArray()[x] + "\r\n";
-            //    }                
-            //}
 		}
 
         /// <summary>

@@ -79,6 +79,7 @@ namespace PassThru
             checkBox1.Checked = Program.uc.Config.StartUpCheck;
             checkBox2.Checked = Program.uc.Config.Enabled;
             textBox1.Text = Program.uc.Config.MinuteInterval.ToString();
+            displayTrayLogs.Checked = TrayIcon.displayTrayLogs;
         }        
 
         /// <summary>
