@@ -22,6 +22,10 @@ namespace FM
         {
             if (!isUDP())
                 throw new Exception("Not a UDP packet!");
+            if (eth.CodeGenerated)
+            {
+                this.CodeGenerated = true;                
+            }
             start = base.LayerStart() + base.LayerLength();
         }
 
@@ -194,7 +198,7 @@ namespace FM
             }
 
             // proto
-            sum += 0x0006;
+            sum += 0x00011;
 
             // length
             sum += ((UInt16)(TotalLength - (base.LayerLength())));

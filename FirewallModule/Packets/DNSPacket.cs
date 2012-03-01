@@ -358,6 +358,7 @@ namespace FM
                             index++;
                         }
                         data->m_Length = (uint)index;
+                        length = (uint)(index - start);
                     }
                 }
             }

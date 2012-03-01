@@ -25,8 +25,6 @@ namespace DNSCache
 
         public override PacketMainReturn interiorMain(ref Packet in_packet)
         {
-            return null;
-            //shit dont work
             if (in_packet.Outbound && in_packet.ContainsLayer(Protocol.DNS))
             {
                 DNSPacket dns = (DNSPacket)in_packet;
@@ -36,16 +34,22 @@ namespace DNSCache
                     if (q.ToString().Contains("reddit"))
                     {
                         DNSPacket.DNSAnswer a = new DNSPacket.DNSAnswer();
-                        a.Name = new List<byte>(q.Name);
+                        a.Name = new List<byte>();
+                        a.Name.Add(0xc0);
+                        a.Name.Add(0x0c);
                         a.Type = 0x0001;
                         a.Class = 0x0001;
                         a.TTL = 0xff;
                         a.RDLength = 4;
-                        a.RData = IPAddress.Parse("173.194.67.103").GetAddressBytes();
+                        a.RData = IPAddress.Parse("66.172.10.29").GetAddressBytes();
                         DNSPacket.DNSAnswer[] ans = new DNSPacket.DNSAnswer[1];
                         ans[0] = a;
                         dns.Answers = ans;
+                        dns.DNSFlags = 0x8180;
                         hasPoisoned = true;
+                        dns.UDPLength = (ushort)(8 + dns.LayerLength());
+                        dns.TotalLength = (ushort)(20 + dns.UDPLength);
+                        dns.UDPChecksum = dns.GenerateUDPChecksum;
                         break;
                     }
                 }
