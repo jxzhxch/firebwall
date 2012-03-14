@@ -10,23 +10,18 @@ namespace FM
     /// <typeparam name="T"></typeparam>
     public class SwapBufferQueue<T>
     {
-        enum BufferState
-        {
-            DumpA,
-            DumpB
-        }
-
         private Queue<T> bufferA = new Queue<T>();
         private Queue<T> bufferB = new Queue<T>();
 
-        private BufferState swap = BufferState.DumpB;
+        //if false, B is being filled
+        private bool swap = false;
         private readonly object dumpLock = new object();
 
         public void Enqueue(T t)
         {
             lock (this)
             {
-                if (swap == BufferState.DumpA)
+                if (swap)
                 {
                     bufferB.Enqueue(t);
                 }
@@ -43,17 +38,10 @@ namespace FM
             {
                 lock (this)
                 {
-                    if (swap == BufferState.DumpA)
-                    {
-                        swap = BufferState.DumpB;
-                    }
-                    else
-                    {
-                        swap = BufferState.DumpA;
-                    }
+                    swap = !swap;
                 }
                 Queue<T> ret;
-                if (swap == BufferState.DumpA)
+                if (swap)
                 {
                     ret = new Queue<T>(bufferA);
                     bufferA.Clear();
