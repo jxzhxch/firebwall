@@ -13,7 +13,7 @@ namespace FM
         private Queue<T> bufferA = new Queue<T>();
         private Queue<T> bufferB = new Queue<T>();
 
-        //if false, B is being filled
+        //if false, A is being filled
         private bool swap = false;
         private readonly object dumpLock = new object();
 
