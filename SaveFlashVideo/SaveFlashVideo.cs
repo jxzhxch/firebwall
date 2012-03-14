@@ -54,7 +54,7 @@ namespace SaveFlashVideo
             string Type = "";
             Quad quad;
             uint NextSequence = 0;
-            Queue<byte[]> dataQueue = new Queue<byte[]>();
+            SwapBufferQueue<byte[]> swapQueue = new SwapBufferQueue<byte[]>();
             string outputFile = null;
             string tempFile;
             public Thread dumpThread;
@@ -73,17 +73,14 @@ namespace SaveFlashVideo
 
             public void AddData(byte[] d)
             {
-                lock (dataQueue)
-                {
-                    dataQueue.Enqueue(d);
-                    NextSequence += (uint)d.Length;
-                    byte[] t;
-                    while (outOfOrder.TryGetValue(NextSequence, out t))
-                    {                        
-                        dataQueue.Enqueue(t);
-                        outOfOrder.Remove(NextSequence);
-                        NextSequence += (uint)t.Length;
-                    }
+                swapQueue.Enqueue(d);
+                NextSequence += (uint)d.Length;
+                byte[] t;
+                while (outOfOrder.TryGetValue(NextSequence, out t))
+                {                        
+                    swapQueue.Enqueue(t);
+                    outOfOrder.Remove(NextSequence);
+                    NextSequence += (uint)t.Length;
                 }
             }
 
@@ -161,26 +158,31 @@ namespace SaveFlashVideo
                     tempFile = folder + "temp" + Path.DirectorySeparatorChar + DateTime.Now.Ticks.ToString() + "-" + ((uint)quad.GetHashCode()).ToString() + extension;
                     FileStream bin = new FileStream(tempFile, FileMode.Append);
                     DateTime last = DateTime.Now;
-                    while (!done || dataQueue.Count != 0)
+                    while (!done)
                     {
-                        Thread.Sleep(1);
+                        Thread.Sleep(10);
                         if ((DateTime.Now - last).TotalMinutes > 5)
                             break;
-                        lock (dataQueue)
+                        Queue<byte[]> dataQueue = swapQueue.DumpBuffer();
+                        foreach (byte[] t in dataQueue)
                         {
-                            if (dataQueue.Count != 0)
-                            {
-                                last = DateTime.Now;
-                                byte[] t = dataQueue.Dequeue();
-                                bin.Write(t, 0, t.Length);
-                            }
+                            last = DateTime.Now;
+                            bin.Write(t, 0, t.Length);
                         }
                     }
-                    bin.Close();
-                    lock (dataQueue)
+                    Queue<byte[]> q = swapQueue.DumpBuffer();
+                    foreach (byte[] t in q)
                     {
-                        dataQueue.Clear();
+                        last = DateTime.Now;
+                        bin.Write(t, 0, t.Length);
                     }
+                    q = swapQueue.DumpBuffer();
+                    foreach (byte[] t in q)
+                    {
+                        last = DateTime.Now;
+                        bin.Write(t, 0, t.Length);
+                    }
+                    bin.Close();
                     if (outputFile == null)
                     {
                         outputFile = folder + GetMD5HashFromFile(tempFile) + extension;
