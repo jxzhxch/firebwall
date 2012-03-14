@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
+using FM;
 
 namespace PassThru
 {
@@ -36,26 +37,14 @@ namespace PassThru
             Queue<KeyValuePair<DateTime, byte[]>> buffer = new Queue<KeyValuePair<DateTime, byte[]>>();
             while (true)
             {
-                bool toWrite = false;
-                lock (padlock)
+                buffer = swapQueue.DumpBuffer();
+                foreach (KeyValuePair<DateTime, byte[]> pkt in buffer)
                 {
-                    if (packetQueue.Count != 0)
-                    {
-                        buffer = packetQueue;
-                        packetQueue = new Queue<KeyValuePair<DateTime, byte[]>>();                        
-                        toWrite = true;
-                    }
-                }
-                if (toWrite)
-                {
-                    foreach (KeyValuePair<DateTime, byte[]> pkt in buffer)
-                    {
-                        file.Write((uint)(pkt.Key - referenceTime).TotalSeconds);
-                        file.Write((uint)(pkt.Key.Millisecond));
-                        file.Write((uint)pkt.Value.Length);
-                        file.Write((uint)pkt.Value.Length);
-                        file.Write(pkt.Value);
-                    }
+                    file.Write((uint)(pkt.Key - referenceTime).TotalSeconds);
+                    file.Write((uint)(pkt.Key.Millisecond));
+                    file.Write((uint)pkt.Value.Length);
+                    file.Write((uint)pkt.Value.Length);
+                    file.Write(pkt.Value);
                 }
                 Thread.Sleep(100);
             }
@@ -68,7 +57,9 @@ namespace PassThru
         DateTime referenceTime;
 
         object padlock = new object();
-        Queue<KeyValuePair<DateTime, byte[]>> packetQueue = new Queue<KeyValuePair<DateTime, byte[]>>();
+
+        SwapBufferQueue<KeyValuePair<DateTime, byte[]>> swapQueue = new SwapBufferQueue<KeyValuePair<DateTime, byte[]>>();
+        //Queue<KeyValuePair<DateTime, byte[]>> packetQueue = new Queue<KeyValuePair<DateTime, byte[]>>();
 
         /// <summary>
         /// Adds a packet to the file
@@ -78,11 +69,8 @@ namespace PassThru
         {
             byte[] pkt = new byte[length];
             for (int x = 0; x < length; x++)
-                pkt[x] = packet[x];
-            lock (padlock)
-            {                
-                packetQueue.Enqueue(new KeyValuePair<DateTime, byte[]>(DateTime.UtcNow, pkt));
-            }
+                pkt[x] = packet[x];              
+            swapQueue.Enqueue(new KeyValuePair<DateTime, byte[]>(DateTime.UtcNow, pkt));
 		}
 
         /// <summary>
