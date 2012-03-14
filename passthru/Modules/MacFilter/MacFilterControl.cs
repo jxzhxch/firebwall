@@ -21,6 +21,7 @@ namespace PassThru.Modules.MacFilter
         {
             listBox1.DisplayMember = "String";
             List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>(mf.rules);
+            listBox1.Items.Clear();
             foreach (MacFilterModule.MacRule rule in r)
             {
                 listBox1.Items.Add(rule);

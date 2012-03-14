@@ -15,6 +15,7 @@ namespace PassThru.Modules
         List<KeyValuePair<bool, string>> moduleOrder = new List<KeyValuePair<bool, string>>();
         NetworkAdapter na;
         string dragged = null;
+        bool loading = false;
         
         public ModuleConfiguration(NetworkAdapter na)
         {
@@ -42,6 +43,7 @@ namespace PassThru.Modules
 
         private void ModuleConfiguration_Load(object sender, EventArgs e)
         {
+            loading = true;
             UpdateView();
             switch (FM.LanguageConfig.GetCurrentLanguage())
             {
@@ -89,6 +91,7 @@ namespace PassThru.Modules
                     buttonMoveUp.Text = "Nach oben";
                     break;
             }
+            loading = false;
         }
 
         private void buttonEnable_Click(object sender, EventArgs e)
@@ -107,9 +110,12 @@ namespace PassThru.Modules
 
         private void checkedListBoxModules_ItemCheck_1(object sender, ItemCheckEventArgs e)
         {
-            moduleOrder[e.Index] = new KeyValuePair<bool,string>(e.NewValue == CheckState.Checked, moduleOrder[e.Index].Value);
-            na.modules.UpdateModuleOrder(moduleOrder);
-            moduleOrder = na.modules.GetModuleOrder();
+            if (!loading)
+            {
+                moduleOrder[e.Index] = new KeyValuePair<bool, string>(e.NewValue == CheckState.Checked, moduleOrder[e.Index].Value);
+                na.modules.UpdateModuleOrder(moduleOrder);
+                moduleOrder = na.modules.GetModuleOrder();
+            }
         }
 
         private void buttonOpenConfiguration_Click(object sender, EventArgs e)
