@@ -28,19 +28,7 @@ namespace FM
             if (eth.CodeGenerated)
             {
                 this.CodeGenerated = true;
-                data->m_IBuffer[start + 12] = 0x70;
-                
-                data->m_IBuffer[start + 18] = 0x00;
-                data->m_IBuffer[start + 19] = 0x00;
-                
-                data->m_IBuffer[start + 20] = 0x02;
-                data->m_IBuffer[start + 21] = 0x04;
-                data->m_IBuffer[start + 22] = 0x04;
-                data->m_IBuffer[start + 23] = 0xec;
-                data->m_IBuffer[start + 24] = 0x01;
-                data->m_IBuffer[start + 25] = 0x01;
-                data->m_IBuffer[start + 26] = 0x04;
-                data->m_IBuffer[start + 27] = 0x02;
+                data->m_IBuffer[start + 12] = 0x50;
             }
             length = (uint)((data->m_IBuffer[start + 12] >> 4) * 4);
         }

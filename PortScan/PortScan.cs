@@ -26,7 +26,7 @@ namespace PortScan
         {
             for (int x = 0; x < ushort.MaxValue; x++)
             {
-                EthPacket e = new EthPacket(62);
+                EthPacket e = new EthPacket(60);
                 e.FromMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
                 e.ToMac = PhysicalAddress.Parse("080027465EDE").GetAddressBytes();
                 e.Proto = new byte[2] { 0x08, 0x00 };
@@ -34,7 +34,7 @@ namespace PortScan
                 ip.DestIP = IPAddress.Parse("192.168.1.4");
                 ip.SourceIP = IPAddress.Parse("192.168.1.3");
                 ip.NextProtocol = 0x06;
-                ip.TotalLength = 48;
+                ip.TotalLength = 40;
                 ip.HeaderChecksum = ip.GenerateIPChecksum;
                 TCPPacket tcp = new TCPPacket(ip);
                 tcp.SourcePort = (ushort)new Random().Next(65534);
