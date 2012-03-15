@@ -161,7 +161,7 @@ namespace PassThru
                 {
                     ret = "Blocks";
                 }
-                ret += " TCP ip:port " + ip.ToString(); ;
+                ret += " IP " + ip.ToString(); ;
                 if (direction == (Direction.IN | Direction.OUT))
                 {
                     ret += " in and out";
