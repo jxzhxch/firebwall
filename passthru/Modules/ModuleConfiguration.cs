@@ -33,11 +33,13 @@ namespace PassThru.Modules
             }
             else
             {
+                loading = true;
                 checkedListBoxModules.Items.Clear();
                 for (int x = 0; x < moduleOrder.Count; x++)
                 {
                     checkedListBoxModules.Items.Add(moduleOrder[x].Value, moduleOrder[x].Key);
                 }
+                loading = false;
             }
         }
 
