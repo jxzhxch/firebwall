@@ -148,9 +148,14 @@ namespace PassThru
                             if (modules[mindex].Enabled != moduleOrder[i].Key)
                             {
                                 if (modules[mindex].Enabled)
+                                {
                                     modules[mindex].ModuleStop();
+                                }
                                 else
+                                {
                                     modules[mindex].ModuleStart();
+                                }
+                                modules[mindex].Enabled = moduleOrder[i].Key;
                             }
                         }
                     }

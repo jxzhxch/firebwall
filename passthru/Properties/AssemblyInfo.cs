@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("bwall")]
 [assembly: AssemblyProduct("firebwall")]
-[assembly: AssemblyCopyright("Copyright © bwall 2011")]
+[assembly: AssemblyCopyright("Copyright © bwall 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.3.7.0")]
-[assembly: AssemblyFileVersion("0.3.7.0")]
+[assembly: AssemblyVersion("0.3.10.0")]
+[assembly: AssemblyFileVersion("0.3.10.0")]

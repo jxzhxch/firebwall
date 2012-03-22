@@ -203,7 +203,7 @@
                 this.Controls.Add(this.splitContainer1);
                 this.ForeColor = System.Drawing.Color.Black;
                 this.Name = "MainWindow";
-                this.Text = "fireBwall v0.3.9.0";
+                this.Text = "fireBwall v0.3.10.0";
                 this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
                 this.Load += new System.EventHandler(this.MainWindow_Load);
                 this.optionsTab.ResumeLayout(false);
