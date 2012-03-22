@@ -137,11 +137,13 @@ namespace PassThru
                 lock (padlock)
                 {
                     ProcessingIndex.Clear();
+                    List<int> indexes = new List<int>();
                     for (int i = 0; i < moduleOrder.Count; i++)
                     {
                         int mindex = GetModuleIndex(moduleOrder[i].Value);
                         if (mindex != -1)
                         {
+                            indexes.Add(mindex);
                             ProcessingIndex.Add(mindex);
                             if (modules[mindex].Enabled != moduleOrder[i].Key)
                             {
@@ -150,6 +152,13 @@ namespace PassThru
                                 else
                                     modules[mindex].ModuleStart();
                             }
+                        }
+                    }
+                    for (int i = 0; i < Count; i++)
+                    {
+                        if (!indexes.Contains(i))
+                        {
+                            ProcessingIndex.Add(i);
                         }
                     }
                     moduleOrder.Clear();
