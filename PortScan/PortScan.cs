@@ -19,7 +19,7 @@ namespace PortScan
             MetaData.Version = "0.0.0.1";
             MetaData.HelpString = "";
             MetaData.Contact = "nightstrike9809@gmail.com";
-            MetaData.Description = "A crude port scanner that was created as part of my attack on damn small linux using only firebwall.";
+            MetaData.Description = "A crude port scanner that was created as part of my attack on damn vulnerable linux using only firebwall.";
         }
 
         void ScanThread()

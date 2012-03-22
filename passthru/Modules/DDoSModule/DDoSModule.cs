@@ -118,14 +118,15 @@ namespace PassThru
                     else if (ipcache.ContainsKey(packet.SourceIP))
                     {
                         // increment the packet count if they're coming in fast
-                        if ( (packet.PacketTime.Millisecond - TCPprevious_packet.PacketTime.Millisecond) <= 1)
-                            ipcache[packet.SourceIP] = (ipcache[packet.SourceIP])+1;
+                        if ((packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= 5)
+                            ipcache[packet.SourceIP] = (ipcache[packet.SourceIP]) + 1;
+                        else ipcache[packet.SourceIP] = 1;
 
                         // check if this packet = previous, if the packet count is > 50, 
                         // and if the time between sent packets is less than a second
                         if (packet.SourceIP.Equals(TCPprevious_packet.SourceIP) &&
                             ((ipcache[packet.SourceIP]) > 50) &&
-                            (packet.PacketTime.Millisecond - TCPprevious_packet.PacketTime.Millisecond) <= 1)
+                            (packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= 10)
                         {
                             pmr = new PacketMainReturn("DDoS Module");
                             pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
@@ -133,14 +134,6 @@ namespace PassThru
                                         + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
                             data.BlockCache.Add(new BlockedIP(packet.SourceIP, DateTime.UtcNow, "DoS Attempt"));
                             return pmr;
-                        }
-
-                        // to prevent IP packets for gradually building up, reset packet count when the packets arrive 
-                        // later than a typical DoS attempt.  
-                        else if (packet.SourceIP.Equals(TCPprevious_packet.SourceIP) &&
-                                  (packet.PacketTime.Millisecond - TCPprevious_packet.PacketTime.Millisecond) >= 5)
-                        {
-                            ipcache[packet.SourceIP] = 1;
                         }
                     }
                     TCPprevious_packet = packet;
