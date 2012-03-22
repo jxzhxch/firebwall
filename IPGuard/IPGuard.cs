@@ -16,11 +16,6 @@ namespace PassThru
         // all the blocked ranges
         private List<IPAddressRange> block_ranges = new List<IPAddressRange>();
 
-        // list of the available lists to be loaded
-        private List<String> available_block_lists;
-        public List<String> Available_Block_Lists
-                { get { return available_block_lists; } set { available_block_lists = new List<String>(value); } }
-
         private IPGuardUI guardUI;
 
         public IPGuard() : base()
@@ -42,7 +37,6 @@ namespace PassThru
         {
             // generate the UI and load the available lists
             guardUI = new IPGuardUI(this) { Dock = System.Windows.Forms.DockStyle.Fill };
-            loadLists();
             return guardUI;
         }
         
@@ -52,18 +46,77 @@ namespace PassThru
         /// <returns></returns>
         public override ModuleError ModuleStart()
         {
-            available_block_lists = new List<String>();
-            return new ModuleError() { errorType = ModuleErrorType.Success };
+            ModuleError error = new ModuleError();
+            error.errorType = ModuleErrorType.Success;
+
+            try
+            {
+                LoadConfig();
+                if (PersistentData == null)
+                    data = new GuardData();
+                else
+                    data = (GuardData)PersistentData;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("There was an issue starting the module -> " + e.Message);
+                error.errorMessage = e.Message;
+                error.errorType = ModuleErrorType.UnknownError;
+                error.moduleName = "IPGuard";
+            }
+            return error;
         }
 
         /// <summary>
-        /// Stop the mod
+        /// Stop the module, serialize the data object out
         /// </summary>
         /// <returns></returns>
         public override ModuleError ModuleStop()
         {
-            return new ModuleError() { errorType = ModuleErrorType.Success };
+            ModuleError error = new ModuleError();
+            error.errorType = ModuleErrorType.Success;
+
+            try
+            {
+                if (!data.Save)
+                {
+                    data.Loaded_Lists = new List<string>();
+                    data.Available_Lists = new List<string>();
+                    data.logBlocked = false;
+                    data.blockIncoming = false;
+                }
+
+                PersistentData = data;
+                SaveConfig();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("There was an issue stopping the module -> " + e.Message);
+                error.errorMessage = e.Message;
+                error.errorType = ModuleErrorType.UnknownError;
+                error.moduleName = "IPGuard";
+            }
+            return error;
         }
+
+        // serialized object for IPGuard data
+        [Serializable]
+        public class GuardData
+        {
+            private List<string> loaded_lists = new List<string>();
+            public List<string> Loaded_Lists
+                    { get { return loaded_lists; } set { loaded_lists = value; } }
+
+            private List<string> available_lists = new List<string>();
+            public List<string> Available_Lists
+                    { get { return available_lists; } set { available_lists = value; } }
+
+            public bool Save = true;
+            public bool logBlocked = false;
+            public bool blockIncoming = false;
+        }
+
+        public GuardData data;
 
         /// <summary>
         /// Main
@@ -87,7 +140,7 @@ namespace PassThru
                         {
                             pmr = new PacketMainReturn("IPGuard");
                             // check if we should log it
-                            if (guardUI.isLog())
+                            if (this.data.logBlocked)
                             {
                                 pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                                 pmr.logMessage = "IPGuard has blocked outgoing packets to " + packet.DestIP;
@@ -98,37 +151,29 @@ namespace PassThru
                         }
                     }
                 }
+                // check if they want to block incoming packets from these addresses
+                // as well.
+                if (this.data.blockIncoming && !(packet.Outbound))
+                {
+                    for (int i = 0; i < block_ranges.Count; ++i)
+                    {
+                        if (block_ranges[i].IsInRange(packet.SourceIP))
+                        {
+                            pmr = new PacketMainReturn("IPGuard");
+                            // check if we should log it
+                            if (this.data.logBlocked)
+                            {
+                                pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                                pmr.logMessage = "IPGuard has blocked incoming packets from " + packet.SourceIP;
+                            }
+                            else
+                                pmr.returnType = PacketMainReturnType.Drop;
+                            return pmr;
+                        }
+                    }
+                }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Load all the text files in /firebwall/modules/IPGuard
-        /// </summary>
-        private void loadLists()
-        {
-            // do all the pathing shit
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            folder = folder + Path.DirectorySeparatorChar + "firebwall";
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar + "IPGuard";
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            string filepath = folder;
-
-            // get all the txt files in here
-            string[] files = Directory.GetFiles(filepath, "*.txt");
-
-            // add them to the list of available lists and update the UI
-            foreach (string s in files)
-            {
-                // if the list isn't available and isn't already loaded
-                if ( !(available_block_lists.Contains(s)) && 
-                     !(guardUI.isLoaded(s)))
-                    available_block_lists.Add(s);
-            }
-            guardUI.available();
         }
         
         /// <summary>
@@ -148,7 +193,8 @@ namespace PassThru
                     while ((line = sr.ReadLine()) != null)
                     {
                         // PARSINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-                        if (!line.StartsWith("#") && line.Length > 2)
+                        if (!line.StartsWith("#") && line.Length > 2 && 
+                             line.Contains("-"))
                         {
                             string addrs = line.Substring(
                                 line.LastIndexOf(":")+1, (line.Length - line.LastIndexOf(":")-1));
@@ -160,20 +206,11 @@ namespace PassThru
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine("error parsing file: " + e.Message);
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
         }
 
-        // utility: use this if you wanna see what's goin' on in your blocks
-        public void TELL_ME_WHATS_IN_THERE()
-        {
-            System.Diagnostics.Debug.WriteLine("OKAY CAPTAIN HERE IT IS");
-            foreach (IPAddressRange i in block_ranges)
-            {
-                System.Diagnostics.Debug.WriteLine(i.getLower() + " - " + i.getUpper());
-            }
-        }
-        
         /// <summary>
         /// method used to rebuild the blocked IP ranges when lists are removed.  
         /// there's really no 'quick' way to discern which block matches to which list

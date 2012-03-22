@@ -5,28 +5,65 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 /// This is the frontend to IPGuard.
 namespace PassThru
 {
     public partial class IPGuardUI : UserControl
     {
+        // local ipguard object
         private IPGuard g;
-
+        
+        // initialize the local ipguard object and load any new 
+        // lists from the module list dir
         public IPGuardUI(IPGuard g)
         {
             this.g = g;
+            loadLists();
             InitializeComponent();
         }
 
         /// <summary>
-        /// Called from IPGuard to update the GUI with all the available lists
+        /// Load settings back into the GUI when redrawn
         /// </summary>
-        public void available()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void IPGuard_Load(object sender, EventArgs e)
         {
-            foreach (string s in g.Available_Block_Lists)
+            try
+            {
+                available();
+                loaded();
+                this.logBox.Checked = this.g.data.logBlocked;
+                this.incomingSelection.Checked = this.g.data.blockIncoming;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error loading lists: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Update the GUI with all the available lists
+        /// </summary>
+        private void available()
+        {
+            foreach (string s in this.g.data.Available_Lists)
             {
                 availableBox.Items.Add(s);
+            }
+        }
+
+        /// <summary>
+        /// Update the GUI with all loaded lists
+        /// </summary>
+        private void loaded()
+        {
+            foreach (string s in this.g.data.Loaded_Lists)
+            {
+                loadedBox.Items.Add(s);
             }
         }
 
@@ -45,12 +82,22 @@ namespace PassThru
 
                 // add the item to the loaded box
                 loadedBox.Items.Add(item);
-                // remove from availableBox
+
+                // remove from availableBox 
                 availableBox.Items.Remove(item);
+
+                // update serialized data
+                this.g.data.Available_Lists.Remove(item);
+                this.g.data.Loaded_Lists.Add(item);
+                
                 // go and build stuff
                 g.buildRanges(item);
             }
-            catch { }
+            catch(Exception ex) 
+            {
+                System.Diagnostics.Debug.WriteLine("error adding list: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);  
+            }
         }
 
         /// <summary>
@@ -68,12 +115,22 @@ namespace PassThru
 
                 // add the item to the availableBox
                 availableBox.Items.Add(item);
+
                 // remove from loaded box
                 loadedBox.Items.Remove(item);
+
+                // update serialized data
+                this.g.data.Available_Lists.Add(item);
+                this.g.data.Loaded_Lists.Remove(item);
+
                 // go and rebuild all the ranges
                 g.rebuild();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("error adding list: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+            }
         } 
 
         /// <summary>
@@ -117,6 +174,57 @@ namespace PassThru
                 tmp.Add(o);
             }
             return tmp;
+        }
+
+        /// <summary>
+        /// Load all the text files in /firebwall/modules/IPGuard
+        /// </summary>
+        public void loadLists()
+        {
+            // do all the pathing shit
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar + "IPGuard";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            string filepath = folder;
+
+            // get all the txt files in here
+            string[] files = Directory.GetFiles(filepath, "*.txt");
+
+            // add them to the list of available lists and update the UI
+            foreach (string s in files)
+            {
+                // if the list isn't available and isn't already loaded
+                if (!(this.g.data.Available_Lists.Contains(s)) &&
+                    !(this.g.data.Loaded_Lists.Contains(s)))
+                {
+                    this.g.data.Available_Lists.Add(s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set the value of the incoming log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void incomingSelection_CheckedChanged(object sender, EventArgs e)
+        {
+            this.g.data.blockIncoming = incomingSelection.Checked;
+        }
+
+        /// <summary>
+        /// Set the value of the blocked logs box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void logBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.g.data.logBlocked = logBox.Checked;
         }
     }
 }

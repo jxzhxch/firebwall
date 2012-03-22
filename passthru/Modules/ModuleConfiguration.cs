@@ -101,13 +101,17 @@ namespace PassThru.Modules
             try
             {
                 int temp = checkedListBoxModules.SelectedIndex;
-                moduleOrder[checkedListBoxModules.SelectedIndex] = new KeyValuePair<bool,string>(!moduleOrder[checkedListBoxModules.SelectedIndex].Key, moduleOrder[checkedListBoxModules.SelectedIndex].Value);
+                moduleOrder[checkedListBoxModules.SelectedIndex] = new KeyValuePair<bool, string>(!moduleOrder[checkedListBoxModules.SelectedIndex].Key, moduleOrder[checkedListBoxModules.SelectedIndex].Value);
                 na.modules.UpdateModuleOrder(moduleOrder);
                 moduleOrder = na.modules.GetModuleOrder();
                 UpdateView();
                 checkedListBoxModules.SelectedIndex = temp;
             }
-            catch { }          
+            catch (Exception ne)
+            {
+                System.Diagnostics.Debug.WriteLine(ne.Message);
+                System.Diagnostics.Debug.WriteLine(ne.StackTrace);
+            }       
         }
 
         private void checkedListBoxModules_ItemCheck_1(object sender, ItemCheckEventArgs e)

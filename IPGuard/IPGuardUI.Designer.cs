@@ -96,6 +96,7 @@
             this.logBox.TabIndex = 4;
             this.logBox.Text = "Log Blocked Connections";
             this.logBox.UseVisualStyleBackColor = true;
+            this.logBox.CheckedChanged += new System.EventHandler(this.logBox_CheckedChanged);
             // 
             // removeButton
             // 
@@ -117,6 +118,7 @@
             this.incomingSelection.Text = "Block Incoming Requests";
             this.incomingSelection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.incomingSelection.UseVisualStyleBackColor = true;
+            this.incomingSelection.CheckedChanged += new System.EventHandler(this.incomingSelection_CheckedChanged);
             // 
             // IPGuardUI
             // 
@@ -125,6 +127,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "IPGuardUI";
             this.Size = new System.Drawing.Size(642, 466);
+            this.Load += new System.EventHandler(this.IPGuard_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

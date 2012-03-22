@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNSCache", "DNSCache\DNSCache.csproj", "{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPGuard", "IPGuard\IPGuard.csproj", "{0B8AE561-9601-4674-93B4-2C53D6DF2AB5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79600DBD-517F-4EEA-9C47-7AAF5D0BC862} = {79600DBD-517F-4EEA-9C47-7AAF5D0BC862}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMacEncryption", "SimpleMacEncryption\SimpleMacEncryption.csproj", "{7E44A3E9-FF0C-4652-B5F0-655743AA563E}"
 EndProject

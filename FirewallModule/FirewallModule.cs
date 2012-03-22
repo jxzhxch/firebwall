@@ -97,7 +97,10 @@ namespace FM
                 bFormatter.Serialize(stream, PersistentData);
                 stream.Close();
             }
-            catch { }
+            catch (Exception ex) 
+            {
+                System.Diagnostics.Debug.WriteLine("SaveConfig Exception: " + ex.Message);
+            }
         }
 
         public void LoadConfig()
@@ -123,7 +126,7 @@ namespace FM
                     stream.Close();
                 }
             }
-            catch 
+            catch (Exception ex)
             {
                 PersistentData = null;
             }
