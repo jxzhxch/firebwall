@@ -134,41 +134,35 @@ namespace PassThru
 
             public void UpdateModuleOrder()
             {
-                int index = 0;
-                for (int i = 0; i < moduleOrder.Count; i++)
+                lock (padlock)
                 {
-                    for (int x = 0; x < modules.Count; x++)
+                    ProcessingIndex.Clear();
+                    for (int i = 0; i < moduleOrder.Count; i++)
                     {
-                        if (GetModule(x).MetaData.Name == moduleOrder[i].Value)
+                        int mindex = GetModuleIndex(moduleOrder[i].Value);
+                        if (mindex != -1)
                         {
-                            if (GetModule(x).Enabled != moduleOrder[i].Key)
+                            ProcessingIndex.Add(mindex);
+                            if (modules[mindex].Enabled != moduleOrder[i].Key)
                             {
-                                if (GetModule(x).Enabled)
-                                {
-                                    GetModule(x).ModuleStop();
-                                }
+                                if (modules[mindex].Enabled)
+                                    modules[mindex].ModuleStop();
                                 else
-                                {
-                                    GetModule(x).ModuleStart();
-                                }
-                                GetModule(x).Enabled = moduleOrder[i].Key;
-                            }                            
-                            InsertPIndex(x, index);
-                            index++;
-                            break;
+                                    modules[mindex].ModuleStart();
+                            }
                         }
                     }
+                    moduleOrder.Clear();
+                    for (int i = 0; i < Count; i++)
+                    {
+                        FirewallModule fm = GetModule(i);
+                        moduleOrder.Add(new KeyValuePair<bool, string>(fm.Enabled, fm.MetaData.Name));
+                    }
+                    SaveModuleOrder();
                 }
-                moduleOrder.Clear();
-                for (int i = 0; i < Count; i++)
-                {
-                    FirewallModule fm = GetModule(i);
-                    moduleOrder.Add(new KeyValuePair<bool, string>(fm.Enabled, fm.MetaData.Name));
-                }
-                SaveModuleOrder();
             }
 
-            public void InsertPIndex(int oIndex, int nIndex)
+            void InsertPIndex(int oIndex, int nIndex)
             {
                 if (oIndex == nIndex) return;
                 lock (padlock)
@@ -195,7 +189,19 @@ namespace PassThru
                 }
 			}
 
-			public FirewallModule GetModule(int index) 
+            int GetModuleIndex(string name)
+            {
+                for (int x = 0; x < modules.Count; x++)
+                {
+                    if (modules[x].MetaData.Name == name)
+                    {
+                        return x;
+                    }
+                }
+                return -1;
+            }
+
+            public FirewallModule GetModule(int index) 
             {
                 lock (padlock)
                 {
