@@ -175,7 +175,14 @@ namespace PassThru
                 {
                     int toMove = ProcessingIndex[oIndex];
                     ProcessingIndex.RemoveAt(oIndex);
-                    ProcessingIndex.Insert(nIndex, toMove);
+                    if (nIndex < ProcessingIndex.Count)
+                    {
+                        ProcessingIndex.Insert(nIndex, toMove);
+                    }
+                    else
+                    {
+                        ProcessingIndex.Add(toMove);
+                    }
                 }
             }
 
