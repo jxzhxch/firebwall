@@ -3,8 +3,8 @@ using System;
 using FM;
 using System.Reflection;
 using System.IO;
-using FM;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace PassThru
 {
@@ -32,8 +32,35 @@ namespace PassThru
                 string file = folder + Path.DirectorySeparatorChar + "modules.cfg";
                 FileStream stream = File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
                 BinaryFormatter bFormatter = new BinaryFormatter();
+                bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 bFormatter.Serialize(stream, moduleOrder);
                 stream.Close();
+            }
+
+            internal sealed class VersionConfigToNamespaceAssemblyObjectBinder : SerializationBinder
+            {
+                public override Type BindToType(string assemblyName, string typeName)
+                {
+                    Type typeToDeserialize = null;
+                    try
+                    {
+                        string ToAssemblyName = assemblyName.Split(',')[0];
+                        Assembly[] Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                        foreach (Assembly ass in Assemblies)
+                        {
+                            if (ass.FullName.Split(',')[0] == ToAssemblyName)
+                            {
+                                typeToDeserialize = ass.GetType(typeName);
+                                break;
+                            }
+                        }
+                    }
+                    catch (System.Exception exception)
+                    {
+                        throw exception;
+                    }
+                    return typeToDeserialize;
+                }
             }
 
             public void LoadModuleOrder()
@@ -55,6 +82,8 @@ namespace PassThru
                     {
                         FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         BinaryFormatter bFormatter = new BinaryFormatter();
+                        bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                        bFormatter.Binder = new VersionConfigToNamespaceAssemblyObjectBinder();
                         moduleOrder = (List<KeyValuePair<bool, string>>)bFormatter.Deserialize(stream);
                         stream.Close();
                     }
