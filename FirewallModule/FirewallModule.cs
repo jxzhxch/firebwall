@@ -81,6 +81,8 @@ namespace FM
 
         public void SaveConfig()
         {
+            if (PersistentData == null)
+                return;
             try
             {
                 string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
