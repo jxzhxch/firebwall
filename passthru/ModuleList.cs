@@ -51,10 +51,17 @@ namespace PassThru
                 string file = folder + Path.DirectorySeparatorChar + "modules.cfg";
                 if (File.Exists(file))
                 {
-                    FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    BinaryFormatter bFormatter = new BinaryFormatter();
-                    moduleOrder = (List<KeyValuePair<bool, string>>)bFormatter.Deserialize(stream);
-                    stream.Close();
+                    try
+                    {
+                        FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        BinaryFormatter bFormatter = new BinaryFormatter();
+                        moduleOrder = (List<KeyValuePair<bool, string>>)bFormatter.Deserialize(stream);
+                        stream.Close();
+                    }
+                    catch
+                    {
+                        moduleOrder = new List<KeyValuePair<bool, string>>();
+                    }
                 }
             }
 
