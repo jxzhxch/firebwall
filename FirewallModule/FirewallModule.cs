@@ -155,7 +155,7 @@ namespace FM
                     BinaryFormatter bFormatter = new BinaryFormatter();
                     bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                     bFormatter.Binder = new VersionConfigToNamespaceAssemblyObjectBinder();
-                    PersistentData = bFormatter.Deserialize(stream);
+                    PersistentData = (Object)bFormatter.Deserialize(stream);
                     stream.Close();
                 }
             }

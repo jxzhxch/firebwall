@@ -162,21 +162,6 @@ namespace PassThru
         }
 
         /// <summary>
-        /// we don't keep any data structures hanging around for the currently loaded
-        /// lists because they're kinda already there.  This method retrieves it.
-        /// </summary>
-        /// <returns></returns>
-        public List<Object> getLoadedLists()
-        {
-            List<Object> tmp = new List<Object>();
-            foreach (Object o in loadedBox.Items)
-            {
-                tmp.Add(o);
-            }
-            return tmp;
-        }
-
-        /// <summary>
         /// Load all the text files in /firebwall/modules/IPGuard
         /// </summary>
         public void loadLists()

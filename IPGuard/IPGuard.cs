@@ -30,7 +30,7 @@ namespace PassThru
         }
         
         /// <summary>
-        /// Get me a UI!
+        /// returns the user control gui
         /// </summary>
         /// <returns>A UI!</returns>
         public override System.Windows.Forms.UserControl GetControl()
@@ -41,7 +41,7 @@ namespace PassThru
         }
         
         /// <summary>
-        /// Start the mod, initialize available_block_lists
+        /// Start the mod, deserialize data into GuardData
         /// </summary>
         /// <returns></returns>
         public override ModuleError ModuleStart()
@@ -57,6 +57,11 @@ namespace PassThru
                 else
                     data = (GuardData)PersistentData;
             }
+            catch (InvalidCastException ice)
+            {
+                System.Diagnostics.Debug.WriteLine("invalid cast: " + ice.Message);
+                System.Diagnostics.Debug.WriteLine(ice.StackTrace);
+            }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("There was an issue starting the module -> " + e.Message);
@@ -64,6 +69,9 @@ namespace PassThru
                 error.errorType = ModuleErrorType.UnknownError;
                 error.moduleName = "IPGuard";
             }
+            // block ranges aren't serialized, so go rebuild them with the loaded lists
+            // when the module is started
+            rebuild();
             return error;
         }
 
@@ -119,59 +127,67 @@ namespace PassThru
         public GuardData data;
 
         /// <summary>
-        /// Main
+        /// chuck out bad packets
         /// </summary>
         /// <param name="in_packet"></param>
         /// <returns></returns>
         public override PacketMainReturn interiorMain(ref Packet in_packet)
         {
-            PacketMainReturn pmr;
-            if (in_packet.ContainsLayer(Protocol.TCP))
+            try
             {
-                // cast the packet and check for SYN/outbound
-                TCPPacket packet = (TCPPacket)in_packet;
-                if (packet.SYN && packet.Outbound)
+                PacketMainReturn pmr;
+                if (in_packet.ContainsLayer(Protocol.TCP))
                 {
-                    // check if it's blocked
-                    for (int i = 0; i < block_ranges.Count; ++i)
+                    // cast the packet and check for SYN/outbound
+                    TCPPacket packet = (TCPPacket)in_packet;
+                    if (packet.SYN && packet.Outbound)
                     {
-                        // if its heading towards a blacklisted IP
-                        if (block_ranges[i].IsInRange(packet.DestIP))
+                        // check if it's blocked
+                        for (int i = 0; i < block_ranges.Count; ++i)
                         {
-                            pmr = new PacketMainReturn("IPGuard");
-                            // check if we should log it
-                            if (this.data.logBlocked)
+                            // if its heading towards a blacklisted IP
+                            if (block_ranges[i].IsInRange(packet.DestIP))
                             {
-                                pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
-                                pmr.logMessage = "IPGuard has blocked outgoing packets to " + packet.DestIP;
+                                pmr = new PacketMainReturn("IPGuard");
+                                // check if we should log it
+                                if (this.data.logBlocked)
+                                {
+                                    pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                                    pmr.logMessage = "IPGuard has blocked outgoing packets to " + packet.DestIP;
+                                }
+                                else
+                                    pmr.returnType = PacketMainReturnType.Drop;
+                                return pmr;
                             }
-                            else
-                                pmr.returnType = PacketMainReturnType.Drop;
-                            return pmr;
+                        }
+                    }
+                    // check if they want to block incoming packets from these addresses
+                    // as well.
+                    if (this.data.blockIncoming && !(packet.Outbound))
+                    {
+                        for (int i = 0; i < block_ranges.Count; ++i)
+                        {
+                            if (block_ranges[i].IsInRange(packet.SourceIP))
+                            {
+                                pmr = new PacketMainReturn("IPGuard");
+                                // check if we should log it
+                                if (this.data.logBlocked)
+                                {
+                                    pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                                    pmr.logMessage = "IPGuard has blocked incoming packets from " + packet.SourceIP;
+                                }
+                                else
+                                    pmr.returnType = PacketMainReturnType.Drop;
+                                return pmr;
+                            }
                         }
                     }
                 }
-                // check if they want to block incoming packets from these addresses
-                // as well.
-                if (this.data.blockIncoming && !(packet.Outbound))
-                {
-                    for (int i = 0; i < block_ranges.Count; ++i)
-                    {
-                        if (block_ranges[i].IsInRange(packet.SourceIP))
-                        {
-                            pmr = new PacketMainReturn("IPGuard");
-                            // check if we should log it
-                            if (this.data.logBlocked)
-                            {
-                                pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
-                                pmr.logMessage = "IPGuard has blocked incoming packets from " + packet.SourceIP;
-                            }
-                            else
-                                pmr.returnType = PacketMainReturnType.Drop;
-                            return pmr;
-                        }
-                    }
-                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("error processing pmr: " + e.Message );
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
             return null;
         }
@@ -193,6 +209,7 @@ namespace PassThru
                     while ((line = sr.ReadLine()) != null)
                     {
                         // PARSINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+                        // if the line isn't a comment, has stuff on it, and is formatted with a -
                         if (!line.StartsWith("#") && line.Length > 2 && 
                              line.Contains("-"))
                         {
@@ -220,12 +237,10 @@ namespace PassThru
         /// </summary>
         public void rebuild()
         {
-            // get all the loaded lists
-            List<Object> tmp = guardUI.getLoadedLists();
             // clear out the current list
             block_ranges.Clear();
             // REBULID IT
-            foreach (Object s in tmp)
+            foreach (Object s in data.Loaded_Lists)
                 buildRanges(s.ToString());
         }
 
@@ -306,8 +321,12 @@ namespace PassThru
             MetaData.Author = "Bryan A.";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Description = "Blocks IPs from given lists.";
-            MetaData.Version = "0.0.0.1";
-            MetaData.HelpString = "None at this time.";
+            MetaData.Version = "1.0.0.0";
+            MetaData.HelpString = "IPGuard is a module that mimics the behavior of other blocklist applications such as PeerBlock, or its predecessor PeerGuardian.  Given a correctly formatted list,"
+                                  + "  IPGuard can block TCP packets, both incoming and outgoing, to a wide range of IPs.  The most widely distributed lists are typically those found on"
+                                  + "www.iblocklist.com.  \n\nThese lists need to be downloaded and added to your /firebwall/modules/IPGuard folder, and then enabled in the module's GUI."
+                                  + "  These lists need to be formatted in the following way: <string>:ip-ip.  If you, for example, wanted to block a single IP address, it would be"
+                                  + " required to be in the following form: firebwall:66.172.10.29-66.172.10.29";
         }
     }
 }
