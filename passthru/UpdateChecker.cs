@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
+using System.Runtime.Serialization;
 using FM;
 
 namespace PassThru
@@ -32,6 +34,32 @@ namespace PassThru
             set;
         }
 
+        internal sealed class VersionConfigToNamespaceAssemblyObjectBinder : SerializationBinder
+        {
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                Type typeToDeserialize = null;
+                try
+                {
+                    string ToAssemblyName = assemblyName.Split(',')[0];
+                    Assembly[] Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                    foreach (Assembly ass in Assemblies)
+                    {
+                        if (ass.FullName.Split(',')[0] == ToAssemblyName)
+                        {
+                            typeToDeserialize = ass.GetType(typeName);
+                            break;
+                        }
+                    }
+                }
+                catch (System.Exception exception)
+                {
+                    throw exception;
+                }
+                return typeToDeserialize;
+            }
+        }
+
         public void LoadConfig()
         {
             try
@@ -45,6 +73,8 @@ namespace PassThru
                 {
                     FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     BinaryFormatter bFormatter = new BinaryFormatter();
+                    bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                    bFormatter.Binder = new VersionConfigToNamespaceAssemblyObjectBinder();
                     Config = (UpdateConfig)bFormatter.Deserialize(stream);
                     stream.Close();
                 }
@@ -70,6 +100,7 @@ namespace PassThru
                 string file = folder + Path.DirectorySeparatorChar + "updating.cfg";
                 FileStream stream = File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
                 BinaryFormatter bFormatter = new BinaryFormatter();
+                bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 bFormatter.Serialize(stream, Config);
                 stream.Close();
             }
