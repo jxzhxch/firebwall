@@ -16,6 +16,7 @@ namespace PassThru
             Dictionary<string, string> loadedMods = new Dictionary<string, string>();
             List<KeyValuePair<bool, string>> moduleOrder = new List<KeyValuePair<bool, string>>();
             NetworkAdapter na;
+            static Dictionary<string, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
 
             public void SaveModuleOrder()
             {
@@ -103,36 +104,43 @@ namespace PassThru
             public void LoadModule(string file)
             {
                 FirewallModule mod = null;
-
-                if (file.Contains("FirewallModule.dll") || !file.Contains(".dll"))
-                    return;
-                try
+                lock (loadedAssemblies)
                 {
-                    if (loadedMods.ContainsValue(file))
+                    if (file.Contains("FirewallModule.dll") || !file.Contains(".dll"))
                         return;
-                    Assembly assembly = Assembly.Load(File.ReadAllBytes(file));
-                    Type[] type = assembly.GetTypes();
-                    foreach (Type t in type)
+                    try
                     {
-                        if (typeof(FirewallModule).IsAssignableFrom(t))
+                        if (loadedMods.ContainsValue(file))
+                            return;
+                        Assembly assembly;
+                        if(!loadedAssemblies.TryGetValue(file, out assembly))
                         {
-                            mod = (FirewallModule)Activator.CreateInstance(t);
-                            mod.adapter = na;
-                            mod.Enabled = false;
-                            //mod.ModuleStart();
-                            AddModule(mod);
-                            loadedMods.Add(mod.MetaData.Name, file);
+                            assembly = Assembly.Load(File.ReadAllBytes(file));
+                            loadedAssemblies.Add(file, assembly);
+                        }
+                        Type[] type = assembly.GetTypes();
+                        foreach (Type t in type)
+                        {
+                            if (typeof(FirewallModule).IsAssignableFrom(t))
+                            {
+                                mod = (FirewallModule)Activator.CreateInstance(t);
+                                mod.adapter = na;
+                                mod.Enabled = false;
+                                //mod.ModuleStart();
+                                AddModule(mod);
+                                loadedMods.Add(mod.MetaData.Name, file);
+                            }
                         }
                     }
-                }
-                catch (ArgumentException ae)
-                {
-                    LogCenter.Instance.Push(mod.MetaData.Name, "Module attempted load twice.");
-                    LogCenter.WriteErrorLog(ae);
-                }
-                catch (Exception e)
-                {
-                    LogCenter.WriteErrorLog(e);
+                    catch (ArgumentException ae)
+                    {
+                        LogCenter.Instance.Push(mod.MetaData.Name, "Module attempted load twice.");
+                        LogCenter.WriteErrorLog(ae);
+                    }
+                    catch (Exception e)
+                    {
+                        LogCenter.WriteErrorLog(e);
+                    }
                 }
             }
 
