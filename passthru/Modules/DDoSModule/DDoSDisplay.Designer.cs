@@ -34,26 +34,31 @@
             this.DateBlocked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.removeButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
-            this.blockipLabel = new System.Windows.Forms.Label();
             this.addField = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dosBlockTable)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dosBlockTable
             // 
             this.dosBlockTable.AllowUserToAddRows = false;
             this.dosBlockTable.AllowUserToDeleteRows = false;
+            this.dosBlockTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dosBlockTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dosBlockTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.blockedip,
             this.Reason,
             this.DateBlocked});
-            this.dosBlockTable.Location = new System.Drawing.Point(14, 29);
+            this.dosBlockTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dosBlockTable.Location = new System.Drawing.Point(3, 3);
             this.dosBlockTable.Name = "dosBlockTable";
             this.dosBlockTable.ReadOnly = true;
             this.dosBlockTable.RowHeadersVisible = false;
             this.dosBlockTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dosBlockTable.Size = new System.Drawing.Size(574, 193);
+            this.dosBlockTable.Size = new System.Drawing.Size(611, 375);
             this.dosBlockTable.TabIndex = 0;
             // 
             // blockedip
@@ -61,25 +66,22 @@
             this.blockedip.HeaderText = "IP Address";
             this.blockedip.Name = "blockedip";
             this.blockedip.ReadOnly = true;
-            this.blockedip.Width = 165;
             // 
             // Reason
             // 
             this.Reason.HeaderText = "Reason";
             this.Reason.Name = "Reason";
             this.Reason.ReadOnly = true;
-            this.Reason.Width = 200;
             // 
             // DateBlocked
             // 
             this.DateBlocked.HeaderText = "Date Blocked";
             this.DateBlocked.Name = "DateBlocked";
             this.DateBlocked.ReadOnly = true;
-            this.DateBlocked.Width = 200;
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(513, 228);
+            this.removeButton.Location = new System.Drawing.Point(533, 3);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(75, 23);
             this.removeButton.TabIndex = 1;
@@ -89,7 +91,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(513, 257);
+            this.addButton.Location = new System.Drawing.Point(126, 3);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 2;
@@ -97,38 +99,54 @@
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // blockipLabel
-            // 
-            this.blockipLabel.AutoSize = true;
-            this.blockipLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.blockipLabel.Location = new System.Drawing.Point(11, 13);
-            this.blockipLabel.Name = "blockipLabel";
-            this.blockipLabel.Size = new System.Drawing.Size(75, 13);
-            this.blockipLabel.TabIndex = 3;
-            this.blockipLabel.Text = "Blocked IPs";
-            // 
             // addField
             // 
-            this.addField.Location = new System.Drawing.Point(390, 259);
+            this.addField.Location = new System.Drawing.Point(3, 3);
             this.addField.Name = "addField";
             this.addField.Size = new System.Drawing.Size(117, 20);
             this.addField.TabIndex = 4;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.dosBlockTable, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.58654F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.413462F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(617, 416);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.addField);
+            this.panel1.Controls.Add(this.removeButton);
+            this.panel1.Controls.Add(this.addButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 384);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(611, 29);
+            this.panel1.TabIndex = 1;
             // 
             // DDoSDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.addField);
-            this.Controls.Add(this.blockipLabel);
-            this.Controls.Add(this.addButton);
-            this.Controls.Add(this.removeButton);
-            this.Controls.Add(this.dosBlockTable);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DDoSDisplay";
-            this.Size = new System.Drawing.Size(665, 357);
+            this.Size = new System.Drawing.Size(623, 420);
             this.Load += new System.EventHandler(this.DDoSDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dosBlockTable)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -137,10 +155,11 @@
         private System.Windows.Forms.DataGridView dosBlockTable;
         private System.Windows.Forms.Button removeButton;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Label blockipLabel;
         private System.Windows.Forms.TextBox addField;
         private System.Windows.Forms.DataGridViewTextBoxColumn blockedip;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reason;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateBlocked;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
