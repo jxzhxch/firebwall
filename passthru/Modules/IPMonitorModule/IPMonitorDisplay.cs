@@ -54,7 +54,7 @@ namespace PassThru
                 tcpDisplay.FirstDisplayedScrollingRowIndex = idx;
 
             // set the total connections label
-            tcptotalField.Text = tcpcache.Count.ToString();
+            tcpTotal.Text = String.Format("{0}: {1}","Connections", tcpcache.Count.ToString());
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace PassThru
             if (idx >= 0)
                 udpDisplay.FirstDisplayedScrollingRowIndex = idx;
 
-            udptotalField.Text = udpcache.Count.ToString();
+            udpTotal.Text = String.Format("{0}: {1}", "Listeners", udpcache.Count.ToString());
         }
 
         /// <summary>

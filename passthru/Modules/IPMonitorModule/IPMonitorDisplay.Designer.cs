@@ -30,12 +30,10 @@
         {
             this.ipDisplay = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tcptotalField = new System.Windows.Forms.Label();
-            this.tcptotalLabel = new System.Windows.Forms.Label();
             this.tcpDisplay = new System.Windows.Forms.DataGridView();
+            this.tcpTotal = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.udptotalField = new System.Windows.Forms.Label();
-            this.udptotalLabel = new System.Windows.Forms.Label();
+            this.udpTotal = new System.Windows.Forms.Label();
             this.udpDisplay = new System.Windows.Forms.DataGridView();
             this.statistics = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -70,6 +68,7 @@
             this.cumulativeConnLabel = new System.Windows.Forms.Label();
             this.connInitLabel = new System.Windows.Forms.Label();
             this.connAcceptLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ipDisplay.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tcpDisplay)).BeginInit();
@@ -78,49 +77,34 @@
             this.statistics.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ipDisplay
             // 
+            this.ipDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ipDisplay.Controls.Add(this.tabPage1);
             this.ipDisplay.Controls.Add(this.tabPage2);
             this.ipDisplay.Controls.Add(this.statistics);
             this.ipDisplay.Location = new System.Drawing.Point(3, 3);
             this.ipDisplay.Name = "ipDisplay";
             this.ipDisplay.SelectedIndex = 0;
-            this.ipDisplay.Size = new System.Drawing.Size(817, 481);
+            this.ipDisplay.Size = new System.Drawing.Size(547, 444);
             this.ipDisplay.TabIndex = 0;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.tcptotalField);
-            this.tabPage1.Controls.Add(this.tcptotalLabel);
             this.tabPage1.Controls.Add(this.tcpDisplay);
+            this.tabPage1.Controls.Add(this.tcpTotal);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(809, 455);
+            this.tabPage1.Size = new System.Drawing.Size(539, 418);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "TCP Connections";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tcptotalField
-            // 
-            this.tcptotalField.AutoSize = true;
-            this.tcptotalField.Location = new System.Drawing.Point(78, 369);
-            this.tcptotalField.Name = "tcptotalField";
-            this.tcptotalField.Size = new System.Drawing.Size(13, 13);
-            this.tcptotalField.TabIndex = 2;
-            this.tcptotalField.Text = "0";
-            // 
-            // tcptotalLabel
-            // 
-            this.tcptotalLabel.AutoSize = true;
-            this.tcptotalLabel.Location = new System.Drawing.Point(3, 369);
-            this.tcptotalLabel.Name = "tcptotalLabel";
-            this.tcptotalLabel.Size = new System.Drawing.Size(69, 13);
-            this.tcptotalLabel.TabIndex = 1;
-            this.tcptotalLabel.Text = "Connections:";
             // 
             // tcpDisplay
             // 
@@ -128,58 +112,64 @@
             this.tcpDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tcpDisplay.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tcpDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tcpDisplay.Location = new System.Drawing.Point(6, 6);
+            this.tcpDisplay.Location = new System.Drawing.Point(0, 0);
             this.tcpDisplay.Name = "tcpDisplay";
             this.tcpDisplay.ReadOnly = true;
             this.tcpDisplay.RowHeadersVisible = false;
             this.tcpDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tcpDisplay.Size = new System.Drawing.Size(516, 347);
+            this.tcpDisplay.Size = new System.Drawing.Size(543, 395);
             this.tcpDisplay.TabIndex = 0;
+            // 
+            // tcpTotal
+            // 
+            this.tcpTotal.AutoSize = true;
+            this.tcpTotal.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tcpTotal.Location = new System.Drawing.Point(3, 402);
+            this.tcpTotal.Name = "tcpTotal";
+            this.tcpTotal.Size = new System.Drawing.Size(78, 13);
+            this.tcpTotal.TabIndex = 1;
+            this.tcpTotal.Text = "Connections: 0";
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.udptotalField);
-            this.tabPage2.Controls.Add(this.udptotalLabel);
+            this.tabPage2.Controls.Add(this.udpTotal);
             this.tabPage2.Controls.Add(this.udpDisplay);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(846, 468);
+            this.tabPage2.Size = new System.Drawing.Size(539, 418);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "UDP Listeners";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // udptotalField
+            // udpTotal
             // 
-            this.udptotalField.AutoSize = true;
-            this.udptotalField.Location = new System.Drawing.Point(64, 369);
-            this.udptotalField.Name = "udptotalField";
-            this.udptotalField.Size = new System.Drawing.Size(13, 13);
-            this.udptotalField.TabIndex = 2;
-            this.udptotalField.Text = "0";
-            // 
-            // udptotalLabel
-            // 
-            this.udptotalLabel.AutoSize = true;
-            this.udptotalLabel.Location = new System.Drawing.Point(6, 369);
-            this.udptotalLabel.Name = "udptotalLabel";
-            this.udptotalLabel.Size = new System.Drawing.Size(52, 13);
-            this.udptotalLabel.TabIndex = 1;
-            this.udptotalLabel.Text = "Listeners:";
+            this.udpTotal.AutoSize = true;
+            this.udpTotal.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.udpTotal.Location = new System.Drawing.Point(3, 402);
+            this.udpTotal.Name = "udpTotal";
+            this.udpTotal.Size = new System.Drawing.Size(61, 13);
+            this.udpTotal.TabIndex = 1;
+            this.udpTotal.Text = "Listeners: 0";
             // 
             // udpDisplay
             // 
             this.udpDisplay.AllowUserToAddRows = false;
             this.udpDisplay.AllowUserToDeleteRows = false;
             this.udpDisplay.AllowUserToResizeRows = false;
+            this.udpDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.udpDisplay.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.udpDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.udpDisplay.Location = new System.Drawing.Point(6, 6);
+            this.udpDisplay.Location = new System.Drawing.Point(0, 0);
             this.udpDisplay.Name = "udpDisplay";
             this.udpDisplay.ReadOnly = true;
             this.udpDisplay.RowHeadersVisible = false;
             this.udpDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.udpDisplay.Size = new System.Drawing.Size(553, 360);
+            this.udpDisplay.Size = new System.Drawing.Size(543, 393);
             this.udpDisplay.TabIndex = 0;
             // 
             // statistics
@@ -189,7 +179,7 @@
             this.statistics.Location = new System.Drawing.Point(4, 22);
             this.statistics.Name = "statistics";
             this.statistics.Padding = new System.Windows.Forms.Padding(3);
-            this.statistics.Size = new System.Drawing.Size(846, 468);
+            this.statistics.Size = new System.Drawing.Size(539, 418);
             this.statistics.TabIndex = 2;
             this.statistics.Text = "Statistics";
             this.statistics.UseVisualStyleBackColor = true;
@@ -204,9 +194,9 @@
             this.groupBox2.Controls.Add(this.incDataDiscLabel);
             this.groupBox2.Controls.Add(this.dataSentLabel);
             this.groupBox2.Controls.Add(this.dataRecLabel);
-            this.groupBox2.Location = new System.Drawing.Point(21, 241);
+            this.groupBox2.Location = new System.Drawing.Point(6, 241);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(553, 119);
+            this.groupBox2.Size = new System.Drawing.Size(514, 119);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "UDP";
@@ -307,9 +297,9 @@
             this.groupBox1.Controls.Add(this.cumulativeConnLabel);
             this.groupBox1.Controls.Add(this.connInitLabel);
             this.groupBox1.Controls.Add(this.connAcceptLabel);
-            this.groupBox1.Location = new System.Drawing.Point(21, 18);
+            this.groupBox1.Location = new System.Drawing.Point(6, 18);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(553, 200);
+            this.groupBox1.Size = new System.Drawing.Size(514, 200);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TCP";
@@ -512,13 +502,28 @@
             this.connAcceptLabel.TabIndex = 0;
             this.connAcceptLabel.Text = "Connections Accepted:";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.ipDisplay, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(553, 450);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
             // IPMonitorDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ipDisplay);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "IPMonitorDisplay";
-            this.Size = new System.Drawing.Size(610, 427);
+            this.Size = new System.Drawing.Size(553, 450);
             this.ipDisplay.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -531,6 +536,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -539,35 +545,22 @@
 
         private System.Windows.Forms.TabControl ipDisplay;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView udpDisplay;
         private System.Windows.Forms.DataGridView tcpDisplay;
-        private System.Windows.Forms.Label tcptotalField;
-        private System.Windows.Forms.Label tcptotalLabel;
-        private System.Windows.Forms.Label udptotalField;
-        private System.Windows.Forms.Label udptotalLabel;
+        private System.Windows.Forms.Label tcpTotal;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label udpTotal;
+        private System.Windows.Forms.DataGridView udpDisplay;
         private System.Windows.Forms.TabPage statistics;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label failedConnAttLabel;
-        private System.Windows.Forms.Label errRecLabel;
-        private System.Windows.Forms.Label cumulativeConnLabel;
-        private System.Windows.Forms.Label connInitLabel;
-        private System.Windows.Forms.Label connAcceptLabel;
-        private System.Windows.Forms.Label segSentLabel;
-        private System.Windows.Forms.Label segResentLabel;
-        private System.Windows.Forms.Label segRecLabel;
-        private System.Windows.Forms.Label resetsSentLabel;
-        private System.Windows.Forms.Label resetConLabel;
-        private System.Windows.Forms.Label maxConLabel;
-        private System.Windows.Forms.Label incDataWErrLabel;
-        private System.Windows.Forms.Label incDataDiscLabel;
-        private System.Windows.Forms.Label dataSentLabel;
-        private System.Windows.Forms.Label dataRecLabel;
         private System.Windows.Forms.Label incDataErrField;
         private System.Windows.Forms.Label incDataDiscField;
         private System.Windows.Forms.Label dataSentField;
         private System.Windows.Forms.Label dataReceivedField;
+        private System.Windows.Forms.Label incDataWErrLabel;
+        private System.Windows.Forms.Label incDataDiscLabel;
+        private System.Windows.Forms.Label dataSentLabel;
+        private System.Windows.Forms.Label dataRecLabel;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label segsSentField;
         private System.Windows.Forms.Label segsResentField;
         private System.Windows.Forms.Label segsReceivedField;
@@ -579,6 +572,19 @@
         private System.Windows.Forms.Label connInitiatedField;
         private System.Windows.Forms.Label resetConnField;
         private System.Windows.Forms.Label connAcceptField;
+        private System.Windows.Forms.Label segSentLabel;
+        private System.Windows.Forms.Label segResentLabel;
+        private System.Windows.Forms.Label segRecLabel;
+        private System.Windows.Forms.Label resetsSentLabel;
+        private System.Windows.Forms.Label resetConLabel;
+        private System.Windows.Forms.Label maxConLabel;
+        private System.Windows.Forms.Label failedConnAttLabel;
+        private System.Windows.Forms.Label errRecLabel;
+        private System.Windows.Forms.Label cumulativeConnLabel;
+        private System.Windows.Forms.Label connInitLabel;
+        private System.Windows.Forms.Label connAcceptLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+
 
     }
 }

@@ -56,6 +56,10 @@ namespace PassThru
                     data = new GuardData();
                 else
                     data = (GuardData)PersistentData;
+
+                // block ranges aren't serialized, so go rebuild them with the loaded lists
+                // when the module is started
+                rebuild();
             }
             catch (InvalidCastException ice)
             {
@@ -69,9 +73,7 @@ namespace PassThru
                 error.errorType = ModuleErrorType.UnknownError;
                 error.moduleName = "IPGuard";
             }
-            // block ranges aren't serialized, so go rebuild them with the loaded lists
-            // when the module is started
-            rebuild();
+        
             return error;
         }
 
