@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
+using FM;
 
 namespace PassThru
 {
@@ -49,15 +50,7 @@ namespace PassThru
                 while (true)
                 {
                     Thread.Sleep(50);
-                    LogEvent[] temp = null;
-                    lock (lpadlock)
-                    {
-                        if (logQueue.Count != 0)
-                        {
-                            temp = logQueue.ToArray();
-                            logQueue.Clear();
-                        }
-                    }
+                    LogEvent[] temp = logQueue.DumpBuffer().ToArray();                    
                     if (temp != null)
                     {
                         foreach (LogEvent le in temp)
@@ -66,8 +59,7 @@ namespace PassThru
                 }
             }
 
-            static Queue<LogEvent> logQueue = new Queue<LogEvent>();
-            static object lpadlock = new object();
+            static SwapBufferQueue<LogEvent> logQueue = new SwapBufferQueue<LogEvent>();
 
 			public delegate void NewLogEvent(LogEvent e);
 			static readonly object padlock = new object();
@@ -76,10 +68,7 @@ namespace PassThru
 			public void Push(string Module, string Message) 
             {
 				LogEvent le = new LogEvent(Module, Message);
-                lock (lpadlock)
-                {
-                    logQueue.Enqueue(le);
-                }
+                logQueue.Enqueue(le);
 			}
 
             /*
