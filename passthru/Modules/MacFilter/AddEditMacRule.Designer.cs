@@ -73,9 +73,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 65);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(204, 13);
+            this.label3.Size = new System.Drawing.Size(253, 13);
             this.label3.TabIndex = 20;
-            this.label3.Text = "Mac(If none supplied, applies to all macs):";
+            this.label3.Text = "Apply to MAC (If none supplied, applies to all MACs):";
             // 
             // checkBoxOut
             // 
@@ -152,8 +152,9 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddEditMacRule";
-            this.Text = "AddEditMacRule";
+            this.Text = "Add Mac Rule";
             this.ResumeLayout(false);
             this.PerformLayout();
 
