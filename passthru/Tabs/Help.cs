@@ -18,14 +18,40 @@ namespace PassThru
         // They all have the same, anyway.
         private ModuleList list;
 
+        // used for delayed drawing
+        Object selectedItem = null;
+
         public Help()
         {
             InitializeComponent();            
         }
 
-        // set the labels when the user flips through them
+        // overloaded constructor for initializing the window to a specific module
+        public Help(Object selectedItem)
+        {
+            InitializeComponent();
+            this.selectedItem = selectedItem;
+        }
+
+        /// <summary>
+        /// Set the labels as the user flips through them.  If the Help window is being
+        /// called externally (i.e. from the module's frame), they can pass the module's object
+        /// into a constructor and automatically set the selected module when it's drawn.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void modBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // if we need to initialize the window to a specific module
+            if (selectedItem != null)
+            {
+                // set the idx to the selected item
+                modBox.SelectedIndex = modBox.Items.IndexOf(this.selectedItem.ToString());
+                // set it back to null
+                selectedItem = null;
+            }
+
+            // valid idx...
             if (modBox.SelectedIndex >= 0)
             {
                 FirewallModule temp = list.GetModule(modBox.SelectedIndex);
@@ -39,6 +65,11 @@ namespace PassThru
             }
         }
 
+        /// <summary>
+        /// Load the modules from the first adapter into the Help GUI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Help_Load(object sender, EventArgs e)
         {
             // grab the first adapter
@@ -51,6 +82,10 @@ namespace PassThru
             {
                 modBox.Items.Insert(i, list.GetModule(i).MetaData.Name);
             }
+
+            // if there's a set idx, set it
+            if (selectedItem != null)
+                modBox_SelectedIndexChanged(this, null);
         }
     }
 }

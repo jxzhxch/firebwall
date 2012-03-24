@@ -69,6 +69,7 @@ namespace PassThru
             private List<BlockedIP> blockcache = new List<BlockedIP>();
             public List<BlockedIP> BlockCache { get { return blockcache; } set { blockcache = value; } }
 
+            public int dos_threshold = 10;
             public bool Save = true;
         }
 
@@ -118,15 +119,15 @@ namespace PassThru
                     else if (ipcache.ContainsKey(packet.SourceIP))
                     {
                         // increment the packet count if they're coming in fast
-                        if ((packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= 5)
+                        if ((packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= data.dos_threshold)
                             ipcache[packet.SourceIP] = (ipcache[packet.SourceIP]) + 1;
                         else ipcache[packet.SourceIP] = 1;
 
                         // check if this packet = previous, if the packet count is > 50, 
-                        // and if the time between sent packets is less than a second
+                        // and if the time between sent packets is less than the threshhold
                         if (packet.SourceIP.Equals(TCPprevious_packet.SourceIP) &&
                             ((ipcache[packet.SourceIP]) > 50) &&
-                            (packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= 10)
+                            (packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= data.dos_threshold)
                         {
                             pmr = new PacketMainReturn("DDoS Module");
                             pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
@@ -186,21 +187,21 @@ namespace PassThru
                     // add IP to cache or increment packet count
                     if (!(ipcache.ContainsKey(packet.SourceIP)))
                         ipcache.Add(packet.SourceIP, 1);
-                    // if the packet is 5ms after the previous and it's the same packet, clear up the cache
-                    else if ((packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) >= 5 &&
+                    // if the packet is >= threshold after the previous and it's the same packet, clear up the cache
+                    else if ((packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) >= data.dos_threshold &&
                                 packet.Equals(ICMPprevious_packet))
                         ipcache[packet.SourceIP] = 1;
                     // if the packet is coming in quickly, add it to the packet count
-                    else if ( (packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) <= 1)
+                    else if ( (packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) <= data.dos_threshold)
                         ipcache[packet.SourceIP] = (ipcache[packet.SourceIP]) + 1;
 
                     // if the packet is an echo reply and the IP source
-                    // is the same as localhost and the time between packets is <= 1 and
+                    // is the same as localhost and the time between packets is <= threshhold and
                     // there are over 50 accumulated packets, it's probably a smurf attack
                     if ( packet.Type.ToString().Equals("0") &&
                          packet.Code.ToString().Equals("0") &&
                          packet.SourceIP.Equals(getLocalIP()) &&
-                         (packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) <= 1 &&
+                         (packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) <= data.dos_threshold &&
                          ipcache[packet.SourceIP] > 50)
                     {
                         pmr = new PacketMainReturn("DDoS Module");
@@ -281,7 +282,10 @@ namespace PassThru
                 + "3. Smurf Flood\nMuch like the fraggle attack, this flood takes advantage broadcast addresses, though instead of UDP traffic it's ICMP.  An attacker A sends "
                 + " a slew of echo requests towards a router broadcat address, spoofed with the source address of the victim.  The router then sends all the ICMP echo requests to "
                 + " every IP it has.  These systems then send back an echo reply towards the spoofed address, the victim.  Modern systems have these capabilites disabled, but there"
-                + " are still unpatched systems that hive this vulnerability (use nmap if you're bored)";
+                + " are still unpatched systems that hive this vulnerability (use nmap if you're bored)."
+                + "\n\nThe DoS Threshold setting allows you to control what too many packets per second actually means.  The default value is 10ms (meaning, "
+                + " if more than X packets fly in with less than 10ms between them, block the IP).  If you're unsure, or you're getting too many false positives, "
+                + " try adjusting this number.  Please supply logs and pcaps if you have any inquries regarding this.";
         }
     }
 

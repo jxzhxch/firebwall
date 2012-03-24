@@ -109,8 +109,7 @@ namespace PassThru.Modules
             }
             catch (Exception ne)
             {
-                System.Diagnostics.Debug.WriteLine(ne.Message);
-                System.Diagnostics.Debug.WriteLine(ne.StackTrace);
+                LogCenter.WriteErrorLog(ne);
             }       
         }
 
@@ -140,7 +139,10 @@ namespace PassThru.Modules
                     f.Show();
                 }
             }
-            catch { }
+            catch (Exception ne)
+            {
+                LogCenter.WriteErrorLog(ne);
+            }
         }
 
         private void buttonMoveUp_Click(object sender, EventArgs e)
@@ -159,8 +161,10 @@ namespace PassThru.Modules
                     checkedListBoxModules.SelectedIndex = newIndex;
                 }
             }
-            catch
-            { }
+            catch(Exception ne)
+            {
+                LogCenter.WriteErrorLog(ne);
+            }
         }
 
         private void buttonMoveDown_Click(object sender, EventArgs e)
@@ -179,10 +183,17 @@ namespace PassThru.Modules
                     checkedListBoxModules.SelectedIndex = newIndex;
                 }
             }
-            catch
-            { }
+            catch (Exception ne)
+            {
+                LogCenter.WriteErrorLog(ne);
+            }
         }
 
+        /// <summary>
+        /// Builds the module Help window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonHelp_Click(object sender, EventArgs e)
         {
             try
@@ -192,12 +203,15 @@ namespace PassThru.Modules
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
                 f.Text = "Help";
-                Help uc = new Help();
+                Help uc = new Help(checkedListBoxModules.SelectedItem);
                 uc.Dock = DockStyle.Fill;
                 f.Controls.Add(uc);
                 f.Show();
             }
-            catch { }
+            catch(Exception ne)
+            { 
+                LogCenter.WriteErrorLog(ne); 
+            }
         }
     }
 }

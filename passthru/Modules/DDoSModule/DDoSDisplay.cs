@@ -39,7 +39,10 @@ namespace PassThru
         /// <param name="e"></param>
         public void DDoSDisplay_Load(object sender, EventArgs e)
         {
+            // load the blockcache and the threshhold
             blockcache = new List<BlockedIP>(this.dosmod.data.BlockCache);
+            thresholdBox.Text = Convert.ToString(this.dosmod.data.dos_threshold);
+
             switch (LanguageConfig.GetCurrentLanguage())
             {
                 case LanguageConfig.Language.ENGLISH:
@@ -157,7 +160,27 @@ namespace PassThru
             this.dosmod.data.BlockCache = this.blockcache;
             RebuildTable();
         }
-
+        
+        /// <summary>
+        /// When the user changes the threshhold box, update the dosmod data object
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void threshholdBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (thresholdBox.Text.Length > 0)
+                {
+                    dosmod.data.dos_threshold = Convert.ToInt32(thresholdBox.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogCenter.WriteErrorLog(ex);
+            }
+        }
+     
         // regex pattern for matching a valid IP address
         // http://www.codekeep.net/snippets/9bd4694c-1d33-415e-b97f-db2f7f07015e.aspx
         private static Regex regIP = new Regex(

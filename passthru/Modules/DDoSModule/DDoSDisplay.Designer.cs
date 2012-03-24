@@ -37,6 +37,8 @@
             this.addField = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.thresholdBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dosBlockTable)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -58,7 +60,7 @@
             this.dosBlockTable.ReadOnly = true;
             this.dosBlockTable.RowHeadersVisible = false;
             this.dosBlockTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dosBlockTable.Size = new System.Drawing.Size(611, 375);
+            this.dosBlockTable.Size = new System.Drawing.Size(611, 340);
             this.dosBlockTable.TabIndex = 0;
             // 
             // blockedip
@@ -120,21 +122,41 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.58654F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.413462F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.41346F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.58654F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(617, 416);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.thresholdBox);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.addField);
             this.panel1.Controls.Add(this.removeButton);
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 384);
+            this.panel1.Location = new System.Drawing.Point(3, 349);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(611, 29);
+            this.panel1.Size = new System.Drawing.Size(611, 64);
             this.panel1.TabIndex = 1;
+            // 
+            // thresholdBox
+            // 
+            this.thresholdBox.Location = new System.Drawing.Point(115, 34);
+            this.thresholdBox.Name = "thresholdBox";
+            this.thresholdBox.Size = new System.Drawing.Size(38, 20);
+            this.thresholdBox.TabIndex = 6;
+            this.thresholdBox.Text = "10";
+            this.thresholdBox.TextChanged += new System.EventHandler(this.threshholdBox_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 37);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "DoS Threshold (ms): ";
             // 
             // DDoSDisplay
             // 
@@ -163,5 +185,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DateBlocked;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox thresholdBox;
     }
 }
