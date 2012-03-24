@@ -25,32 +25,33 @@ namespace PassThru
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string tmp = "";
+            bool enableArgs = true;
+
             switch (comboBox1.SelectedIndex)
             {
+                case 0:
                 case 3:
+                case 5:
                     // most of these aren't going to translate very differently 
                     // into their foreign tongue, so i'm leaving it as is
-                    labelArgs.Text = "(Space Separated) No args";
-                    break;
-                case 4:
-                    labelArgs.Text = "(Space Separated) Port";
-                    break;
-                case 1:
-                    labelArgs.Text = "(Space Separated) IP Port";
+                    tmp = "(Space Separated) No args";
+                    enableArgs = false;
                     break;
                 case 2:
-                    labelArgs.Text = "(Space Separated) Port";
+                case 4:
+                    tmp = "(Space Separated) Port";
                     break;
-                case 0:
-                    labelArgs.Text = "(Space Separated) No args";
-                    break;
-                case 5:
-                    labelArgs.Text = "(Space Separated) No args";
+                case 1:
+                    tmp = "(Space Separated) IP Port";
                     break;
                 case 6:
-                    labelArgs.Text = "(Space Separated) IP";
+                    tmp = "(Space Separated) IP";
                     break;
             }
+
+            labelArgs.Text = tmp;
+            textBoxArguments.Enabled = enableArgs;
         }
 
         private void button1_Click(object sender, EventArgs e)

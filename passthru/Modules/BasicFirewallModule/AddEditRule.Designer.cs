@@ -187,8 +187,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddEditRule";
-            this.Text = "AddEditRule";
+            this.Text = "Add Rule";
             this.Load += new System.EventHandler(this.AddEditRule_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

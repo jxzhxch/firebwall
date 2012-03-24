@@ -20,7 +20,9 @@ namespace PassThru
             MetaData.Version = "1.0.0.0";
             MetaData.HelpString = "Computers on networks often communicate using protocols that have ports.  TCP and UDP are the most common protocols.  You will see TCP being used very often, as it allows for stable and reliable connections.  UDP is less reliable and is used a bit less.  Both of these use ports to communicate.  Certain ports are used for certain things.  Some you may want open so you can share files or remotely control you computer, but in most cases, you want them closed."
                 + "\r\n\r\nThis module uses rules to Allow or Drop packets depending on what port or ip they are for.  It is the one part that is in about every firewall."
-                + "\r\n\r\nThis module works based on ordered rules.  The rules are displayed from top to bottom, and the order can be changed by clicking and dragging the rule.  Rules can be added with the Add Rule button, and removed with the Remove Rule button.";
+                + "\r\n\r\nThis module works based on ordered rules.  The rules are displayed from top to bottom, and the order can be changed by clicking and dragging the rule.  Rules can be added with the Add Rule button, and removed with the Remove Rule button."
+                + "\n\nArguments are designated on a rule-by-rule basis.  Some have required arguments, others do not.  If the arguments box is greyed out, "
+                + "that particular rule has no arguments.  Otherwise, the required arguments will be denoted by the line of text above the arguments box.";
             MetaData.Description = "Blocks or allows packets based on IP/Port";
             MetaData.Contact = "nightstrike9809@gmail.com";
             MetaData.Author = "Brian W. (schizo)";
