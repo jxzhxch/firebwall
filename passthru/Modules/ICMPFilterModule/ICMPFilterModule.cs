@@ -131,7 +131,7 @@ namespace PassThru
         private void Help()
         {
             MetaData.Name = "ICMP Filter";
-            MetaData.Version = "1.0.0.0";
+            MetaData.Version = "1.0.1.0";
             MetaData.Description = "Blocks ICMP packets of a given type/code";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Author = "Bryan A. (drone)";

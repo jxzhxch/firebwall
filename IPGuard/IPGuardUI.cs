@@ -50,7 +50,7 @@ namespace PassThru
         /// </summary>
         private void available()
         {
-            foreach (string s in this.g.data.Available_Lists)
+            foreach (string s in this.g.Available_Lists)
             {
                 availableBox.Items.Add(s);
             }
@@ -87,7 +87,7 @@ namespace PassThru
                 availableBox.Items.Remove(item);
 
                 // update serialized data
-                this.g.data.Available_Lists.Remove(item);
+                this.g.Available_Lists.Remove(item);
                 this.g.data.Loaded_Lists.Add(item);
                 
                 // go and build stuff
@@ -120,7 +120,7 @@ namespace PassThru
                 loadedBox.Items.Remove(item);
 
                 // update serialized data
-                this.g.data.Available_Lists.Add(item);
+                this.g.Available_Lists.Add(item);
                 this.g.data.Loaded_Lists.Remove(item);
 
                 // go and rebuild all the ranges
@@ -184,10 +184,10 @@ namespace PassThru
             foreach (string s in files)
             {
                 // if the list isn't available and isn't already loaded
-                if (!(this.g.data.Available_Lists.Contains(s)) &&
+                if (!(this.g.Available_Lists.Contains(s)) &&
                     !(this.g.data.Loaded_Lists.Contains(s)))
                 {
-                    this.g.data.Available_Lists.Add(s);
+                    this.g.Available_Lists.Add(s);
                 }
             }
         }

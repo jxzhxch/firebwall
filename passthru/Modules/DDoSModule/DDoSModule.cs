@@ -262,7 +262,7 @@ namespace PassThru
         private void Help()
         {
             MetaData.Name = "DDoS Mitigation";
-            MetaData.Version = "1.0.0.0";
+            MetaData.Version = "1.0.1.0";
             MetaData.Description = "Mitigates DoS Attacks";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Author = "Bryan A. (drone)";

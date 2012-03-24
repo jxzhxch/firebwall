@@ -15,6 +15,10 @@ namespace PassThru
     {
         // all the blocked ranges
         private List<IPAddressRange> block_ranges = new List<IPAddressRange>();
+        
+        private List<string> available_lists = new List<string>();
+        public List<string> Available_Lists
+        { get { return available_lists; } set { available_lists = value; } }
 
         private IPGuardUI guardUI;
 
@@ -65,6 +69,7 @@ namespace PassThru
             {
                 System.Diagnostics.Debug.WriteLine("invalid cast: " + ice.Message);
                 System.Diagnostics.Debug.WriteLine(ice.StackTrace);
+                data = new GuardData();
             }
             catch (Exception e)
             {
@@ -91,7 +96,7 @@ namespace PassThru
                 if (!data.Save)
                 {
                     data.Loaded_Lists = new List<string>();
-                    data.Available_Lists = new List<string>();
+                    available_lists = new List<string>();
                     data.logBlocked = false;
                     data.blockIncoming = false;
                 }
@@ -116,10 +121,6 @@ namespace PassThru
             private List<string> loaded_lists = new List<string>();
             public List<string> Loaded_Lists
                     { get { return loaded_lists; } set { loaded_lists = value; } }
-
-            private List<string> available_lists = new List<string>();
-            public List<string> Available_Lists
-                    { get { return available_lists; } set { available_lists = value; } }
 
             public bool Save = true;
             public bool logBlocked = false;
