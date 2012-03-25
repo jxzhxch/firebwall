@@ -789,14 +789,8 @@ namespace PassThru
             return me;
         }
 
-        List<Quad> tcpConnections = new List<Quad>();
-
         public override PacketMainReturn interiorMain(ref Packet in_packet)
         {
-            if (in_packet.ContainsLayer(Protocol.TCP) && !((TCPPacket)in_packet).SYN)
-            {
-                return null;
-            }
             lock (padlock)
             {
                 PacketStatus status = PacketStatus.UNDETERMINED;
@@ -816,16 +810,8 @@ namespace PassThru
                     }
                     else if (status == PacketStatus.ALLOWED)
                     {
-                        if (in_packet.ContainsLayer(Protocol.TCP) && ((TCPPacket)in_packet).SYN && !((TCPPacket)in_packet).ACK)
-                        {
-                            tcpConnections.Add(MakeQuad(in_packet));
-                        }
                         return null;
                     }
-                }
-                if (in_packet.ContainsLayer(Protocol.TCP) && ((TCPPacket)in_packet).SYN && !((TCPPacket)in_packet).ACK)
-                {
-                    tcpConnections.Add(MakeQuad(in_packet));
                 }
             }
             return null;
