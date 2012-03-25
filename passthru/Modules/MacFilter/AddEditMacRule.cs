@@ -42,7 +42,8 @@ namespace PassThru.Modules.MacFilter
                 }
                 else
                 {
-                    newRule = new MacFilterModule.MacRule(ps, System.Net.NetworkInformation.PhysicalAddress.Parse(textBoxArguments.Text), dir, checkBoxLog.Checked);
+                    string macString = textBoxArguments.Text.ToUpper().Replace("-", "").Replace(":", "").Replace(";", "");
+                    newRule = new MacFilterModule.MacRule(ps, System.Net.NetworkInformation.PhysicalAddress.Parse(macString), dir, checkBoxLog.Checked);
                 }
                 DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
