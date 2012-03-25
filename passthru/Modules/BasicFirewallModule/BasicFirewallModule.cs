@@ -112,7 +112,7 @@ namespace PassThru
                     IPPacket tcppkt = (IPPacket)pkt;
                     if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                     {
-                        if (tcppkt.DestIP == ip)
+                        if (tcppkt.DestIP.Equals(ip))
                         {
                             if (log)
                                 message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
@@ -121,7 +121,7 @@ namespace PassThru
                     }
                     else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                     {
-                        if (tcppkt.DestIP == ip)
+                        if (tcppkt.DestIP.Equals(ip))
                         {
                             if (log)
                                 message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
@@ -508,7 +508,7 @@ namespace PassThru
                     {
                         if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                         {
-                            if ((tcppkt.DestPort == port) && (tcppkt.DestIP == ip))
+                            if ((tcppkt.DestPort == port) && (tcppkt.DestIP.Equals(ip)))
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() + ":" +
@@ -519,7 +519,7 @@ namespace PassThru
                         }
                         else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                         {
-                            if ((tcppkt.DestPort == port) && (tcppkt.DestIP == ip))
+                            if ((tcppkt.DestPort == port) && (tcppkt.DestIP.Equals(ip)))
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() +
