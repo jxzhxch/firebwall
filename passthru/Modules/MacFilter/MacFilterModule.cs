@@ -142,7 +142,7 @@ namespace PassThru.Modules.MacFilter
             MetaData.Version = "1.0.0.0";
             MetaData.HelpString = "Each network adapter has a MAC address.  It can only be changed or faked in rare circumstances."
                 + "Each packet sent over the network says the MAC its from and the MAC its to."
-                + "This module allows you to control which MAC you will send or recieve data from.  Similarly to the Basic Firewall, the rules are processed in order from top to bottom.  You can also reorder the rules by clicking and dragging.  To add a rule, click on Add Rule, and to remove one, click Remove Rule.";
+                + "This module allows you to control which MAC you will send or recieve data from.  Similarly to the Basic Firewall, the rules are processed in order from top to bottom.  You can also reorder the rules by clicking move up and move down.  To add a rule, click on Add Rule, and to remove one, click Remove Rule.";
             MetaData.Description = "Blocks or allows packets based on MAC address";
             MetaData.Contact = "nightstrike9809@gmail.com";
             MetaData.Author = "Brian W. (schizo)";
