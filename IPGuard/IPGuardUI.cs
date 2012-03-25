@@ -33,6 +33,7 @@ namespace PassThru
         {
             try
             {
+                loadLists();
                 available();
                 loaded();
                 this.logBox.Checked = this.g.data.logBlocked;
@@ -188,6 +189,29 @@ namespace PassThru
                     !(this.g.data.Loaded_Lists.Contains(s)))
                 {
                     this.g.Available_Lists.Add(s);
+                }
+            }
+
+            // set to list for easy iterating
+            List<string> tmp = new List<string>(files);
+
+            // remove lists no longer there
+            foreach (string s in this.g.Available_Lists.ToArray())
+            {
+                if (!tmp.Contains(s) || 
+                    !File.Exists(s))
+                {
+                    this.g.Available_Lists.Remove(s);
+                }
+            }
+
+            // check loaded lists, too
+            foreach (string s in this.g.data.Loaded_Lists.ToArray())
+            {
+                if (!tmp.Contains(s) ||
+                    !File.Exists(s))
+                {
+                    this.g.data.Loaded_Lists.Remove(s);
                 }
             }
         }

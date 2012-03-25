@@ -65,18 +65,12 @@ namespace PassThru
                 // when the module is started
                 rebuild();
             }
-            catch (InvalidCastException ice)
-            {
-                System.Diagnostics.Debug.WriteLine("invalid cast: " + ice.Message);
-                System.Diagnostics.Debug.WriteLine(ice.StackTrace);
-                data = new GuardData();
-            }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("There was an issue starting the module -> " + e.Message);
                 error.errorMessage = e.Message;
                 error.errorType = ModuleErrorType.UnknownError;
                 error.moduleName = "IPGuard";
+                data = new GuardData();
             }
         
             return error;
@@ -106,7 +100,6 @@ namespace PassThru
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("There was an issue stopping the module -> " + e.Message);
                 error.errorMessage = e.Message;
                 error.errorType = ModuleErrorType.UnknownError;
                 error.moduleName = "IPGuard";
@@ -205,6 +198,11 @@ namespace PassThru
             // open the file
             try
             {
+                // make sure the file wasn't removed sometime between loading
+                // and adding
+                if (!File.Exists(file))
+                    return;
+
                 using (StreamReader sr = new StreamReader(file))
                 {
                     String line;

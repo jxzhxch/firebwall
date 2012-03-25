@@ -44,7 +44,7 @@
             this.availableBox.FormattingEnabled = true;
             this.availableBox.Location = new System.Drawing.Point(324, 3);
             this.availableBox.Name = "availableBox";
-            this.availableBox.Size = new System.Drawing.Size(315, 405);
+            this.availableBox.Size = new System.Drawing.Size(315, 408);
             this.availableBox.TabIndex = 0;
             // 
             // loadedBox
@@ -53,7 +53,7 @@
             this.loadedBox.FormattingEnabled = true;
             this.loadedBox.Location = new System.Drawing.Point(3, 3);
             this.loadedBox.Name = "loadedBox";
-            this.loadedBox.Size = new System.Drawing.Size(315, 405);
+            this.loadedBox.Size = new System.Drawing.Size(315, 408);
             this.loadedBox.TabIndex = 3;
             // 
             // tableLayoutPanel1
@@ -61,12 +61,12 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.availableBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.loadedBox, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.addList, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.loadedBox, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.logBox, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.removeButton, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.incomingSelection, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.removeButton, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.availableBox, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -74,12 +74,12 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93.19728F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.802721F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(642, 466);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(642, 469);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // addList
             // 
-            this.addList.Location = new System.Drawing.Point(324, 414);
+            this.addList.Location = new System.Drawing.Point(324, 417);
             this.addList.Name = "addList";
             this.addList.Size = new System.Drawing.Size(75, 23);
             this.addList.TabIndex = 5;
@@ -90,7 +90,7 @@
             // logBox
             // 
             this.logBox.AutoSize = true;
-            this.logBox.Location = new System.Drawing.Point(3, 444);
+            this.logBox.Location = new System.Drawing.Point(3, 447);
             this.logBox.Name = "logBox";
             this.logBox.Size = new System.Drawing.Size(148, 17);
             this.logBox.TabIndex = 4;
@@ -100,7 +100,7 @@
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(3, 414);
+            this.removeButton.Location = new System.Drawing.Point(3, 417);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(75, 23);
             this.removeButton.TabIndex = 6;
@@ -111,7 +111,7 @@
             // incomingSelection
             // 
             this.incomingSelection.AutoSize = true;
-            this.incomingSelection.Location = new System.Drawing.Point(324, 444);
+            this.incomingSelection.Location = new System.Drawing.Point(324, 447);
             this.incomingSelection.Name = "incomingSelection";
             this.incomingSelection.Size = new System.Drawing.Size(147, 17);
             this.incomingSelection.TabIndex = 7;
@@ -126,7 +126,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "IPGuardUI";
-            this.Size = new System.Drawing.Size(642, 466);
+            this.Size = new System.Drawing.Size(642, 469);
             this.Load += new System.EventHandler(this.IPGuard_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
