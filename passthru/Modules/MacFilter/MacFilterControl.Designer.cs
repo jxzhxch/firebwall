@@ -34,6 +34,7 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.buttonMoveDown = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.editButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -42,9 +43,9 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(3, 101);
+            this.button2.Location = new System.Drawing.Point(3, 157);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 92);
+            this.button2.Size = new System.Drawing.Size(84, 73);
             this.button2.TabIndex = 1;
             this.button2.Text = "Remove Rule";
             this.button2.UseVisualStyleBackColor = true;
@@ -53,9 +54,9 @@
             // buttonMoveUp
             // 
             this.buttonMoveUp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonMoveUp.Location = new System.Drawing.Point(3, 199);
+            this.buttonMoveUp.Location = new System.Drawing.Point(3, 236);
             this.buttonMoveUp.Name = "buttonMoveUp";
-            this.buttonMoveUp.Size = new System.Drawing.Size(84, 92);
+            this.buttonMoveUp.Size = new System.Drawing.Size(84, 77);
             this.buttonMoveUp.TabIndex = 2;
             this.buttonMoveUp.Text = "Move up";
             this.buttonMoveUp.UseVisualStyleBackColor = true;
@@ -66,7 +67,7 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 92);
+            this.button1.Size = new System.Drawing.Size(84, 73);
             this.button1.TabIndex = 0;
             this.button1.Text = "Add Rule";
             this.button1.UseVisualStyleBackColor = true;
@@ -84,9 +85,9 @@
             // buttonMoveDown
             // 
             this.buttonMoveDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonMoveDown.Location = new System.Drawing.Point(3, 297);
+            this.buttonMoveDown.Location = new System.Drawing.Point(3, 319);
             this.buttonMoveDown.Name = "buttonMoveDown";
-            this.buttonMoveDown.Size = new System.Drawing.Size(84, 92);
+            this.buttonMoveDown.Size = new System.Drawing.Size(84, 70);
             this.buttonMoveDown.TabIndex = 3;
             this.buttonMoveDown.Text = "Move Down";
             this.buttonMoveDown.UseVisualStyleBackColor = true;
@@ -96,20 +97,33 @@
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.button2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.buttonMoveUp, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.buttonMoveDown, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.editButton, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.buttonMoveDown, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.buttonMoveUp, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.button2, 0, 2);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(418, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowCount = 5;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.73418F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 26.26582F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(90, 392);
             this.tableLayoutPanel3.TabIndex = 2;
+            // 
+            // editButton
+            // 
+            this.editButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editButton.Location = new System.Drawing.Point(3, 82);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(84, 69);
+            this.editButton.TabIndex = 4;
+            this.editButton.Text = "Edit Rule";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -149,6 +163,7 @@
         private System.Windows.Forms.Button buttonMoveDown;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button editButton;
 
     }
 }

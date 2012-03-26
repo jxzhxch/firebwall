@@ -25,10 +25,10 @@ namespace PassThru.Modules.MacFilter
         [Serializable]
         public class MacRule
         {
-            PacketStatus ps;
-            byte[] mac;
-            Direction direction;
-            bool log = true;
+            public PacketStatus ps;
+            public byte[] mac;
+            public Direction direction;
+            public bool log = true;
 
             public string String
             {
@@ -66,7 +66,7 @@ namespace PassThru.Modules.MacFilter
                     ret += " and logs";
                 return ret;
             }
-
+            
             public MacRule(PacketStatus ps, Direction direction, bool log)
             {
                 this.ps = ps;

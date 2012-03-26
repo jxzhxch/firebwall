@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Net.NetworkInformation;
 
 namespace PassThru.Modules.MacFilter
 {
@@ -14,6 +15,33 @@ namespace PassThru.Modules.MacFilter
         public AddEditMacRule()
         {
             InitializeComponent();
+        }
+
+        // overloaded constructor for editing an existing rule
+        public AddEditMacRule(MacFilterModule.MacRule RULE)
+        {
+            InitializeComponent();
+
+            // set the in/out boxes
+            if ((RULE.direction & MacFilterModule.Direction.IN) != 0 ) 
+                checkBoxIn.Checked = true;
+            if ((RULE.direction & MacFilterModule.Direction.OUT) != 0 )
+                checkBoxOut.Checked = true;
+
+            // set the MAC
+            if (!String.IsNullOrEmpty(RULE.mac.ToString()))
+            {
+                textBoxArguments.Text = new PhysicalAddress(RULE.mac).ToString();
+            }
+
+            // set logging
+            checkBoxLog.Checked = RULE.log;
+            
+            // set the status
+            if ((RULE.ps & MacFilterModule.PacketStatus.ALLOWED) != 0)
+                comboBoxAction.SelectedIndex = 1;
+            else 
+                comboBoxAction.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
