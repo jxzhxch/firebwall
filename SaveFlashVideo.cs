@@ -14,7 +14,7 @@ namespace SaveFlashVideo
             : base()
         {
             MetaData.Name = "Save Flash Video";
-            MetaData.Version = "0.1.0.0";
+            MetaData.Version = "1.0.0.0";
             MetaData.HelpString = "Video streaming services like Youtube stream flv files over the network.  They do not allow you to just download them like a normal video, but you can sniff them from the network.  This module does just that.  If it sees a flash video being transferred over the network, it saves it to a file.  There isn't a graphical interface for this yet, or ways to configure it yet.  All files are put into MyDocs/firebwall/modules/SaveFlashVideo";
             MetaData.Description = "Dumps Flash Video streams to file";
             MetaData.Contact = "nightstrike9809@gmail.com";
@@ -45,12 +45,17 @@ namespace SaveFlashVideo
             return new ModuleError() { errorType = ModuleErrorType.Success };
         }
 
-        Dictionary<Quad, SortedDictionary<UInt32, byte[]>> writeQueue = new Dictionary<Quad, SortedDictionary<uint, byte[]>>();
-        Dictionary<Quad, VideoInformation> videos = new Dictionary<Quad, VideoInformation>();
-    
+        //Dictionary<Quad, SortedDictionary<UInt32, byte[]>> writeQueue = new Dictionary<Quad, SortedDictionary<uint, byte[]>>();
+        public Dictionary<Quad, VideoInformation> videos = new Dictionary<Quad, VideoInformation>();
+
+        public override System.Windows.Forms.UserControl GetControl()
+        {
+            return new SaveFlashVideoDisplay(this) { Dock = System.Windows.Forms.DockStyle.Fill };
+        }
+
         public class VideoInformation
         {
-            uint Length = 0;
+            ulong Length = 0;
             string Type = "";
             Quad quad;
             uint NextSequence = 0;
@@ -60,8 +65,40 @@ namespace SaveFlashVideo
             public Thread dumpThread;
             SortedDictionary<uint, byte[]> outOfOrder = new SortedDictionary<uint, byte[]>();
             bool done = false;
+            ulong cached = 0;
+            ulong written = 0;
 
-            public VideoInformation(Quad q, uint length, uint NextSeq, string t)
+            public string SourceIP
+            {
+                get { return quad.srcIP.ToString(); }
+            }
+
+            public string Total
+            {
+                get { return Length.ToString(); }
+            }
+
+            public string Written
+            {
+                get { return written.ToString(); }
+            }
+
+            public string Progress
+            {
+                get 
+                {
+                    if (Length == 0)
+                        return "No known data length";
+                    int percent = ((int)(100.0 * ((double)written)/((double)Length)));
+                    if (percent > 100)
+                    {
+                        return "Invalid length given.";
+                    }
+                    return percent.ToString() + "%"; 
+                }
+            }
+
+            public VideoInformation(Quad q, ulong length, uint NextSeq, string t)
             {
                 quad = q;
                 Length = length;
@@ -86,6 +123,7 @@ namespace SaveFlashVideo
 
             public void AddData(byte[] d, uint s)
             {
+                cached += (uint)d.Length;
                 if (s != NextSequence)
                 {
                     outOfOrder[s] = d;
@@ -161,13 +199,14 @@ namespace SaveFlashVideo
                     while (!done)
                     {
                         Thread.Sleep(10);
-                        if ((DateTime.Now - last).TotalMinutes > 5)
+                        if ((DateTime.Now - last).TotalSeconds > 30)
                             break;
                         Queue<byte[]> dataQueue = swapQueue.DumpBuffer();
                         foreach (byte[] t in dataQueue)
                         {
                             last = DateTime.Now;
                             bin.Write(t, 0, t.Length);
+                            written += (uint)t.Length;
                         }
                     }
                     Queue<byte[]> q = swapQueue.DumpBuffer();
@@ -175,12 +214,14 @@ namespace SaveFlashVideo
                     {
                         last = DateTime.Now;
                         bin.Write(t, 0, t.Length);
+                        written += (uint)t.Length;
                     }
                     q = swapQueue.DumpBuffer();
                     foreach (byte[] t in q)
                     {
                         last = DateTime.Now;
                         bin.Write(t, 0, t.Length);
+                        written += (uint)t.Length;
                     }
                     bin.Close();
                     if (outputFile == null)
@@ -208,7 +249,10 @@ namespace SaveFlashVideo
                         {
                             //finish the file
                             vid.Done();
-                            videos.Remove(q);
+                            lock (videos)
+                            {
+                                videos.Remove(q);
+                            }
                         }
                         else
                         {
@@ -235,12 +279,12 @@ namespace SaveFlashVideo
                         type = type.Substring(0, type.IndexOf("\r\n"));
                         if (type.StartsWith("video/") || type == "flv-application/octet-stream" || type.StartsWith("audio/"))
                         {
-                            uint length = 0;
+                            ulong length = 0;
                             if (str.Contains("Content-Length: "))
                             {
                                 int lengthIndex = str.IndexOf("Content-Length: ") + "Content-Length: ".Length;
                                 string strLen = str.Substring(lengthIndex);
-                                length = uint.Parse(strLen.Substring(0, strLen.IndexOf("\r\n")));
+                                length = ulong.Parse(strLen.Substring(0, strLen.IndexOf("\r\n")));
                             }
 
                             if (!videos.ContainsKey(q))
@@ -257,8 +301,11 @@ namespace SaveFlashVideo
                                         vi.AddData(first);
                                     }
                                 }
-                                vi.SetSequence(tcp.GetNextSequenceNumber());                            
-                                videos[q] = vi;
+                                vi.SetSequence(tcp.GetNextSequenceNumber());
+                                lock (videos)
+                                {
+                                    videos[q] = vi;
+                                }
                             }
                         }
                     }
