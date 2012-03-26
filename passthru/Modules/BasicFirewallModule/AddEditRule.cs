@@ -11,16 +11,57 @@ namespace PassThru
 {
     public partial class AddEditRule : Form
     {
-        public AddEditRule()
-        {
-            InitializeComponent();
-        }
-
         private BasicFirewall.Rule newRule;
         public BasicFirewall.Rule NewRule
         {
             get { return newRule; }
             set { newRule = value; }
+        }
+        
+        public AddEditRule()
+        {
+            InitializeComponent();
+        }
+
+        // constructor for editing a rule
+        public AddEditRule(BasicFirewall.Rule tmp)
+        {
+            InitializeComponent();
+
+            // set the rule type and GUI options
+            if (tmp is BasicFirewall.AllRule)
+            {
+                BasicFirewall.AllRule t = (BasicFirewall.AllRule)tmp;
+                checkBoxLog.Checked = t.log;
+                if ((t.direction & BasicFirewall.Direction.IN) != 0)
+                    checkBoxIn.Checked = true;
+                if ((t.direction & BasicFirewall.Direction.OUT) != 0)
+                    checkBoxOut.Checked = true;
+            }
+            else if (tmp is BasicFirewall.IPRule)
+            {
+                BasicFirewall.IPRule t = (BasicFirewall.IPRule)tmp;
+            }
+            else if (tmp is BasicFirewall.TCPAllRule)
+            {
+                BasicFirewall.TCPAllRule t = (BasicFirewall.TCPAllRule)tmp;
+            }
+            else if (tmp is BasicFirewall.TCPIPPortRule)
+            {
+                BasicFirewall.TCPIPPortRule t = (BasicFirewall.TCPIPPortRule)tmp;
+            }
+            else if (tmp is BasicFirewall.TCPPortRule)
+            {
+                BasicFirewall.TCPPortRule t = (BasicFirewall.TCPPortRule)tmp;
+            }
+            else if (tmp is BasicFirewall.UDPAllRule)
+            {
+                BasicFirewall.UDPAllRule t = (BasicFirewall.UDPAllRule)tmp;
+            }
+            else if (tmp is BasicFirewall.UDPPortRule)
+            {
+                BasicFirewall.UDPPortRule t = (BasicFirewall.UDPPortRule)tmp;
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -183,11 +224,6 @@ namespace PassThru
                     comboBox1.Items.Add("Regla IP");
                     break;
             }
-        }
-
-        private void textBoxArguments_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

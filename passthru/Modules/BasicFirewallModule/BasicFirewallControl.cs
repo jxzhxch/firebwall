@@ -156,5 +156,44 @@ namespace PassThru
             }
             catch { }
         }
+
+        /// <summary>
+        /// Edits the selected rule
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+                return;
+
+            try
+            {
+                int idx = listBox1.SelectedIndex;
+                BasicFirewall.Rule tmp = basicfirewall.rules[idx];
+                AddEditRule aer = new AddEditRule(tmp);
+
+                // show dialog and confirm changes
+                if (aer.ShowDialog() == DialogResult.OK)
+                {
+                    // insert the new rule
+                    listBox1.Items.Insert(idx, aer.NewRule);
+                    List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                    foreach (object rule in listBox1.Items)
+                    {
+                        r.Add((BasicFirewall.Rule)rule);
+                    }
+
+                    basicfirewall.InstanceGetRuleUpdates(r);
+                }
+                // else they hit cancel, and we want to restore the old rule
+                else
+                    listBox1.Items.Insert(idx, tmp);
+            }
+            catch (Exception ex)
+            {
+                LogCenter.WriteErrorLog(ex);
+            }
+        }
     }
 }

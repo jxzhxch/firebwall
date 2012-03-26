@@ -91,10 +91,10 @@ namespace PassThru
         [Serializable]
         public class IPRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            bool log = true;
-            IPAddress ip;
+            public PacketStatus ps;
+            public Direction direction;
+            public bool log = true;
+            public IPAddress ip;
             string message = "";
 
             public IPRule(PacketStatus ps, IPAddress ip, Direction direction, bool log)
@@ -185,9 +185,9 @@ namespace PassThru
         [Serializable]
         public class AllRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public bool log = true;
 
             public AllRule(PacketStatus ps, Direction direction, bool log)
             {
@@ -267,9 +267,9 @@ namespace PassThru
         [Serializable]
         public class UDPAllRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public bool log = true;
 
             public UDPAllRule(PacketStatus ps, Direction direction, bool log)
             {
@@ -356,10 +356,10 @@ namespace PassThru
         [Serializable]
         public class UDPPortRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            int port;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public int port;
+            public bool log = true;
 
             public override string ToString()
             {
@@ -455,11 +455,11 @@ namespace PassThru
         [Serializable]
         public class TCPIPPortRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            int port;
-            IPAddress ip;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public int port;
+            public IPAddress ip;
+            public bool log = true;
 
             public override string ToString()
             {
@@ -559,10 +559,10 @@ namespace PassThru
         [Serializable]
         public class TCPPortRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            int port;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public int port;
+            public bool log = true;
 
             public override string ToString()
             {
@@ -661,9 +661,9 @@ namespace PassThru
         [Serializable]
         public class TCPAllRule : Rule
         {
-            PacketStatus ps;
-            Direction direction;
-            bool log = true;
+            public PacketStatus ps;
+            public Direction direction;
+            public bool log = true;
 
             public string String
             {
