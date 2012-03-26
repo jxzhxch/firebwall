@@ -174,15 +174,13 @@ namespace PassThru.Modules.MacFilter
                 MacFilterModule.MacRule new_rule = (MacFilterModule.MacRule)listBox1.Items[listBox1.SelectedIndex];
                 // grab its idx 
                 int idx = listBox1.SelectedIndex;
-                // remove it from the list
-                listBox1.Items.Remove(new_rule);
                 
                 AddEditMacRule aer = new AddEditMacRule(new_rule);
 
                 if (aer.ShowDialog() == DialogResult.OK)
                 {
-                    // insert the updated rule at its previous idx
-                    listBox1.Items.Insert(idx, aer.newRule);
+                    // replace rule
+                    listBox1.Items[idx] = aer.newRule;
                     List<MacFilterModule.MacRule> r = new List<MacFilterModule.MacRule>();
                     foreach (object rule in listBox1.Items)
                     {
@@ -191,11 +189,6 @@ namespace PassThru.Modules.MacFilter
 
                     mf.InstanceGetRuleUpdates(r);
                     aer.Dispose();
-                }
-                else
-                {   
-                    // if cancel was selected throw the old rule back in place
-                    listBox1.Items.Insert(idx, new_rule);
                 }
             }
             catch (Exception exception)
