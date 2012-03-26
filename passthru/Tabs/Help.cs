@@ -72,20 +72,24 @@ namespace PassThru
         /// <param name="e"></param>
         private void Help_Load(object sender, EventArgs e)
         {
-            // grab the first adapter
-            NetworkAdapter first_adapter = NetworkAdapter.GetAllAdapters()[0];
-            // get it's module list
-            list = first_adapter.modules;
-
-            // add it to the box
-            for (int i = 0; i < list.Count; ++i)
+            try
             {
-                modBox.Items.Insert(i, list.GetModule(i).MetaData.Name);
-            }
+                // grab the first adapter
+                NetworkAdapter first_adapter = NetworkAdapter.GetAllAdapters()[0];
+                // get it's module list
+                list = first_adapter.modules;
 
-            // if there's a set idx, set it
-            if (selectedItem != null)
-                modBox_SelectedIndexChanged(this, null);
+                // add it to the box
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    modBox.Items.Insert(i, list.GetModule(i).MetaData.Name);
+                }
+
+                // if there's a set idx, set it
+                if (selectedItem != null)
+                    modBox_SelectedIndexChanged(this, null);
+            }
+            catch { }
         }
     }
 }
