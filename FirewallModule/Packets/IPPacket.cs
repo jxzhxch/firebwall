@@ -9,35 +9,54 @@ namespace FM
     /// IPPacket obj
     /// </summary>
     public unsafe class IPPacket : EthPacket
-    {
+    {     
         public IPPacket(EthPacket eth)
             : base(eth.data)
         {
-            if (!isIP())
+            if (!isIP() && !isIPv6())
                 throw new Exception("Not an IP packet!");
             start = base.LayerStart() + base.LayerLength();
             if (eth.CodeGenerated)
             {
                 this.CodeGenerated = true;
-                data->m_IBuffer[start] = 0x45;
-                this.DiffServicesField = 0x00;
-                this.Identification = 23950;
-                this.FragmentOffset = 0;
-                this.Flags = 0x40;
-                this.TTL = 128;
-            }            
-            length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
+                if (isIPv6())
+                {
+
+                }
+                else
+                {
+                    data->m_IBuffer[start] = 0x45;
+                    this.DiffServicesField = 0x00;
+                    this.Identification = 23950;
+                    this.FragmentOffset = 0;
+                    this.Flags = 0x40;
+                    this.TTL = 128;
+                }                
+            }
+            if (isIPv6())
+                length = 40;
+            else
+                length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
         }
 
         public byte TTL
         {
             get
             {
+                if (isIPv6())
+                {
+                    return data->m_IBuffer[start + 7];
+                }
                 return data->m_IBuffer[start + 8];
             }
             set
             {
-                data->m_IBuffer[start + 8] = value;
+                if (isIPv6())
+                {
+                    data->m_IBuffer[start + 7] = value;
+                }
+                else
+                    data->m_IBuffer[start + 8] = value;
             }
         }
 
@@ -45,11 +64,17 @@ namespace FM
         {
             get
             {
-                return data->m_IBuffer[start + 9];
+                if (isIPv6())
+                    return data->m_IBuffer[start + 6];
+                else
+                    return data->m_IBuffer[start + 9];
             }
             set
             {
-                data->m_IBuffer[start + 9] = value;
+                if (isIPv6())
+                    data->m_IBuffer[start + 6] = value;
+                else
+                    data->m_IBuffer[start + 9] = value;
             }
         }
 
@@ -57,12 +82,17 @@ namespace FM
         {
             get
             {
+                if (isIPv6())
+                    return 0;
                 return (ushort)((data->m_IBuffer[start + 10] << 8) | data->m_IBuffer[start + 11]);
             }
             set
             {
-                data->m_IBuffer[start + 10] = (byte)(value >> 8);
-                data->m_IBuffer[start + 11] = (byte)(value & 0xff);
+                if (!isIPv6())
+                {
+                    data->m_IBuffer[start + 10] = (byte)(value >> 8);
+                    data->m_IBuffer[start + 11] = (byte)(value & 0xff);
+                }
             }
         }
 
@@ -70,11 +100,16 @@ namespace FM
         {
             get
             {
+                if (isIPv6())
+                    return 0;
                 return data->m_IBuffer[start + 6];
             }
             set
             {
-                data->m_IBuffer[start + 6] = value;
+                if (!isIPv6())
+                {
+                    data->m_IBuffer[start + 6] = value;
+                }
             }
         }
 
@@ -82,12 +117,19 @@ namespace FM
         {
             get
             {
-                return (ushort)((data->m_IBuffer[start + 6] << 8) | data->m_IBuffer[start + 7]);
+                if (!isIPv6())
+                {
+                    return (ushort)((data->m_IBuffer[start + 6] << 8) | data->m_IBuffer[start + 7]);
+                }
+                else return 0;
             }
             set
             {
-                data->m_IBuffer[start + 6] = (byte)(value >> 8);
-                data->m_IBuffer[start + 7] = (byte)(value & 0xff);
+                if (!isIPv6())
+                {
+                    data->m_IBuffer[start + 6] = (byte)(value >> 8);
+                    data->m_IBuffer[start + 7] = (byte)(value & 0xff);
+                }
             }
         }
 
@@ -95,12 +137,22 @@ namespace FM
         {
             get
             {
-                return (ushort)((data->m_IBuffer[start + 4] << 8) | data->m_IBuffer[start + 5]);
+                if (!isIPv6())
+                {
+                    return (ushort)((data->m_IBuffer[start + 4] << 8) | data->m_IBuffer[start + 5]);
+                }
+                else
+                {
+                    return 0;
+                }
             }
             set
             {
-                data->m_IBuffer[start + 4] = (byte)(value >> 8);
-                data->m_IBuffer[start + 5] = (byte)(value & 0xff);
+                if (!isIPv6())
+                {
+                    data->m_IBuffer[start + 4] = (byte)(value >> 8);
+                    data->m_IBuffer[start + 5] = (byte)(value & 0xff);
+                }
             }
         }
 
@@ -108,12 +160,27 @@ namespace FM
         {
             get
             {
-                return (ushort)((data->m_IBuffer[start + 2] << 8) | data->m_IBuffer[start + 3]);
+                if (!isIPv6())
+                {
+                    return (ushort)((data->m_IBuffer[start + 2] << 8) | data->m_IBuffer[start + 3]);
+                }
+                else
+                {
+                    return (ushort)((data->m_IBuffer[start + 4] << 8) | data->m_IBuffer[start + 5]);
+                }
             }
             set
             {
-                data->m_IBuffer[start + 2] = (byte)(value >> 8);
-                data->m_IBuffer[start + 3] = (byte)(value & 0xff);
+                if (!isIPv6())
+                {
+                    data->m_IBuffer[start + 2] = (byte)(value >> 8);
+                    data->m_IBuffer[start + 3] = (byte)(value & 0xff);
+                }
+                else
+                {
+                    data->m_IBuffer[start + 4] = (byte)(value >> 8);
+                    data->m_IBuffer[start + 5] = (byte)(value & 0xff);
+                }
             }
         }
 
@@ -122,6 +189,8 @@ namespace FM
         {
             get
             {
+                if (isIPv6())
+                    return 0;
                 return GetIPChecksum();
             }
         }
@@ -225,36 +294,57 @@ namespace FM
 
         public bool isTCP()
         {
-            return (data->m_IBuffer[start + 0x9] == 0x06);
+            return (this.NextProtocol == 0x06);
         }
 
         public bool isUDP()
         {
-            return (data->m_IBuffer[start + 0x9] == 0x11);
+            return (this.NextProtocol == 0x11);
         }
 
         public bool isICMP()
         {
-            return (data->m_IBuffer[start + 0x9] == 0x01);
+            return (this.NextProtocol == 0x01);
         }
 
         public IPAddress DestIP
         {
             get
             {
-                byte[] ip = new byte[4];
-                for (int x = 0; x < 4; x++)
+                if (isIPv6())
                 {
-                    ip[x] = data->m_IBuffer[start + 0x10 + x];
+                    byte[] ip = new byte[16];
+                    for (int x = 0; x < 16; x++)
+                    {
+                        ip[x] = data->m_IBuffer[start + 0x18 + x];
+                    }
+                    return new IPAddress(ip);
                 }
-                return new IPAddress(ip);
+                else
+                {
+                    byte[] ip = new byte[4];
+                    for (int x = 0; x < 4; x++)
+                    {
+                        ip[x] = data->m_IBuffer[start + 0x10 + x];
+                    }
+                    return new IPAddress(ip);
+                }
             }
             set
             {
-                byte[] ip = value.GetAddressBytes();
-                for (int x = 0; x < 4; x++)
+                if (isIPv6())
                 {
-                    data->m_IBuffer[start + 0x10 + x] = ip[x];
+                    byte[] ip = value.GetAddressBytes();
+                    for (int x = 0; x < 16; x++)
+                        data->m_IBuffer[start + 0x18 + x] = ip[x];
+                }
+                else
+                {
+                    byte[] ip = value.GetAddressBytes();
+                    for (int x = 0; x < 4; x++)
+                    {
+                        data->m_IBuffer[start + 0x10 + x] = ip[x];
+                    }
                 }
             }
         }
@@ -263,6 +353,7 @@ namespace FM
         {
             get
             {
+                if (isIPv6()) return 6;
                 return (byte)(data->m_IBuffer[start] >> 4);
             }
         }
@@ -271,19 +362,40 @@ namespace FM
         {
             get
             {
-                byte[] ip = new byte[4];
-                for (int x = 0; x < 4; x++)
+                if (isIPv6())
                 {
-                    ip[x] = data->m_IBuffer[start + 0xc + x];
+                    byte[] ip = new byte[16];
+                    for (int x = 0; x < 16; x++)
+                    {
+                        ip[x] = data->m_IBuffer[start + 0x8 + x];
+                    }
+                    return new IPAddress(ip);
                 }
-                return new IPAddress(ip);
+                else
+                {
+                    byte[] ip = new byte[4];
+                    for (int x = 0; x < 4; x++)
+                    {
+                        ip[x] = data->m_IBuffer[start + 0xc + x];
+                    }
+                    return new IPAddress(ip);
+                }                
             }
             set
             {
-                byte[] ip = value.GetAddressBytes();
-                for (int x = 0; x < 4; x++)
+                if (isIPv6())
                 {
-                    data->m_IBuffer[start + 0xc + x] = ip[x];
+                    byte[] ip = value.GetAddressBytes();
+                    for (int x = 0; x < 16; x++)
+                        data->m_IBuffer[start + 0x8 + x] = ip[x];
+                }
+                else
+                {
+                    byte[] ip = value.GetAddressBytes();
+                    for (int x = 0; x < 4; x++)
+                    {
+                        data->m_IBuffer[start + 0xc + x] = ip[x];
+                    }
                 }
             }
         }

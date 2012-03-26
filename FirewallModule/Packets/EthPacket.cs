@@ -96,12 +96,10 @@ namespace FM
             }
             else if (isIP())
             {
-                return new IPPacket(data).MakeNextLayerPacket();
+                return new IPPacket(this).MakeNextLayerPacket();
             }
             else if (isARP())
                 return new ARPPacket(data);
-            else if (isIPv6())
-                return new IPv6Packet(data).MakeNextLayerPacket();
             else
                 return this;
         }
@@ -140,7 +138,7 @@ namespace FM
 
         public bool isIP()
         {
-            return (data->m_IBuffer[0x0c] == 0x08 && data->m_IBuffer[0x0d] == 0x00);
+            return (data->m_IBuffer[0x0c] == 0x08 && data->m_IBuffer[0x0d] == 0x00) || isIPv6();
         }
 
         public bool isIPv6()

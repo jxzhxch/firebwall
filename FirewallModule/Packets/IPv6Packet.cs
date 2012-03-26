@@ -16,6 +16,10 @@ namespace FM
             if (!isIPv6())
                 throw new Exception("Not an IPv6 packet!");
             start = base.LayerStart() + base.LayerLength();
+            if (eth.CodeGenerated)
+            {
+                this.CodeGenerated = true;
+            }
             length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
         }
 
@@ -43,7 +47,6 @@ namespace FM
 
         public override Packet MakeNextLayerPacket()
         {
-            return this;
             if (isTCP())
             {
                 return new TCPPacket(data).MakeNextLayerPacket();
