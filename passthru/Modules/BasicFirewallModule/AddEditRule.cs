@@ -23,44 +23,137 @@ namespace PassThru
             InitializeComponent();
         }
 
-        // constructor for editing a rule
+        /// <summary>
+        /// Constructor for initializing the GUi when editing a rule
+        /// </summary>
+        /// <param name="tmp"></param>
         public AddEditRule(BasicFirewall.Rule tmp)
         {
             InitializeComponent();
+
+            // force the combo box to load the rules
+            AddEditRule_Load(this, null);
+
+            // disallow changing the base type of the rule
+            comboBox1.Enabled = false;
 
             // set the rule type and GUI options
             if (tmp is BasicFirewall.AllRule)
             {
                 BasicFirewall.AllRule t = (BasicFirewall.AllRule)tmp;
                 checkBoxLog.Checked = t.log;
-                if ((t.direction & BasicFirewall.Direction.IN) != 0)
-                    checkBoxIn.Checked = true;
-                if ((t.direction & BasicFirewall.Direction.OUT) != 0)
-                    checkBoxOut.Checked = true;
+
+                // set the rule type
+                comboBox1.SelectedIndex = 5;
+
+                // set the direction
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                // set the action box
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
             }
             else if (tmp is BasicFirewall.IPRule)
             {
                 BasicFirewall.IPRule t = (BasicFirewall.IPRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 6;
+
+                //direction
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //args
+                textBoxArguments.Text = t.ip.ToString();
             }
             else if (tmp is BasicFirewall.TCPAllRule)
             {
                 BasicFirewall.TCPAllRule t = (BasicFirewall.TCPAllRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 0;
+
+                //dir
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
             }
             else if (tmp is BasicFirewall.TCPIPPortRule)
             {
                 BasicFirewall.TCPIPPortRule t = (BasicFirewall.TCPIPPortRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 1;
+
+                //dir
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //args
+                textBoxArguments.Text = String.Format("{0} {1}", t.ip, t.port);
             }
             else if (tmp is BasicFirewall.TCPPortRule)
             {
                 BasicFirewall.TCPPortRule t = (BasicFirewall.TCPPortRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 2;
+
+                //dir
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //args
+                textBoxArguments.Text = t.port.ToString();
             }
             else if (tmp is BasicFirewall.UDPAllRule)
             {
                 BasicFirewall.UDPAllRule t = (BasicFirewall.UDPAllRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 3;
+
+                //dir
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
             }
             else if (tmp is BasicFirewall.UDPPortRule)
             {
                 BasicFirewall.UDPPortRule t = (BasicFirewall.UDPPortRule)tmp;
+                checkBoxLog.Checked = t.log;
+
+                //idx
+                comboBox1.SelectedIndex = 4;
+
+                //dir
+                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+
+                //action
+                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //args
+                textBoxArguments.Text = t.port.ToString();
             }
         }
 

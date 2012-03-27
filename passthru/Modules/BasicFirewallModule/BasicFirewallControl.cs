@@ -177,7 +177,7 @@ namespace PassThru
                 if (aer.ShowDialog() == DialogResult.OK)
                 {
                     // insert the new rule
-                    listBox1.Items.Insert(idx, aer.NewRule);
+                    listBox1.Items[idx] = aer.NewRule;
                     List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
                     foreach (object rule in listBox1.Items)
                     {
@@ -186,9 +186,6 @@ namespace PassThru
 
                     basicfirewall.InstanceGetRuleUpdates(r);
                 }
-                // else they hit cancel, and we want to restore the old rule
-                else
-                    listBox1.Items.Insert(idx, tmp);
             }
             catch (Exception ex)
             {
