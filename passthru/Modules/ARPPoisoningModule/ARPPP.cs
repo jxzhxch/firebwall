@@ -24,7 +24,7 @@ namespace PassThru
         void Help()
         {
             MetaData.Name = "ARP Poisoning Protection";
-            MetaData.Version = "1.0.0.0";
+            MetaData.Version = "1.1.0.0";
             MetaData.HelpString = "ARP Poisoning:  A local network attack that redirects communications through the attacker.  This allows them see, modify, or drop your traffic.  There is very little for protection against these attacks currently out on the market."
                 + "\r\n\r\nHow we prevent it is by ignoring any ARP response packet that reaches the firewall that you computer didn't ask for.  On top of that, we also save solicited responses so if a conflicting response is returned, we can tell an attack is happening, and the firewall attempts to tell the other computer being attacked the truth."
                 + "\r\n\r\nThe module configuration is quite simple.  It displays the known MAC address to IP correlations that it knows.  If one of these values is incorrect, you can remove it by clicking on it, and hitting the 'Remove Entry' button.  You can also clear the entire cache, if you switch networks or something like that.  The Save ARP Cache check box will allow you to save or not save the values for the next time fireBwall runs.  The Log Unsolicited check box lets you choose if you want to be notified of ARP Responses that your computer did not request.  The Log Attacks check box lets you choose if you want to be notified of ARP Poisoning Attacks that have been detected and defeated.  The Rectify Attack checkbox lets you choose if fireBwall tries to fix the attack on the other victim, this is extremely effective for simple attacks.";
