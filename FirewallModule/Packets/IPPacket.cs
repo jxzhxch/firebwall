@@ -248,7 +248,10 @@ namespace FM
             if (!isIP())
                 throw new Exception("Not an IP packet!");
             start = base.LayerStart() + base.LayerLength();
-            length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
+            if (isIPv6())
+                length = 40;
+            else
+                length = (uint)((data->m_IBuffer[start] & 0xf) * 4);
         }
 
         public override bool ContainsLayer(Protocol layer)
