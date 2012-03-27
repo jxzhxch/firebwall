@@ -169,18 +169,18 @@ namespace PassThru
                 case 5:
                     // most of these aren't going to translate very differently 
                     // into their foreign tongue, so i'm leaving it as is
-                    tmp = "(Space Separated) No args";
+                    tmp = "No args";
                     enableArgs = false;
                     break;
                 case 2:
                 case 4:
-                    tmp = "(Space Separated) Port";
+                    tmp = "Port";
                     break;
                 case 1:
                     tmp = "(Space Separated) IP Port";
                     break;
                 case 6:
-                    tmp = "(Space Separated) IP";
+                    tmp = "IP";
                     break;
             }
 
