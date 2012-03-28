@@ -64,7 +64,7 @@ namespace PassThru
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 this.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
 				LogCenter.PushLogEvent += new LogCenter.NewLogEvent(Instance_PushLogEvent);
-                
+                LogCenter.ti = new TrayIcon();
                 // call the log purger
                 LogCenter.cleanLogs();
 				//RuleEditor re = new RuleEditor();

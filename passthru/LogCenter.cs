@@ -33,7 +33,7 @@ namespace PassThru
 		public class LogCenter
         {
             static Thread pusher = new Thread(new ThreadStart(PushLoop));
-            public static TrayIcon ti = new TrayIcon();
+            public static TrayIcon ti;
 
 			LogCenter() 
             {
