@@ -35,7 +35,7 @@ namespace FM
         EEth,
         Ethernet,
         IP,
-        IPv6,
+        ICMPv6,
         ARP,
         TCP,
         UDP,

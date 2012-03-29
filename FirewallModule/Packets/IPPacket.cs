@@ -21,7 +21,9 @@ namespace FM
                 this.CodeGenerated = true;
                 if (isIPv6())
                 {
-
+                    data->m_IBuffer[start] = 0x60;
+                    data->m_IBuffer[start + 1] = 0x00;
+                    this.TTL = 0xff;
                 }
                 else
                 {
@@ -277,6 +279,8 @@ namespace FM
                 return new UDPPacket(data).MakeNextLayerPacket();
             else if (isICMP())
                 return new ICMPPacket(data).MakeNextLayerPacket();
+            else if (isICMPv6())
+                return new ICMPv6Packet(data).MakeNextLayerPacket();
             else
                 return this;
         }
@@ -308,6 +312,11 @@ namespace FM
         public bool isICMP()
         {
             return (this.NextProtocol == 0x01);
+        }
+
+        public bool isICMPv6()
+        {
+            return (this.NextProtocol == 0x3a);
         }
 
         public IPAddress DestIP
