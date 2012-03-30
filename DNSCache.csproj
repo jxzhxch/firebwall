@@ -17,32 +17,45 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\firebwall\modules\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\passthru\bin\Release\Modules\</OutputPath>
+    <OutputPath>..\..\..\..\firebwall\modules\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FirewallModule">
+      <HintPath>..\..\..\..\firebwall\modules\FirewallModule.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DNSCache.cs" />
+    <Compile Include="DNSCacheUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DNSCacheUI.Designer.cs">
+      <DependentUpon>DNSCacheUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FirewallModule\FirewallModule.csproj">
-      <Project>{EFB8E62C-9C88-42A5-B4A6-BC8634DBE318}</Project>
-      <Name>FirewallModule</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="DNSCacheUI.resx">
+      <DependentUpon>DNSCacheUI.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
