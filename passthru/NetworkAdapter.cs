@@ -38,7 +38,7 @@ namespace PassThru
             ndisDeviveName = this.ndisDeviveName.Substring(0, this.ndisDeviveName.IndexOf((char)0x00));
             foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (name.StartsWith("\\DEVICE\\" + ni.Id))
+                if (ndisDeviveName.EndsWith(ni.Id))
                 {
                     inter = ni;
                     ndisDeviveName = ni.Id;
@@ -124,7 +124,7 @@ namespace PassThru
         {
 			foreach (NetworkAdapter na in currentAdapters)
 			{
-					na.StopProcessing();
+				na.StopProcessing();
 			}
 		}
 
@@ -139,7 +139,14 @@ namespace PassThru
 				LogCenter.Instance.Push("NetworkAdapter-static", "Bad state was found, attempting to open the NDIS Filter Driver while the IntPtr != IntPtr.Zero, continuing");
 			}
 
-			hNdisapi = Ndisapi.OpenFilterDriver("NDISRD");
+			hNdisapi = Ndisapi.OpenFilterDriver(Ndisapi.NDISRD_DRIVER_NAME);                        
+            TCP_AdapterList adList = new TCP_AdapterList();
+            Ndisapi.GetTcpipBoundAdaptersInfo(hNdisapi, ref adList);
+            if (adList.m_nAdapterCount == 0)
+            {
+                LogCenter.WriteErrorLog(new Exception("No adapters found on this driver interface"));
+                return;
+            }
 			isNdisFilterDriverOpen = true;
 		}
 
@@ -314,7 +321,7 @@ namespace PassThru
 					hEvent.Reset();
 				}
 			}
-			catch (ThreadAbortException tae)
+			catch (Exception tae)
 			{
                 Marshal.FreeHGlobal(PacketBufferIntPtr);
                 LogCenter.WriteErrorLog(tae);
@@ -430,10 +437,13 @@ namespace PassThru
                         if (adList.m_nAdapterHandle[x] == currentAdapters[y].adapterHandle)
                             found = true;
                     }
-                    if (!found && !Encoding.ASCII.GetString(adList.m_szAdapterNameList, x * 256, 256).Contains("NDIS"))
+                    if (!found)
                     {
                         NetworkAdapter newAdapter = new NetworkAdapter(adList.m_nAdapterHandle[x], Encoding.ASCII.GetString(adList.m_szAdapterNameList, x * 256, 256));
-                        tempList.Add(newAdapter);
+                        if (newAdapter.InterfaceInformation != null)
+                        {
+                            tempList.Add(newAdapter);
+                        }
                     }
                 }
 
@@ -499,11 +509,14 @@ namespace PassThru
                     if (adList.m_nAdapterHandle[x] == currentAdapters[y].adapterHandle)
                         found = true;
                 }
-                if (!found && !Encoding.ASCII.GetString(adList.m_szAdapterNameList, x * 256, 256).Contains("NDIS"))
+                if (!found)
                 {
                     NetworkAdapter newAdapter = new NetworkAdapter(adList.m_nAdapterHandle[x], Encoding.ASCII.GetString(adList.m_szAdapterNameList, x * 256, 256));
-                    tempList.Add(newAdapter);
-                    currentAdapters.Add(newAdapter);
+                    if (newAdapter.InterfaceInformation != null)
+                    {
+                        tempList.Add(newAdapter);
+                        currentAdapters.Add(newAdapter);
+                    }
                 }
             }
 

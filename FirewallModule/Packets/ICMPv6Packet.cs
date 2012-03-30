@@ -105,7 +105,7 @@ namespace FM
         {
             get
             {
-                return (UInt32)((data->m_IBuffer[start + 4] << 24) | (data->m_IBuffer[start + 5] << 16 | (data->m_IBuffer[start + 6] << 8  | (data->m_IBuffer[start + 7]));
+                return (UInt32)((data->m_IBuffer[start + 4] << 24) | (data->m_IBuffer[start + 5] << 16) | (data->m_IBuffer[start + 6] << 8)  | (data->m_IBuffer[start + 7]));
             }
             set
             {

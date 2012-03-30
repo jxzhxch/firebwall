@@ -51,7 +51,7 @@
     <Compile Include="Packets\EthPacket.cs" />
     <Compile Include="Packets\ICMPPacket.cs" />
     <Compile Include="Packets\IPPacket.cs" />
-    <Compile Include="Packets\IPv6Packet.cs" />
+    <Compile Include="Packets\ICMPv6Packet.cs" />
     <Compile Include="Packets\Packet.cs" />
     <Compile Include="Packets\PacketFactory.cs" />
     <Compile Include="Packets\UDPPacket.cs" />
