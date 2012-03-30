@@ -14,7 +14,7 @@ namespace SaveFlashVideo
             : base()
         {
             MetaData.Name = "Save Flash Video";
-            MetaData.Version = "1.0.0.0";
+            MetaData.Version = "1.1.0.0";
             MetaData.HelpString = "Video streaming services like Youtube stream flv files over the network.  They do not allow you to just download them like a normal video, but you can sniff them from the network.  This module does just that.  If it sees a flash video being transferred over the network, it saves it to a file.  There isn't a graphical interface for this yet, or ways to configure it yet.  All files are put into MyDocs/firebwall/modules/SaveFlashVideo";
             MetaData.Description = "Dumps Flash Video streams to file";
             MetaData.Contact = "nightstrike9809@gmail.com";
