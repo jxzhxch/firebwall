@@ -41,8 +41,10 @@
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ipv6Box = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -106,7 +108,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteButton.Location = new System.Drawing.Point(471, 3);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(114, 23);
+            this.deleteButton.Size = new System.Drawing.Size(116, 23);
             this.deleteButton.TabIndex = 9;
             this.deleteButton.Text = "Delete Selected";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -131,7 +133,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewICMP.Location = new System.Drawing.Point(471, 28);
             this.viewICMP.Name = "viewICMP";
-            this.viewICMP.Size = new System.Drawing.Size(114, 23);
+            this.viewICMP.Size = new System.Drawing.Size(116, 23);
             this.viewICMP.TabIndex = 11;
             this.viewICMP.Text = "View ICMP";
             this.viewICMP.UseVisualStyleBackColor = true;
@@ -146,7 +148,8 @@
             this.tableDisplay.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Type,
             this.Code,
-            this.Description});
+            this.Description,
+            this.Version});
             this.tableDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableDisplay.Location = new System.Drawing.Point(3, 3);
             this.tableDisplay.MultiSelect = false;
@@ -155,7 +158,7 @@
             this.tableDisplay.RowHeadersVisible = false;
             this.tableDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tableDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableDisplay.Size = new System.Drawing.Size(593, 287);
+            this.tableDisplay.Size = new System.Drawing.Size(595, 288);
             this.tableDisplay.TabIndex = 7;
             // 
             // Type
@@ -181,25 +184,30 @@
             this.Description.Name = "Description";
             this.Description.ReadOnly = true;
             // 
+            // Version
+            // 
+            this.Version.HeaderText = "Version";
+            this.Version.Name = "Version";
+            this.Version.ReadOnly = true;
+            // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.tableDisplay, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableDisplay, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.05464F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.94535F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(599, 366);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 368);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.ipv6Box);
             this.panel1.Controls.Add(this.typeField);
             this.panel1.Controls.Add(this.viewICMP);
             this.panel1.Controls.Add(this.deleteButton);
@@ -210,10 +218,21 @@
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 296);
+            this.panel1.Location = new System.Drawing.Point(3, 297);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(593, 67);
+            this.panel1.Size = new System.Drawing.Size(595, 68);
             this.panel1.TabIndex = 8;
+            // 
+            // ipv6Box
+            // 
+            this.ipv6Box.AutoSize = true;
+            this.ipv6Box.Location = new System.Drawing.Point(5, 32);
+            this.ipv6Box.Name = "ipv6Box";
+            this.ipv6Box.Size = new System.Drawing.Size(48, 17);
+            this.ipv6Box.TabIndex = 12;
+            this.ipv6Box.Text = "IPv6";
+            this.ipv6Box.UseVisualStyleBackColor = true;
+            this.ipv6Box.CheckedChanged += new System.EventHandler(this.ipv6Box_CheckedChanged);
             // 
             // ICMPFilterDisplay
             // 
@@ -243,11 +262,13 @@
         private System.Windows.Forms.CheckBox allBox;
         private System.Windows.Forms.Button viewICMP;
         private System.Windows.Forms.DataGridView tableDisplay;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Code;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Version;
+        private System.Windows.Forms.CheckBox ipv6Box;
 
     }
 }

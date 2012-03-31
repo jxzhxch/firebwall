@@ -49,7 +49,10 @@ namespace PassThru
         public override ModuleError ModuleStop()
         {
             if (!data.Save)
+            {
                 data.RuleTable = new SerializableDictionary<string, List<string>>();
+                data.RuleTablev6 = new SerializableDictionary<string, List<string>>();
+            }
 
             PersistentData = data;
             SaveConfig();
@@ -59,7 +62,9 @@ namespace PassThru
         }
 
         /// <summary>
-        /// Object used to serialize the data we need to persist
+        /// Object used to serialize the data we need to persist.
+        /// 
+        /// The v4 and v6 rule tables need to be split up because of clashing types/codes
         /// </summary>
         [Serializable]
         public class ICMPData
@@ -67,6 +72,10 @@ namespace PassThru
             private SerializableDictionary<string, List<string>> ruleTable = new SerializableDictionary<string, List<string>>();
             public SerializableDictionary<string, List<string>> RuleTable 
                         { get { return ruleTable; } set { ruleTable = new SerializableDictionary<string,List<string>>(value); } }
+
+            private SerializableDictionary<string, List<string>> ruleTablev6 = new SerializableDictionary<string, List<string>>();
+            public SerializableDictionary<string, List<string>> RuleTablev6
+                        { get { return ruleTablev6; } set { ruleTablev6 = new SerializableDictionary<string, List<string>>(value); } }
 
             private bool denyAll = false;
             public bool DenyAll 
@@ -80,12 +89,12 @@ namespace PassThru
         // main routine
         public override PacketMainReturn interiorMain(ref Packet in_packet)
         {
-            // if the packet is ICMP
+            // if the packet is ICMPv4
             if (in_packet.GetHighestLayer() == Protocol.ICMP)
             {
                 ICMPPacket packet = (ICMPPacket)in_packet;
                 // check if the packet is allowed and deny all is false
-                if (isAllowed(packet.Type.ToString(), packet.Code.ToString()) && 
+                if (isAllowed(packet.Type.ToString(), packet.Code.ToString(), 4) && 
                     !data.DenyAll)
                 {
                     return null;
@@ -101,6 +110,26 @@ namespace PassThru
                     return pmr;
                 }
             }
+
+            // if the packet is ICMPv6
+            if (in_packet.GetHighestLayer() == Protocol.ICMPv6)
+            {
+                ICMPv6Packet packet = (ICMPv6Packet)in_packet;
+                if (isAllowed(packet.Type.ToString(), packet.Code.ToString(), 6) &&
+                    !data.DenyAll)
+                {
+                    return null;
+                }
+                else
+                {
+                    PacketMainReturn pmr;
+                    pmr = new PacketMainReturn("ICMPFilter Module");
+                    pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                    pmr.logMessage = "ICMPv6 from " + packet.SourceIP.ToString() + " for " +
+                        packet.DestIP.ToString() + " was dropped.";
+                    return pmr;
+                }
+            }
             return null;
         }
 
@@ -110,20 +139,36 @@ namespace PassThru
          * 
          * @param type is the ICMP type
          * @param code is the ICMP code
+         * @param version is the IP version to look for the type/code in
+         *  Accepts 4 for ipv4 and 6 for ipv6
          */
-        private bool isAllowed(string type, string code)
+        private bool isAllowed(string type, string code, int version)
         {
             bool isAllowed = true;
 
-            // if the table contains the type, check if it
-            // also contains the code
-            if (data.RuleTable.ContainsKey(type))
+            if (version == 4)
             {
-                List<string> temp;
-                data.RuleTable.TryGetValue(type, out temp);
-                // invert logic; if found, disallow, if not, allow
-                isAllowed = !(temp.Contains(code));
+                // if the table contains the type, check if it
+                // also contains the code
+                if (data.RuleTable.ContainsKey(type))
+                {
+                    List<string> temp;
+                    data.RuleTable.TryGetValue(type, out temp);
+                    // invert logic; if found, disallow, if not, allow
+                    isAllowed = !(temp.Contains(code));
+                }
             }
+            else if (version == 6)
+            {
+                if (data.RuleTablev6.ContainsKey(type))
+                {
+                    List<string> tmp;
+                    data.RuleTablev6.TryGetValue(type, out tmp);
+                    isAllowed = !(tmp.Contains(code));
+                }
+
+            }
+
             return isAllowed;
         }
 
