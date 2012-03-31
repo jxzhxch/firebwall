@@ -52,6 +52,8 @@
             // 
             this.buttonConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonConfig.FlatAppearance.BorderSize = 0;
+            this.buttonConfig.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonConfig.ForeColor = System.Drawing.Color.White;
             this.buttonConfig.Location = new System.Drawing.Point(278, 3);
             this.buttonConfig.Name = "buttonConfig";
@@ -82,6 +84,8 @@
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";

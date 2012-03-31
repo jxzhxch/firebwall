@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorScheme.cs" />
     <Compile Include="Modules\ARPPoisoningModule\ArpPoisoningProtection.cs">
       <SubType>UserControl</SubType>
     </Compile>

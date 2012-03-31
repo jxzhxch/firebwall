@@ -38,6 +38,7 @@ namespace PassThru
 
 			private void MainWindow_Load(object sender, EventArgs e) 
             {
+                ColorScheme.SetColorScheme(this);
                 //optionsTab.ItemSize = new Size((this.Width / 4) - 6, optionsTab.ItemSize.Height);
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 this.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
@@ -47,21 +48,25 @@ namespace PassThru
 
                 log = new Tabs.LogDisplay();
                 log.Dock = DockStyle.Fill;
+                ColorScheme.SetColorScheme(log);
                 LogCenter.PushLogEvent += new LogCenter.NewLogEvent(log.Instance_PushLogEvent);
                 splitContainer1.Panel2.Controls.Add(log);
 
                 // load up the adapter control handler
 				ac = new AdapterControl();
+                ColorScheme.SetColorScheme(ac);
 				ac.Dock = DockStyle.Fill;
 				//tabPage3.Controls.Add(ac);
 
                 // load up the options tab handler
                 od = new OptionsDisplay();
+                ColorScheme.SetColorScheme(od);
                 od.Dock = DockStyle.Fill;
                 //tabPage2.Controls.Add(od);
 
                 // load up the options tab handler
                 help = new Help();
+                ColorScheme.SetColorScheme(help);
                 help.Dock = DockStyle.Fill;
                 //tabPage4.Controls.Add(help);
 

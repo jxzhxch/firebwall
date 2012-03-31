@@ -121,23 +121,7 @@ namespace PassThru.Modules
                 na.modules.UpdateModuleOrder(moduleOrder);
                 moduleOrder = na.modules.GetModuleOrder();
             }
-        }
-
-        private void SetColorScheme(Control control)
-        {
-            if (control is Form)
-            {
-                control.BackColor = Color.Black;
-                control.ForeColor = Color.White;
-            }
-            else
-            {
-                control.BackColor = Color.FromArgb(64, 0, 0);
-                control.ForeColor = Color.White;
-            }
-            foreach (Control c in control.Controls)
-                SetColorScheme(c);
-        }
+        }        
 
         private void buttonOpenConfiguration_Click(object sender, EventArgs e)
         {
@@ -152,7 +136,7 @@ namespace PassThru.Modules
                     f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
                     f.Text = na.InterfaceInformation.Name + ": " + na.modules.GetModule(checkedListBoxModules.SelectedIndex).MetaData.Name + " - " + na.modules.GetModule(checkedListBoxModules.SelectedIndex).MetaData.Version;
                     f.Controls.Add(uc);
-                    SetColorScheme(f);
+                    ColorScheme.SetColorScheme(f);
                     f.Show();
                 }
             }
