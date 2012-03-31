@@ -27,8 +27,13 @@ namespace PassThru
 		public TrayIcon() 
         {                
 			ContextMenu cm = new ContextMenu();
-			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));
-			cm.MenuItems.Add(closeButton);
+			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));			
+            cm.MenuItems.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
+            cm.MenuItems.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
+            cm.MenuItems.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
+            cm.MenuItems.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
+            cm.MenuItems.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
+            cm.MenuItems.Add(closeButton);
 			tray = new NotifyIcon();
 			tray.ContextMenu = cm;
             Assembly target = Assembly.GetExecutingAssembly();
@@ -39,6 +44,31 @@ namespace PassThru
             LoadConfig();
 		}
 		NotifyIcon tray;
+
+        void ToFirebwallCom(object we, EventArgs dontMatter)
+        {
+            System.Diagnostics.Process.Start("http://firebwall.com");
+        }
+
+        private void ToFacebook(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/pages/FireBwall/261822493882169");
+        }
+
+        private void ToReddit(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.reddit.com/r/firebwall/");
+        }
+
+        private void ToModules(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://firebwall.com/modules.php");
+        }
+
+        private void ToTwitter(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://twitter.com/#!/firebwall");
+        }
 
         public static void SaveConfig()
         {

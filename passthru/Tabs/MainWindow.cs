@@ -61,6 +61,7 @@ namespace PassThru
 
 			private void MainWindow_Load(object sender, EventArgs e) 
             {
+                optionsTab.ItemSize = new Size((this.Width / 4) - 8, optionsTab.ItemSize.Height);
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 this.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
 				LogCenter.PushLogEvent += new LogCenter.NewLogEvent(Instance_PushLogEvent);
@@ -160,29 +161,9 @@ namespace PassThru
                 }
             }
 
-            private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+            private void MainWindow_Resize(object sender, EventArgs e)
             {
-                System.Diagnostics.Process.Start("http://firebwall.com");
-            }
-
-            private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            {
-                System.Diagnostics.Process.Start("https://www.facebook.com/pages/FireBwall/261822493882169");
-            }
-
-            private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            {
-                System.Diagnostics.Process.Start("http://www.reddit.com/r/firebwall/");
-            }
-
-            private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            {
-                System.Diagnostics.Process.Start("http://firebwall.com/modules.php");
-            }
-
-            private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            {
-                System.Diagnostics.Process.Start("https://twitter.com/#!/firebwall");
+                optionsTab.ItemSize = new Size((this.Width / 4) - 8, optionsTab.ItemSize.Height);
             }
 		}
 }
