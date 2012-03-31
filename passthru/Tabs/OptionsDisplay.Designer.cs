@@ -158,11 +158,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.languageLabel);
             this.Controls.Add(this.languageBox);
             this.Controls.Add(this.displayTrayLogs);
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "OptionsDisplay";
             this.Size = new System.Drawing.Size(555, 330);
             this.Load += new System.EventHandler(this.OptionsDisplay_Load);

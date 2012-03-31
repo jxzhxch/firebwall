@@ -42,7 +42,9 @@
             // 
             // checkedListBoxModules
             // 
+            this.checkedListBoxModules.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.checkedListBoxModules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxModules.ForeColor = System.Drawing.Color.White;
             this.checkedListBoxModules.FormattingEnabled = true;
             this.checkedListBoxModules.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxModules.Name = "checkedListBoxModules";
@@ -74,57 +76,67 @@
             // 
             // buttonOpenConfiguration
             // 
+            this.buttonOpenConfiguration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonOpenConfiguration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonOpenConfiguration.ForeColor = System.Drawing.Color.White;
             this.buttonOpenConfiguration.Location = new System.Drawing.Point(3, 70);
             this.buttonOpenConfiguration.Name = "buttonOpenConfiguration";
             this.buttonOpenConfiguration.Size = new System.Drawing.Size(108, 61);
             this.buttonOpenConfiguration.TabIndex = 1;
             this.buttonOpenConfiguration.Text = "Open Configuration";
-            this.buttonOpenConfiguration.UseVisualStyleBackColor = true;
+            this.buttonOpenConfiguration.UseVisualStyleBackColor = false;
             this.buttonOpenConfiguration.Click += new System.EventHandler(this.buttonOpenConfiguration_Click);
             // 
             // buttonEnable
             // 
+            this.buttonEnable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonEnable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEnable.ForeColor = System.Drawing.Color.White;
             this.buttonEnable.Location = new System.Drawing.Point(3, 3);
             this.buttonEnable.Name = "buttonEnable";
             this.buttonEnable.Size = new System.Drawing.Size(108, 61);
             this.buttonEnable.TabIndex = 0;
             this.buttonEnable.Text = "Enable/Disable";
-            this.buttonEnable.UseVisualStyleBackColor = true;
+            this.buttonEnable.UseVisualStyleBackColor = false;
             this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
             // 
             // buttonMoveUp
             // 
+            this.buttonMoveUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonMoveUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonMoveUp.ForeColor = System.Drawing.Color.White;
             this.buttonMoveUp.Location = new System.Drawing.Point(3, 137);
             this.buttonMoveUp.Name = "buttonMoveUp";
             this.buttonMoveUp.Size = new System.Drawing.Size(108, 61);
             this.buttonMoveUp.TabIndex = 2;
             this.buttonMoveUp.Text = "Move Up";
-            this.buttonMoveUp.UseVisualStyleBackColor = true;
+            this.buttonMoveUp.UseVisualStyleBackColor = false;
             this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
             // 
             // buttonMoveDown
             // 
+            this.buttonMoveDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonMoveDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonMoveDown.ForeColor = System.Drawing.Color.White;
             this.buttonMoveDown.Location = new System.Drawing.Point(3, 204);
             this.buttonMoveDown.Name = "buttonMoveDown";
             this.buttonMoveDown.Size = new System.Drawing.Size(108, 61);
             this.buttonMoveDown.TabIndex = 3;
             this.buttonMoveDown.Text = "Move Down";
-            this.buttonMoveDown.UseVisualStyleBackColor = true;
+            this.buttonMoveDown.UseVisualStyleBackColor = false;
             this.buttonMoveDown.Click += new System.EventHandler(this.buttonMoveDown_Click);
             // 
             // buttonHelp
             // 
+            this.buttonHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonHelp.ForeColor = System.Drawing.Color.White;
             this.buttonHelp.Location = new System.Drawing.Point(3, 271);
             this.buttonHelp.Name = "buttonHelp";
             this.buttonHelp.Size = new System.Drawing.Size(108, 64);
             this.buttonHelp.TabIndex = 4;
             this.buttonHelp.Text = "Help";
-            this.buttonHelp.UseVisualStyleBackColor = true;
+            this.buttonHelp.UseVisualStyleBackColor = false;
             this.buttonHelp.Click += new System.EventHandler(this.buttonHelp_Click);
             // 
             // tableLayoutPanel2
@@ -146,6 +158,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "ModuleConfiguration";
             this.Size = new System.Drawing.Size(431, 344);

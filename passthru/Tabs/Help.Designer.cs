@@ -51,7 +51,9 @@
             // 
             // modBox
             // 
+            this.modBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.modBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modBox.ForeColor = System.Drawing.Color.White;
             this.modBox.FormattingEnabled = true;
             this.modBox.Location = new System.Drawing.Point(0, 0);
             this.modBox.Name = "modBox";
@@ -64,6 +66,7 @@
             this.modData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.modData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.modData.Controls.Add(this.modAuthorField);
             this.modData.Controls.Add(this.modVersionField);
             this.modData.Controls.Add(this.modVersionLabel);
@@ -141,7 +144,9 @@
             // 
             // modHelpBox
             // 
+            this.modHelpBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.modHelpBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modHelpBox.ForeColor = System.Drawing.Color.White;
             this.modHelpBox.Location = new System.Drawing.Point(3, 16);
             this.modHelpBox.Name = "modHelpBox";
             this.modHelpBox.ReadOnly = true;
@@ -197,7 +202,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.splitContainer1);
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "Help";
             this.Size = new System.Drawing.Size(603, 312);
             this.Load += new System.EventHandler(this.Help_Load);

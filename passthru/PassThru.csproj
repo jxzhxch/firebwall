@@ -112,7 +112,7 @@
     <Compile Include="Modules\DDoSModule\DDoSModule.cs" />
     <Compile Include="Modules\DumpToPcapModule.cs" />
     <Compile Include="Modules\EthEncryptionModule.cs" />
-    <Compile Include="Modules\ICMPFilterModule\ICMPFilterModule.cs" />
+    <Compile Include="Modules\IPMonitorModule\ICMPFilterModule.cs" />
     <Compile Include="Modules\ICMPFilterModule\ICMPFilterDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -37,7 +37,9 @@
             // 
             // textBoxDetails
             // 
+            this.textBoxDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.textBoxDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxDetails.ForeColor = System.Drawing.Color.White;
             this.textBoxDetails.Location = new System.Drawing.Point(83, 3);
             this.textBoxDetails.Multiline = true;
             this.textBoxDetails.Name = "textBoxDetails";
@@ -48,13 +50,15 @@
             // 
             // buttonConfig
             // 
+            this.buttonConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.buttonConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonConfig.ForeColor = System.Drawing.Color.White;
             this.buttonConfig.Location = new System.Drawing.Point(278, 3);
             this.buttonConfig.Name = "buttonConfig";
             this.buttonConfig.Size = new System.Drawing.Size(64, 46);
             this.buttonConfig.TabIndex = 0;
             this.buttonConfig.Text = "Configure Device";
-            this.buttonConfig.UseVisualStyleBackColor = true;
+            this.buttonConfig.UseVisualStyleBackColor = false;
             this.buttonConfig.Click += new System.EventHandler(this.buttonConfig_Click);
             // 
             // tableLayoutPanel1
@@ -76,13 +80,15 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(74, 46);
             this.button1.TabIndex = 1;
             this.button1.Text = "Enabled";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // AdapterDisplay

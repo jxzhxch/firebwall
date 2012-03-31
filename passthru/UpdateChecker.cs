@@ -16,7 +16,7 @@ namespace PassThru
     {
         int versionA = 0;
         int versionB = 3;
-        int versionC = 10;
+        int versionC = 11;
         int versionD = 0;
         Thread updateThread;
 

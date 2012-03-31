@@ -132,15 +132,15 @@
                 // 
                 this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-                this.BackColor = System.Drawing.SystemColors.Control;
+                this.BackColor = System.Drawing.Color.Black;
                 this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
                 this.ClientSize = new System.Drawing.Size(794, 572);
                 this.Controls.Add(this.splitContainer1);
                 this.DoubleBuffered = true;
-                this.ForeColor = System.Drawing.Color.Black;
+                this.ForeColor = System.Drawing.Color.White;
                 this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
                 this.Name = "MainWindow";
-                this.Text = "fireBwall v0.3.10.0";
+                this.Text = "fireBwall v0.3.11.0";
                 this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
                 this.Load += new System.EventHandler(this.MainWindow_Load);
                 this.Resize += new System.EventHandler(this.MainWindow_Resize);
