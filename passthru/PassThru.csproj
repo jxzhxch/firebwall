@@ -127,6 +127,12 @@
     <Compile Include="Tabs\Help.Designer.cs">
       <DependentUpon>Help.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tabs\LogDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tabs\LogDisplay.Designer.cs">
+      <DependentUpon>LogDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tabs\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\Help.resx">
       <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tabs\LogDisplay.resx">
+      <DependentUpon>LogDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

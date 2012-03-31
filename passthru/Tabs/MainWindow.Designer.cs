@@ -24,100 +24,16 @@
 			/// </summary>
 			private void InitializeComponent() 
             {
-                this.optionsTab = new System.Windows.Forms.TabControl();
-                this.tabPage1 = new System.Windows.Forms.TabPage();
-                this.textBox1 = new System.Windows.Forms.TextBox();
-                this.tabPage3 = new System.Windows.Forms.TabPage();
-                this.tabPage2 = new System.Windows.Forms.TabPage();
-                this.tabPage4 = new System.Windows.Forms.TabPage();
                 this.splitContainer1 = new System.Windows.Forms.SplitContainer();
                 this.pictureBox1 = new System.Windows.Forms.PictureBox();
-                this.optionsTab.SuspendLayout();
-                this.tabPage1.SuspendLayout();
+                this.tabPage1 = new System.Windows.Forms.Button();
+                this.tabPage2 = new System.Windows.Forms.Button();
+                this.tabPage3 = new System.Windows.Forms.Button();
+                this.tabPage4 = new System.Windows.Forms.Button();
                 this.splitContainer1.Panel1.SuspendLayout();
-                this.splitContainer1.Panel2.SuspendLayout();
                 this.splitContainer1.SuspendLayout();
                 ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
                 this.SuspendLayout();
-                // 
-                // optionsTab
-                // 
-                this.optionsTab.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-                this.optionsTab.Controls.Add(this.tabPage1);
-                this.optionsTab.Controls.Add(this.tabPage3);
-                this.optionsTab.Controls.Add(this.tabPage2);
-                this.optionsTab.Controls.Add(this.tabPage4);
-                this.optionsTab.Dock = System.Windows.Forms.DockStyle.Fill;
-                this.optionsTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.optionsTab.HotTrack = true;
-                this.optionsTab.ItemSize = new System.Drawing.Size(96, 35);
-                this.optionsTab.Location = new System.Drawing.Point(0, 0);
-                this.optionsTab.Margin = new System.Windows.Forms.Padding(0);
-                this.optionsTab.Multiline = true;
-                this.optionsTab.Name = "optionsTab";
-                this.optionsTab.RightToLeft = System.Windows.Forms.RightToLeft.No;
-                this.optionsTab.SelectedIndex = 0;
-                this.optionsTab.Size = new System.Drawing.Size(794, 475);
-                this.optionsTab.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-                this.optionsTab.TabIndex = 3;
-                // 
-                // tabPage1
-                // 
-                this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-                this.tabPage1.Controls.Add(this.textBox1);
-                this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.tabPage1.ForeColor = System.Drawing.Color.Black;
-                this.tabPage1.Location = new System.Drawing.Point(4, 39);
-                this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
-                this.tabPage1.Name = "tabPage1";
-                this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage1.Size = new System.Drawing.Size(786, 432);
-                this.tabPage1.TabIndex = 0;
-                this.tabPage1.Text = "Log";
-                // 
-                // textBox1
-                // 
-                this.textBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-                this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-                this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.textBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-                this.textBox1.Location = new System.Drawing.Point(3, 3);
-                this.textBox1.Multiline = true;
-                this.textBox1.Name = "textBox1";
-                this.textBox1.ReadOnly = true;
-                this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-                this.textBox1.Size = new System.Drawing.Size(780, 426);
-                this.textBox1.TabIndex = 0;
-                this.textBox1.WordWrap = false;
-                // 
-                // tabPage3
-                // 
-                this.tabPage3.Location = new System.Drawing.Point(4, 39);
-                this.tabPage3.Name = "tabPage3";
-                this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage3.Size = new System.Drawing.Size(786, 432);
-                this.tabPage3.TabIndex = 2;
-                this.tabPage3.Text = "Adapters";
-                this.tabPage3.UseVisualStyleBackColor = true;
-                // 
-                // tabPage2
-                // 
-                this.tabPage2.Location = new System.Drawing.Point(4, 39);
-                this.tabPage2.Name = "tabPage2";
-                this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage2.Size = new System.Drawing.Size(786, 432);
-                this.tabPage2.TabIndex = 3;
-                this.tabPage2.Text = "Help";
-                this.tabPage2.UseVisualStyleBackColor = true;
-                // 
-                // tabPage4
-                // 
-                this.tabPage4.Location = new System.Drawing.Point(4, 39);
-                this.tabPage4.Name = "tabPage4";
-                this.tabPage4.Size = new System.Drawing.Size(786, 432);
-                this.tabPage4.TabIndex = 4;
-                this.tabPage4.Text = "Help";
-                this.tabPage4.UseVisualStyleBackColor = true;
                 // 
                 // splitContainer1
                 // 
@@ -128,11 +44,11 @@
                 // 
                 // splitContainer1.Panel1
                 // 
+                this.splitContainer1.Panel1.Controls.Add(this.tabPage4);
+                this.splitContainer1.Panel1.Controls.Add(this.tabPage3);
+                this.splitContainer1.Panel1.Controls.Add(this.tabPage2);
+                this.splitContainer1.Panel1.Controls.Add(this.tabPage1);
                 this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
-                // 
-                // splitContainer1.Panel2
-                // 
-                this.splitContainer1.Panel2.Controls.Add(this.optionsTab);
                 this.splitContainer1.Size = new System.Drawing.Size(794, 572);
                 this.splitContainer1.SplitterDistance = 93;
                 this.splitContainer1.TabIndex = 4;
@@ -147,6 +63,70 @@
                 this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
                 this.pictureBox1.TabIndex = 0;
                 this.pictureBox1.TabStop = false;
+                // 
+                // tabPage1
+                // 
+                this.tabPage1.BackColor = System.Drawing.Color.Black;
+                this.tabPage1.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage1.FlatAppearance.BorderSize = 0;
+                this.tabPage1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.tabPage1.ForeColor = System.Drawing.Color.White;
+                this.tabPage1.Location = new System.Drawing.Point(86, 26);
+                this.tabPage1.Name = "tabPage1";
+                this.tabPage1.Size = new System.Drawing.Size(85, 33);
+                this.tabPage1.TabIndex = 1;
+                this.tabPage1.Text = "button1";
+                this.tabPage1.UseVisualStyleBackColor = false;
+                this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+                // 
+                // tabPage2
+                // 
+                this.tabPage2.BackColor = System.Drawing.Color.Black;
+                this.tabPage2.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage2.FlatAppearance.BorderSize = 0;
+                this.tabPage2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.tabPage2.ForeColor = System.Drawing.Color.White;
+                this.tabPage2.Location = new System.Drawing.Point(513, 26);
+                this.tabPage2.Name = "tabPage2";
+                this.tabPage2.Size = new System.Drawing.Size(75, 33);
+                this.tabPage2.TabIndex = 2;
+                this.tabPage2.Text = "button1";
+                this.tabPage2.UseVisualStyleBackColor = false;
+                this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+                // 
+                // tabPage3
+                // 
+                this.tabPage3.BackColor = System.Drawing.Color.Black;
+                this.tabPage3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage3.FlatAppearance.BorderSize = 0;
+                this.tabPage3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.tabPage3.ForeColor = System.Drawing.Color.White;
+                this.tabPage3.Location = new System.Drawing.Point(213, 26);
+                this.tabPage3.Name = "tabPage3";
+                this.tabPage3.Size = new System.Drawing.Size(95, 33);
+                this.tabPage3.TabIndex = 3;
+                this.tabPage3.Text = "button1";
+                this.tabPage3.UseVisualStyleBackColor = false;
+                this.tabPage3.Click += new System.EventHandler(this.tabPage2_Click_1);
+                // 
+                // tabPage4
+                // 
+                this.tabPage4.BackColor = System.Drawing.Color.Black;
+                this.tabPage4.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage4.FlatAppearance.BorderSize = 0;
+                this.tabPage4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                this.tabPage4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.tabPage4.ForeColor = System.Drawing.Color.White;
+                this.tabPage4.Location = new System.Drawing.Point(687, 26);
+                this.tabPage4.Name = "tabPage4";
+                this.tabPage4.Size = new System.Drawing.Size(95, 33);
+                this.tabPage4.TabIndex = 4;
+                this.tabPage4.Text = "Help";
+                this.tabPage4.UseVisualStyleBackColor = false;
+                this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
                 // 
                 // MainWindow
                 // 
@@ -164,24 +144,17 @@
                 this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
                 this.Load += new System.EventHandler(this.MainWindow_Load);
                 this.Resize += new System.EventHandler(this.MainWindow_Resize);
-                this.optionsTab.ResumeLayout(false);
-                this.tabPage1.ResumeLayout(false);
-                this.tabPage1.PerformLayout();
                 this.splitContainer1.Panel1.ResumeLayout(false);
-                this.splitContainer1.Panel2.ResumeLayout(false);
                 this.splitContainer1.ResumeLayout(false);
                 ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
                 this.ResumeLayout(false);
 
             }
-
-            private System.Windows.Forms.TabControl optionsTab;
-            private System.Windows.Forms.TabPage tabPage1;
-            private System.Windows.Forms.TextBox textBox1;
-            private System.Windows.Forms.TabPage tabPage3;
-            private System.Windows.Forms.TabPage tabPage2;
-            private System.Windows.Forms.TabPage tabPage4;
             private System.Windows.Forms.SplitContainer splitContainer1;
             private System.Windows.Forms.PictureBox pictureBox1;
+            private System.Windows.Forms.Button tabPage1;
+            private System.Windows.Forms.Button tabPage4;
+            private System.Windows.Forms.Button tabPage3;
+            private System.Windows.Forms.Button tabPage2;
 		}
 }
