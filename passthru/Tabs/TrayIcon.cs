@@ -29,6 +29,8 @@ namespace PassThru
 			ContextMenu cm = new ContextMenu();
             List<MenuItem> links = new List<MenuItem>();
 			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));
+            adapters = new MenuItem("Adapters");
+            cm.MenuItems.Add(adapters);
             links.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
             links.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
             links.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
@@ -46,6 +48,7 @@ namespace PassThru
             LoadConfig();
 		}
 		NotifyIcon tray;
+        public MenuItem adapters;
 
         void ToFirebwallCom(object we, EventArgs dontMatter)
         {

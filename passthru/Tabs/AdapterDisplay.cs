@@ -33,6 +33,7 @@ namespace PassThru
                 this.ai = ai;
                 InitializeComponent();
                 textBoxDetails.Text = ai.Summary;
+                LogCenter.ti.adapters.MenuItems.Add(new MenuItem(ai.NIName, this.buttonConfig_Click));
             }
         }
 
