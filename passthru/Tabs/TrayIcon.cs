@@ -27,12 +27,14 @@ namespace PassThru
 		public TrayIcon() 
         {                
 			ContextMenu cm = new ContextMenu();
-			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));			
-            cm.MenuItems.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
-            cm.MenuItems.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
-            cm.MenuItems.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
-            cm.MenuItems.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
-            cm.MenuItems.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
+            List<MenuItem> links = new List<MenuItem>();
+			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));
+            links.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
+            links.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
+            links.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
+            links.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
+            links.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
+            cm.MenuItems.Add("Links", links.ToArray());
             cm.MenuItems.Add(closeButton);
 			tray = new NotifyIcon();
 			tray.ContextMenu = cm;
@@ -141,11 +143,7 @@ namespace PassThru
         /// <param name="e"></param>
 		void tray_DoubleClick(object sender, EventArgs e) 
         {
-			if (Program.mainWindow.Visible)
-					Program.mainWindow.Visible = false;
-			else
-					Program.mainWindow.Visible = true;
-
+            Program.mainWindow.Visible = !Program.mainWindow.Visible;
 			Program.mainWindow.Activate();
 		}
 	}

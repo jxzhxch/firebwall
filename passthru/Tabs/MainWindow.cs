@@ -74,7 +74,7 @@ namespace PassThru
 
                 //re = new RuleEditor(null);
                 //re.Dock = DockStyle.Fill;
-                //tabPage2.Controls.Add(re);
+                //tabPage2.Controls.Add(re);                
 
                 // load up the adapter control handler
 				ac = new AdapterControl();
