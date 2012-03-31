@@ -66,5 +66,12 @@ namespace PassThru.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        public static System.Drawing.Bitmap newTray {
+            get {
+                object obj = ResourceManager.GetObject("newTray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

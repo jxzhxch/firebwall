@@ -61,7 +61,7 @@ namespace PassThru
 
 			private void MainWindow_Load(object sender, EventArgs e) 
             {
-                optionsTab.ItemSize = new Size((this.Width / 4) - 8, optionsTab.ItemSize.Height);
+                optionsTab.ItemSize = new Size((this.Width / 4) - 6, optionsTab.ItemSize.Height);
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 this.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
 				LogCenter.PushLogEvent += new LogCenter.NewLogEvent(Instance_PushLogEvent);

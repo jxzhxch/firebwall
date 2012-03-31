@@ -57,7 +57,7 @@
                 this.optionsTab.Name = "optionsTab";
                 this.optionsTab.RightToLeft = System.Windows.Forms.RightToLeft.No;
                 this.optionsTab.SelectedIndex = 0;
-                this.optionsTab.Size = new System.Drawing.Size(624, 366);
+                this.optionsTab.Size = new System.Drawing.Size(794, 475);
                 this.optionsTab.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
                 this.optionsTab.TabIndex = 3;
                 // 
@@ -71,7 +71,7 @@
                 this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
                 this.tabPage1.Name = "tabPage1";
                 this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage1.Size = new System.Drawing.Size(616, 323);
+                this.tabPage1.Size = new System.Drawing.Size(786, 432);
                 this.tabPage1.TabIndex = 0;
                 this.tabPage1.Text = "Log";
                 // 
@@ -79,13 +79,14 @@
                 // 
                 this.textBox1.BackColor = System.Drawing.SystemColors.ControlLight;
                 this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+                this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.textBox1.ForeColor = System.Drawing.SystemColors.ControlText;
                 this.textBox1.Location = new System.Drawing.Point(3, 3);
                 this.textBox1.Multiline = true;
                 this.textBox1.Name = "textBox1";
                 this.textBox1.ReadOnly = true;
                 this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-                this.textBox1.Size = new System.Drawing.Size(610, 317);
+                this.textBox1.Size = new System.Drawing.Size(780, 426);
                 this.textBox1.TabIndex = 0;
                 this.textBox1.WordWrap = false;
                 // 
@@ -94,7 +95,7 @@
                 this.tabPage3.Location = new System.Drawing.Point(4, 39);
                 this.tabPage3.Name = "tabPage3";
                 this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage3.Size = new System.Drawing.Size(776, 262);
+                this.tabPage3.Size = new System.Drawing.Size(786, 432);
                 this.tabPage3.TabIndex = 2;
                 this.tabPage3.Text = "Adapters";
                 this.tabPage3.UseVisualStyleBackColor = true;
@@ -104,7 +105,7 @@
                 this.tabPage2.Location = new System.Drawing.Point(4, 39);
                 this.tabPage2.Name = "tabPage2";
                 this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-                this.tabPage2.Size = new System.Drawing.Size(776, 262);
+                this.tabPage2.Size = new System.Drawing.Size(786, 432);
                 this.tabPage2.TabIndex = 3;
                 this.tabPage2.Text = "Help";
                 this.tabPage2.UseVisualStyleBackColor = true;
@@ -113,7 +114,7 @@
                 // 
                 this.tabPage4.Location = new System.Drawing.Point(4, 39);
                 this.tabPage4.Name = "tabPage4";
-                this.tabPage4.Size = new System.Drawing.Size(776, 262);
+                this.tabPage4.Size = new System.Drawing.Size(786, 432);
                 this.tabPage4.TabIndex = 4;
                 this.tabPage4.Text = "Help";
                 this.tabPage4.UseVisualStyleBackColor = true;
@@ -132,8 +133,8 @@
                 // splitContainer1.Panel2
                 // 
                 this.splitContainer1.Panel2.Controls.Add(this.optionsTab);
-                this.splitContainer1.Size = new System.Drawing.Size(624, 442);
-                this.splitContainer1.SplitterDistance = 72;
+                this.splitContainer1.Size = new System.Drawing.Size(794, 572);
+                this.splitContainer1.SplitterDistance = 93;
                 this.splitContainer1.TabIndex = 4;
                 // 
                 // pictureBox1
@@ -142,7 +143,7 @@
                 this.pictureBox1.Image = global::PassThru.Properties.Resources.banner;
                 this.pictureBox1.Location = new System.Drawing.Point(0, 0);
                 this.pictureBox1.Name = "pictureBox1";
-                this.pictureBox1.Size = new System.Drawing.Size(624, 72);
+                this.pictureBox1.Size = new System.Drawing.Size(794, 93);
                 this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
                 this.pictureBox1.TabIndex = 0;
                 this.pictureBox1.TabStop = false;
@@ -153,9 +154,11 @@
                 this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
                 this.BackColor = System.Drawing.SystemColors.Control;
                 this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-                this.ClientSize = new System.Drawing.Size(624, 442);
+                this.ClientSize = new System.Drawing.Size(794, 572);
                 this.Controls.Add(this.splitContainer1);
+                this.DoubleBuffered = true;
                 this.ForeColor = System.Drawing.Color.Black;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
                 this.Name = "MainWindow";
                 this.Text = "fireBwall v0.3.10.0";
                 this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);

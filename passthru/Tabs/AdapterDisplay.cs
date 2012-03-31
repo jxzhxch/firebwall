@@ -33,7 +33,6 @@ namespace PassThru
                 this.ai = ai;
                 InitializeComponent();
                 textBoxDetails.Text = ai.Summary;
-                checkBox1.Checked = ai.NetAdapter.Enabled;
             }
         }
 
@@ -51,8 +50,7 @@ namespace PassThru
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            ai.NetAdapter.Enabled = checkBox1.Checked;
-            buttonConfig.Enabled = checkBox1.Checked;
+            
         }
 
         private void AdapterDisplay_Load(object sender, EventArgs e)
@@ -61,29 +59,84 @@ namespace PassThru
             {
                 case LanguageConfig.Language.NONE:
                 case LanguageConfig.Language.ENGLISH:
-                    checkBox1.Text = "Enable";
+                    button1.Text = "Enabled";
                     buttonConfig.Text = "Configure Device";
                     break;
                 case LanguageConfig.Language.PORTUGUESE:
-                    checkBox1.Text = "Permitir";
+                    button1.Text = "Permitir";
                     buttonConfig.Text = "Configurar Dispositivo";
                     break;
                 case LanguageConfig.Language.CHINESE:
-                    checkBox1.Text = "启用";
+                    button1.Text = "启用";
                     buttonConfig.Text = "配置设备";
                     break;
                 case LanguageConfig.Language.GERMAN:
-                    checkBox1.Text = "ermöglichen";
+                    button1.Text = "ermöglichen";
                     buttonConfig.Text = "Gerät konfigurieren";
                     break;
                 case LanguageConfig.Language.RUSSIAN:
-                    checkBox1.Text = "Включить";
+                    button1.Text = "Включить";
                     buttonConfig.Text = "Настройка устройства";
                     break;
                 case LanguageConfig.Language.SPANISH:
-                    checkBox1.Text = "permitir";
+                    button1.Text = "permitir";
                     buttonConfig.Text = "configurar dispositivo";
                     break;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ai.NetAdapter.Enabled = !ai.NetAdapter.Enabled;
+            if (ai.NetAdapter.Enabled)
+            {
+                switch (LanguageConfig.GetCurrentLanguage())
+                {
+                    case LanguageConfig.Language.NONE:
+                    case LanguageConfig.Language.ENGLISH:
+                        button1.Text = "Enabled";
+                        break;
+                    case LanguageConfig.Language.PORTUGUESE:
+                        button1.Text = "Permitir";
+                        break;
+                    case LanguageConfig.Language.CHINESE:
+                        button1.Text = "启用";
+                        break;
+                    case LanguageConfig.Language.GERMAN:
+                        button1.Text = "ermöglichen";
+                        break;
+                    case LanguageConfig.Language.RUSSIAN:
+                        button1.Text = "Включить";
+                        break;
+                    case LanguageConfig.Language.SPANISH:
+                        button1.Text = "permitir";
+                        break;
+                }
+            }
+            else
+            {
+                switch (LanguageConfig.GetCurrentLanguage())
+                {
+                    case LanguageConfig.Language.NONE:
+                    case LanguageConfig.Language.ENGLISH:
+                        button1.Text = "Disabled";
+                        break;
+                    case LanguageConfig.Language.PORTUGUESE:
+                        button1.Text = "desativado";
+                        break;
+                    case LanguageConfig.Language.CHINESE:
+                        button1.Text = "禁用";
+                        break;
+                    case LanguageConfig.Language.GERMAN:
+                        button1.Text = "deaktiviert";
+                        break;
+                    case LanguageConfig.Language.RUSSIAN:
+                        button1.Text = "инвалид";
+                        break;
+                    case LanguageConfig.Language.SPANISH:
+                        button1.Text = "discapacitado";
+                        break;
+                }
             }
         }
     }
