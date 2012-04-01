@@ -67,6 +67,8 @@ namespace PassThru
         {
             public static Rule MakeRule(RuleType ruleType, PacketStatus ps, Direction dir, string args, bool log)
             {
+                string[] tmp;
+                List<int> t;
                 switch (ruleType)
                 {
                     case RuleType.IP:
@@ -76,11 +78,21 @@ namespace PassThru
                     case RuleType.TCPIPPORT:
                         return new TCPIPPortRule(ps, IPAddress.Parse(args.Split(' ')[0]), int.Parse(args.Split(' ')[1]), dir, log);
                     case RuleType.TCPPORT:
-                        return new TCPPortRule(ps, int.Parse(args), dir, log);
+                        // parse the ports out of the string
+                        tmp = args.Split(' ');
+                        t = new List<int>();
+                        foreach (string s in tmp)
+                            t.Add(Convert.ToInt32(s));
+                        return new TCPPortRule(ps, t, dir, log);
                     case RuleType.UDPALL:
                         return new UDPAllRule(ps, dir, log);
                     case RuleType.UDPPORT:
-                        return new UDPPortRule(ps, int.Parse(args), dir, log);
+                        // parse the udp ports 
+                        tmp = args.Split(' ');
+                        t = new List<int>();
+                        foreach (string s in tmp)
+                            t.Add(Convert.ToInt32(s));
+                        return new UDPPortRule(ps, t, dir, log);
                     case RuleType.ALL:
                         return new AllRule(ps, dir, log);
                 }
@@ -358,7 +370,7 @@ namespace PassThru
         {
             public PacketStatus ps;
             public Direction direction;
-            public int port;
+            public List<int> port;
             public bool log = true;
 
             public override string ToString()
@@ -372,7 +384,7 @@ namespace PassThru
                 {
                     ret = "Blocks";
                 }
-                ret += " UDP port " + port.ToString();
+                ret += " UDP port " + GetPortString();
                 if (direction == (Direction.IN | Direction.OUT))
                 {
                     ret += " in and out";
@@ -390,7 +402,7 @@ namespace PassThru
                 return ret;
             }
 
-            public UDPPortRule(PacketStatus ps, int port, Direction direction, bool log)
+            public UDPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log)
             {
                 this.ps = ps;
                 this.direction = direction;
@@ -405,7 +417,7 @@ namespace PassThru
                     UDPPacket udppkt = (UDPPacket)pkt;
                     if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                     {
-                        if (udppkt.DestPort == port)
+                        if (port.Contains(udppkt.DestPort))
                         {
                             if (log)
                                 message = " UDP packet from " + udppkt.SourceIP.ToString() + 
@@ -416,7 +428,7 @@ namespace PassThru
                     }
                     else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                     {
-                        if (udppkt.DestPort == port)
+                        if (port.Contains(udppkt.DestPort))
                         {
                             if (log)
                                 message = " UDP packet from " + udppkt.SourceIP.ToString() + 
@@ -450,6 +462,18 @@ namespace PassThru
             {
                 return null;
             }
+
+            /// <summary>
+            /// Returns the array of ports as a single string.
+            /// 
+            /// This takes the list of ints, converts it to a list of strings, returns it as an array
+            /// and finally joins all elements together with a space.
+            /// </summary>
+            /// <returns></returns>
+            public string GetPortString()
+            {
+                return String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+            }
         }
 
         [Serializable]
@@ -472,7 +496,7 @@ namespace PassThru
                 {
                     ret = "Blocks";
                 }
-                ret += " TCP ip:port " + ip.ToString() + ":" + port.ToString();
+                ret += " TCP " + ip.ToString() + ":" + port.ToString();
                 if (direction == (Direction.IN | Direction.OUT))
                 {
                     ret += " in and out";
@@ -561,7 +585,7 @@ namespace PassThru
         {
             public PacketStatus ps;
             public Direction direction;
-            public int port;
+            public List<int> port;
             public bool log = true;
 
             public override string ToString()
@@ -575,7 +599,7 @@ namespace PassThru
                 {
                     ret = "Blocks";
                 }
-                ret += " TCP port " + port.ToString();
+                ret += " TCP port(s) " + GetPortString();
                 if (direction == (Direction.IN | Direction.OUT))
                 {
                     ret += " in and out";
@@ -593,7 +617,7 @@ namespace PassThru
                 return ret;
             }
 
-            public TCPPortRule(PacketStatus ps, int port, Direction direction, bool log)
+            public TCPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log)
             {
                 this.ps = ps;
                 this.direction = direction;
@@ -610,7 +634,7 @@ namespace PassThru
                     {
                         if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                         {
-                            if (tcppkt.DestPort == port)
+                            if ( port.Contains(tcppkt.DestPort))
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() +
@@ -621,7 +645,7 @@ namespace PassThru
                         }
                         else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                         {
-                            if (tcppkt.DestPort == port)
+                            if (port.Contains(tcppkt.DestPort)) 
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() +
@@ -655,6 +679,18 @@ namespace PassThru
             public string ToFileString()
             {
                 return null;
+            }
+
+            /// <summary>
+            /// Returns the array of ports as a single string.
+            /// 
+            /// This takes the list of ints, converts it to a list of strings, returns it as an array
+            /// and finally joins all elements together with a space.
+            /// </summary>
+            /// <returns></returns>
+            public string GetPortString()
+            {
+                return String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
             }
         }
 

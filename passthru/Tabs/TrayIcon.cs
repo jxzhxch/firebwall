@@ -27,16 +27,20 @@ namespace PassThru
 		public TrayIcon() 
         {                
 			ContextMenu cm = new ContextMenu();
-            List<MenuItem> links = new List<MenuItem>();
+            //List<MenuItem> links = new List<MenuItem>();
 			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));
+
             adapters = new MenuItem("Adapters");
             cm.MenuItems.Add(adapters);
+            
+            /*
             links.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
             links.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
             links.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
             links.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
             links.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
-            cm.MenuItems.Add("Links", links.ToArray());
+            cm.MenuItems.Add("Links", links.ToArray());*/
+            
             cm.MenuItems.Add(closeButton);
 			tray = new NotifyIcon();
 			tray.ContextMenu = cm;

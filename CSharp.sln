@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirewallModule", "FirewallM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPGuard", "..\firebwall_external\ipguard\IPGuard.csproj", "{0B8AE561-9601-4674-93B4-2C53D6DF2AB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNMPQuery", "..\firebwall_external\SNMPQuery\SNMPQuery\SNMPQuery.csproj", "{95B9122B-06B0-47C6-8F86-2F77E5260D5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNSCache", "..\firebwall_external\DNSCache\DNSCache.csproj", "{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,30 @@ Global
 		{0B8AE561-9601-4674-93B4-2C53D6DF2AB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0B8AE561-9601-4674-93B4-2C53D6DF2AB5}.Release|Win32.ActiveCfg = Release|Any CPU
 		{0B8AE561-9601-4674-93B4-2C53D6DF2AB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{95B9122B-06B0-47C6-8F86-2F77E5260D5E}.Release|x86.ActiveCfg = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|Win32.ActiveCfg = Release|Any CPU
+		{455FAAC2-7C63-492B-A5A8-CA7908D6B6D8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

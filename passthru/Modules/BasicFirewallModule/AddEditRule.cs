@@ -119,8 +119,8 @@ namespace PassThru
                 //action
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
-                //args
-                textBoxArguments.Text = t.port.ToString();
+                //args; convert the list of ints to a list of strings, return it as an array, and String.join all of them together with a space
+                textBoxArguments.Text = String.Join(" ", t.port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
             }
             else if (tmp is BasicFirewall.UDPAllRule)
             {
@@ -153,7 +153,7 @@ namespace PassThru
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
-                textBoxArguments.Text = t.port.ToString();
+                textBoxArguments.Text = String.Join(" ", t.port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
             }
         }
 
@@ -174,7 +174,7 @@ namespace PassThru
                     break;
                 case 2:
                 case 4:
-                    tmp = "Port";
+                    tmp = "(Space Separated) Port";
                     break;
                 case 1:
                     tmp = "(Space Separated) IP Port";
@@ -188,6 +188,11 @@ namespace PassThru
             textBoxArguments.Enabled = enableArgs;
         }
 
+        /// <summary>
+        /// Event handles the OK button to generate a new rule
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (checkBoxIn.Checked || checkBoxOut.Checked)
@@ -237,6 +242,9 @@ namespace PassThru
                         ps = BasicFirewall.PacketStatus.BLOCKED;
                     else
                         ps = BasicFirewall.PacketStatus.ALLOWED;
+
+                    // multiple ports and the ip:port rule are parsed later on, so send all args as a string
+
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
                     newRule = BasicFirewall.RuleFactory.MakeRule(rt, ps, dir, textBoxArguments.Text, checkBoxLog.Checked);
                     this.Close();
@@ -253,6 +261,11 @@ namespace PassThru
             }
         }
 
+        /// <summary>
+        /// Event handles the cancel button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
