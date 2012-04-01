@@ -22,7 +22,9 @@ namespace PassThru
                 + "\r\n\r\nThis module uses rules to Allow or Drop packets depending on what port or ip they are for.  It is the one part that is in about every firewall."
                 + "\r\n\r\nThis module works based on ordered rules.  The rules are displayed from top to bottom, and the order can be changed by clicking and dragging the rule.  Rules can be added with the Add Rule button, and removed with the Remove Rule button."
                 + "\n\nArguments are designated on a rule-by-rule basis.  Some have required arguments, others do not.  If the arguments box is greyed out, "
-                + "that particular rule has no arguments.  Otherwise, the required arguments will be denoted by the line of text above the arguments box.";
+                + "that particular rule has no arguments.  Otherwise, the required arguments will be denoted by the line of text above the arguments box.\n\n"
+                + "BasicFirewall port rules also allow multiple ports or port ranges.  Port ranges should be spaced with a '-'.  For example, to block ports 22 and 80 and range 100 to 200," 
+                + " you would use the following: 22 80 100-200";
             MetaData.Description = "Blocks or allows packets based on IP/Port";
             MetaData.Contact = "nightstrike9809@gmail.com";
             MetaData.Author = "Brian W. (schizo)";
@@ -67,8 +69,6 @@ namespace PassThru
         {
             public static Rule MakeRule(RuleType ruleType, PacketStatus ps, Direction dir, string args, bool log)
             {
-                string[] tmp;
-                List<int> t;
                 switch (ruleType)
                 {
                     case RuleType.IP:
@@ -78,25 +78,37 @@ namespace PassThru
                     case RuleType.TCPIPPORT:
                         return new TCPIPPortRule(ps, IPAddress.Parse(args.Split(' ')[0]), int.Parse(args.Split(' ')[1]), dir, log);
                     case RuleType.TCPPORT:
-                        // parse the ports out of the string
-                        tmp = args.Split(' ');
-                        t = new List<int>();
-                        foreach (string s in tmp)
-                            t.Add(Convert.ToInt32(s));
-                        return new TCPPortRule(ps, t, dir, log);
+                        return GenTCPPORT(ps, args, dir, log);
                     case RuleType.UDPALL:
                         return new UDPAllRule(ps, dir, log);
                     case RuleType.UDPPORT:
-                        // parse the udp ports 
-                        tmp = args.Split(' ');
-                        t = new List<int>();
-                        foreach (string s in tmp)
-                            t.Add(Convert.ToInt32(s));
-                        return new UDPPortRule(ps, t, dir, log);
+                        return GenUDPPORT(ps, args, dir, log);
                     case RuleType.ALL:
                         return new AllRule(ps, dir, log);
                 }
                 return null;
+            }
+        }
+
+        // object for storing port ranges
+        [Serializable]
+        public class PortRange
+        {
+            public int start;
+            public int end;
+
+            // check if the queried port is within range
+            public Boolean isInRange(int port)
+            {
+                if ((port >= start) && (port < end))
+                    return true;
+
+                return false;
+            }
+
+            public override string ToString()
+            {
+                return start.ToString() + "-" + end.ToString();
             }
         }
 
@@ -365,12 +377,72 @@ namespace PassThru
             }
         }
 
+        /// <summary>
+        /// Parses out the arguments of a TCPPort rule
+        /// 
+        /// We accept single or multiple ports and port ranges
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static UDPPortRule GenUDPPORT(PacketStatus ps, string args, Direction dir, bool log)
+        {
+            // first tokenize the args
+            List<string> tmp = new List<string>(args.Split(' '));
+            UDPPortRule rule = new UDPPortRule();
+
+            try
+            {
+                // iterate through the given arguments
+                foreach (string s in tmp)
+                {
+                    string loc = s;
+                    // parse the port range
+                    if (loc.Contains("-"))
+                    {
+                        // parse the start/end ports out of the arguments
+                        PortRange p = new PortRange();
+                        string[] split = loc.Split('-');
+                        p.start = Convert.ToInt32(split[0]);
+                        p.end = Convert.ToInt32(split[1]);
+
+                        // someday we'll give more meaningful error messages, but 
+                        // for now just throw an exception if they're doing something
+                        // dumb like range 200-50
+                        if (p.start > p.end)
+                            throw new Exception();
+
+                        // add it to the rule port ranges list
+                        rule.port_ranges.Add(p);
+                    }
+                    // else it's just a port, add it as usual
+                    else
+                    {
+                        rule.port.Add(Convert.ToInt32(s));
+                    }
+                }
+
+                // set the other rule stuff
+                rule.ps = ps;
+                rule.direction = dir;
+                rule.log = log;
+            }
+            catch (Exception e)
+            {
+                // probably a parsing error; log it and throw an 
+                // exception so the rule isn't touched
+                LogCenter.WriteErrorLog(e);
+                throw new Exception();
+            }
+            return rule;
+        }
+
         [Serializable]
         public class UDPPortRule : Rule
         {
             public PacketStatus ps;
             public Direction direction;
             public List<int> port;
+            public List<PortRange> port_ranges;
             public bool log = true;
 
             public override string ToString()
@@ -384,7 +456,7 @@ namespace PassThru
                 {
                     ret = "Blocks";
                 }
-                ret += " UDP port " + GetPortString();
+                ret += " UDP port(s) " + GetPortString();
                 if (direction == (Direction.IN | Direction.OUT))
                 {
                     ret += " in and out";
@@ -410,6 +482,12 @@ namespace PassThru
                 this.log = log;
             }
 
+            public UDPPortRule() 
+            {
+                port = new List<int>();
+                port_ranges = new List<PortRange>();
+            }
+
             public PacketStatus GetStatus(Packet pkt)
             {
                 if (pkt.ContainsLayer(Protocol.UDP))
@@ -417,7 +495,8 @@ namespace PassThru
                     UDPPacket udppkt = (UDPPacket)pkt;
                     if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                     {
-                        if (port.Contains(udppkt.DestPort))
+                        if (port.Contains(udppkt.DestPort) ||
+                            inPortRange(udppkt.DestPort))
                         {
                             if (log)
                                 message = " UDP packet from " + udppkt.SourceIP.ToString() + 
@@ -428,7 +507,8 @@ namespace PassThru
                     }
                     else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                     {
-                        if (port.Contains(udppkt.DestPort))
+                        if (port.Contains(udppkt.DestPort) ||
+                            inPortRange(udppkt.DestPort))
                         {
                             if (log)
                                 message = " UDP packet from " + udppkt.SourceIP.ToString() + 
@@ -439,6 +519,22 @@ namespace PassThru
                     }
                 }
                 return PacketStatus.UNDETERMINED;
+            }
+
+            /// <summary>
+            /// iterates through the rule's port ranges and checks if the given
+            /// port is within that range
+            /// </summary>
+            /// <param name="port">the port to check</param>
+            /// <returns></returns>
+            private bool inPortRange(int port)
+            {
+                foreach (PortRange p in port_ranges)
+                {
+                    if (p.isInRange(port))
+                        return true;
+                }
+                return false;
             }
 
             public string String
@@ -466,13 +562,18 @@ namespace PassThru
             /// <summary>
             /// Returns the array of ports as a single string.
             /// 
-            /// This takes the list of ints, converts it to a list of strings, returns it as an array
+            /// This takes the list of ints and port ranges, converts it to a list of strings, returns it as an array
             /// and finally joins all elements together with a space.
             /// </summary>
             /// <returns></returns>
             public string GetPortString()
             {
-                return String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                string tmp = String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                // for formatting sake, add a space between ports and ranges
+                if (tmp.Length > 0 && port_ranges.Count > 0)
+                    tmp += " ";
+                tmp += String.Join(" ", port_ranges.ConvertAll<string>(delegate(PortRange i) { return i.ToString(); }).ToArray());
+                return tmp;
             }
         }
 
@@ -580,12 +681,72 @@ namespace PassThru
             }
         }
 
+        /// <summary>
+        /// Parses out the arguments of a TCPPort rule
+        /// 
+        /// We accept single or multiple ports and port ranges
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static TCPPortRule GenTCPPORT(PacketStatus ps, string args, Direction dir, bool log)
+        {
+            // first tokenize the args
+            List<string> tmp = new List<string>(args.Split(' '));
+            TCPPortRule rule = new TCPPortRule();
+
+            try
+            {
+                // iterate through the given arguments
+                foreach (string s in tmp)
+                {
+                    string loc = s;
+                    // parse the port range
+                    if (loc.Contains("-"))
+                    {
+                        // parse the start/end ports out of the arguments
+                        PortRange p = new PortRange();
+                        string[] split = loc.Split('-');
+                        p.start = Convert.ToInt32(split[0]);
+                        p.end = Convert.ToInt32(split[1]);
+
+                        // someday we'll give more meaningful error messages, but 
+                        // for now just throw an exception if they're doing something
+                        // dumb like range 200-50
+                        if (p.start > p.end)
+                            throw new Exception();
+
+                        // add it to the rule port ranges list
+                        rule.port_ranges.Add(p);
+                    }
+                    // else it's just a port, add it as usual
+                    else
+                    {
+                        rule.port.Add(Convert.ToInt32(s));
+                    }
+                }
+
+                // set the other rule stuff
+                rule.ps = ps;
+                rule.direction = dir;
+                rule.log = log;
+            }
+            catch (Exception e)
+            {
+                // probably a parsing error; log it
+                // and throw an exception so the rule isn't changed
+                LogCenter.WriteErrorLog(e);
+                throw new Exception();
+            }
+            return rule;
+        }
+
         [Serializable]
         public class TCPPortRule : Rule
         {
             public PacketStatus ps;
             public Direction direction;
             public List<int> port;
+            public List<PortRange> port_ranges = new List<PortRange>();
             public bool log = true;
 
             public override string ToString()
@@ -625,6 +786,12 @@ namespace PassThru
                 this.log = log;
             }
 
+            public TCPPortRule() 
+            {
+                port = new List<int>();
+                port_ranges = new List<PortRange>();
+            }
+
             public PacketStatus GetStatus(Packet pkt)
             {
                 if (pkt.ContainsLayer(Protocol.TCP))
@@ -634,7 +801,8 @@ namespace PassThru
                     {
                         if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                         {
-                            if ( port.Contains(tcppkt.DestPort))
+                            if ( port.Contains(tcppkt.DestPort) ||
+                                 inPortRange(tcppkt.DestPort))
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() +
@@ -645,7 +813,8 @@ namespace PassThru
                         }
                         else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                         {
-                            if (port.Contains(tcppkt.DestPort)) 
+                            if (port.Contains(tcppkt.DestPort) ||
+                                inPortRange(tcppkt.DestPort)) 
                             {
                                 if (log)
                                     message = " TCP packet from " + tcppkt.SourceIP.ToString() +
@@ -657,6 +826,22 @@ namespace PassThru
                     }
                 }
                 return PacketStatus.UNDETERMINED;
+            }
+
+            /// <summary>
+            /// iterate through the port_ranges object to find
+            /// if the incoming port is allowed
+            /// </summary>
+            /// <param name="port"></param>
+            /// <returns></returns>
+            private bool inPortRange(int port)
+            {
+                foreach (PortRange p in port_ranges)
+                {
+                    if (p.isInRange(port))
+                        return true;
+                }
+                return false;
             }
 
             public string String
@@ -684,13 +869,18 @@ namespace PassThru
             /// <summary>
             /// Returns the array of ports as a single string.
             /// 
-            /// This takes the list of ints, converts it to a list of strings, returns it as an array
+            /// This takes the list of ints and port ranges, converts it to a list of strings, returns it as an array
             /// and finally joins all elements together with a space.
             /// </summary>
             /// <returns></returns>
             public string GetPortString()
             {
-                return String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                string tmp = String.Join(" ", port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                // for formatting sake, add a space between ports and ranges
+                if (tmp.Length > 0 && port_ranges.Count > 0)
+                    tmp += " ";
+                tmp += String.Join(" ", port_ranges.ConvertAll<string>(delegate(PortRange i) { return i.ToString(); }).ToArray());
+                return tmp;
             }
         }
 

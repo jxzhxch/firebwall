@@ -119,8 +119,8 @@ namespace PassThru
                 //action
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
-                //args; convert the list of ints to a list of strings, return it as an array, and String.join all of them together with a space
-                textBoxArguments.Text = String.Join(" ", t.port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                //args
+                textBoxArguments.Text = t.GetPortString();
             }
             else if (tmp is BasicFirewall.UDPAllRule)
             {
@@ -153,7 +153,7 @@ namespace PassThru
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
-                textBoxArguments.Text = String.Join(" ", t.port.ConvertAll<string>(delegate(int i) { return i.ToString(); }).ToArray());
+                textBoxArguments.Text = t.GetPortString();
             }
         }
 
