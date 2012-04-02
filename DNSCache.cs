@@ -18,7 +18,7 @@ namespace DNSCache
             MetaData.Version = "0.0.1.0";
         }
 
-        SerializableDictionary<string, IPAddress> cache = new SerializableDictionary<string, IPAddress>();
+        public SerializableDictionary<string, IPAddress> cache = new SerializableDictionary<string, IPAddress>();
 
         public SerializableDictionary<string, IPAddress> GetCache()
         {

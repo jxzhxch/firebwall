@@ -37,7 +37,7 @@ namespace DNSCache
             else
             {
                 listBox1.Items.Clear();
-                foreach(KeyValuePair<string, System.Net.IPAddress> pair in cache.GetCache())
+                foreach (KeyValuePair<string, System.Net.IPAddress> pair in cache.GetCache())
                 {
                     string i = pair.Key + " -> ";
                     i = i + pair.Value.ToString();
@@ -49,6 +49,26 @@ namespace DNSCache
         private void button1_Click(object sender, EventArgs e)
         {
             cache.ClearCache();
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Removes an entry from the table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            int idx = listBox1.SelectedIndex;
+            if (idx < 0)
+                return;
+
+            string site = listBox1.SelectedItem.ToString();
+            // split on > because the dash is present in URLs
+            site = site.Split('>')[0];
+            // truncate the last 2 spots off because it's a blank and a -
+            site = site.Substring(0, (site.Length - 2));
+            cache.cache.Remove(site);
             UpdateList();
         }
     }
