@@ -25,7 +25,7 @@ namespace PassThru
                 }
                 else
                 {
-                    control.BackColor = Color.FromArgb(56, 0, 0);
+                    control.BackColor = Color.FromArgb(64, 32, 16);
                     control.ForeColor = Color.White;
                 }
             }
