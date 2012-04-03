@@ -13,12 +13,19 @@ namespace PassThru
 	public class TrayIcon
     {
         static bool showPopups;
+        static bool startMinimized;
 
         // var updated whenever options checkbox changes
         public static bool displayTrayLogs
         {
             get { return showPopups; }
             set { showPopups = value; SaveConfig(); }
+        }
+
+        public static bool StartMinimized
+        {
+            get { return startMinimized; }
+            set { startMinimized = value; SaveConfig(); }
         }
 
         /// <summary>
@@ -86,7 +93,7 @@ namespace PassThru
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             string file = folder + Path.DirectorySeparatorChar + "tray.cfg";
-            File.WriteAllText(file, displayTrayLogs.ToString());
+            File.WriteAllText(file, displayTrayLogs.ToString() + "\r\n" + startMinimized.ToString());
         }
 
         public static void LoadConfig()
@@ -97,11 +104,24 @@ namespace PassThru
                 Directory.CreateDirectory(folder);
             string file = folder + Path.DirectorySeparatorChar + "tray.cfg";
             showPopups = true;
+            startMinimized = false;
             if (File.Exists(file))
             {
-                string config = File.ReadAllText(file);
-                if (config == "False")
-                    showPopups = false;
+                string [] config = File.ReadAllLines(file);
+                for (int x = 0; x < config.Length; x++)
+                {
+                    switch (x)
+                    {
+                        case 0:
+                            if (config[x] == "False")
+                                showPopups = false;
+                            break;
+                        case 1:
+                            if (config[x] == "True")
+                                startMinimized = true;
+                            break;
+                    }
+                }
             }
         }
 

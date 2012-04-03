@@ -378,7 +378,7 @@ namespace PassThru
         }
 
         /// <summary>
-        /// Parses out the arguments of a TCPPort rule
+        /// Parses out the arguments of a UDPPort rule
         /// 
         /// We accept single or multiple ports and port ranges
         /// </summary>
@@ -405,11 +405,13 @@ namespace PassThru
                         p.start = Convert.ToInt32(split[0]);
                         p.end = Convert.ToInt32(split[1]);
 
-                        // someday we'll give more meaningful error messages, but 
-                        // for now just throw an exception if they're doing something
-                        // dumb like range 200-50
+                        // instead of an error message, we can just swap them
                         if (p.start > p.end)
-                            throw new Exception();
+                        {
+                            int temp = p.start;
+                            p.start = p.end;
+                            p.end = temp;
+                        }
 
                         // add it to the rule port ranges list
                         rule.port_ranges.Add(p);

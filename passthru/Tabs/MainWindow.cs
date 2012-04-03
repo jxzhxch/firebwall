@@ -105,6 +105,10 @@ namespace PassThru
                         break;
                 }
                 MainWindow_Resize(null, null);
+                if (TrayIcon.StartMinimized)
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                }
 			}
 
             private void MainWindow_Resize(object sender, EventArgs e)

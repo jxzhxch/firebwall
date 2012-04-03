@@ -78,6 +78,7 @@ namespace PassThru
             }
             checkBox1.Checked = Program.uc.Config.StartUpCheck;
             checkBox2.Checked = Program.uc.Config.Enabled;
+            checkBoxStartMinimized.Checked = TrayIcon.StartMinimized;
             textBox1.Text = Program.uc.Config.MinuteInterval.ToString();
             displayTrayLogs.Checked = TrayIcon.displayTrayLogs;
         }        
@@ -150,6 +151,11 @@ namespace PassThru
                 Program.uc.Config.MinuteInterval = v;
                 Program.uc.SaveConfig();
             }
+        }
+
+        private void checkBoxStartMinimized_CheckedChanged(object sender, EventArgs e)
+        {
+            TrayIcon.StartMinimized = checkBoxStartMinimized.Checked;
         }
     }
 }
