@@ -142,7 +142,7 @@ namespace PassThru
 		public void AddLine(LogEvent line) 
         {
             // only display if checked
-            if (displayTrayLogs)
+            if (displayTrayLogs && ((line.PMR.returnType & FM.PacketMainReturnType.Popup) == FM.PacketMainReturnType.Popup))
             {
                 popup.AddLogEvent(line);
             }
