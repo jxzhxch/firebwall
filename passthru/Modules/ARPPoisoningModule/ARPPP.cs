@@ -127,7 +127,7 @@ namespace PassThru
                                 {
                                     if (!Compare(data.arpCache[arpp.ASenderIP], arpp.ASenderMac))
                                     {
-                                        PacketMainReturn pmr = new PacketMainReturn("Simple ARP Poisoning Protection");
+                                        PacketMainReturn pmr = new PacketMainReturn(this);
                                         if (data.RectifyAttacks)
                                             pmr.returnType = PacketMainReturnType.Edited;
                                         else
@@ -198,7 +198,7 @@ namespace PassThru
                                 {
                                     if (!Compare(data.arpCache[arpp.ASenderIP], arpp.ASenderMac))
                                     {
-                                        PacketMainReturn pmra = new PacketMainReturn("Simple ARP Poisoning Protection");
+                                        PacketMainReturn pmra = new PacketMainReturn(this);
                                         if (data.RectifyAttacks)
                                             pmra.returnType = PacketMainReturnType.Edited;
                                         else
@@ -247,7 +247,7 @@ namespace PassThru
                                     }
                                 }
                             }
-                            PacketMainReturn pmr = new PacketMainReturn("Simple ARP Poisoning Protection");
+                            PacketMainReturn pmr = new PacketMainReturn(this);
                             pmr.returnType = PacketMainReturnType.Drop;
                             if (data.LogUnsolic)
                                 pmr.returnType |= PacketMainReturnType.Log;
@@ -284,7 +284,7 @@ namespace PassThru
                             {
                                 if (!Compare(data.arpCache[arpp.ASenderIP], arpp.ASenderMac))
                                 {
-                                    PacketMainReturn pmr = new PacketMainReturn("Simple ARP Poisoning Protection");
+                                    PacketMainReturn pmr = new PacketMainReturn(this);
                                     pmr.returnType = PacketMainReturnType.Drop;
                                     if (data.LogAttacks)
                                         pmr.returnType |= PacketMainReturnType.Log;

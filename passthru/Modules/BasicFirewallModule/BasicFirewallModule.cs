@@ -1027,7 +1027,7 @@ namespace PassThru
                     status = r.GetStatus(in_packet);
                     if (status == PacketStatus.BLOCKED)
                     {
-                        PacketMainReturn pmr = new PacketMainReturn("Basic Firewall");
+                        PacketMainReturn pmr = new PacketMainReturn(this);
                         pmr.returnType = PacketMainReturnType.Drop;
                         if (r.GetLogMessage() != null)
                         {

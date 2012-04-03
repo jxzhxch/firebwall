@@ -193,7 +193,7 @@ namespace PassThru.Modules.MacFilter
                     status = r.GetStatus(in_packet);
                     if (status == PacketStatus.BLOCKED)
                     {
-                        PacketMainReturn pmr = new PacketMainReturn(MetaData.Name);
+                        PacketMainReturn pmr = new PacketMainReturn(this);
                         pmr.returnType = PacketMainReturnType.Drop;
                         if (r.GetLogMessage() != null)
                         {

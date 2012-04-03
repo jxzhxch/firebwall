@@ -185,6 +185,12 @@
       <DependentUpon>OptionsDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Tabs\TrayIcon.cs" />
+    <Compile Include="Tabs\TrayPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tabs\TrayPopup.Designer.cs">
+      <DependentUpon>TrayPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="win32api.cs" />
   </ItemGroup>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\OptionsDisplay.resx">
       <DependentUpon>OptionsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tabs\TrayPopup.resx">
+      <DependentUpon>TrayPopup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

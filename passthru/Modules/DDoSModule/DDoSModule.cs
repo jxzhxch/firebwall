@@ -88,7 +88,7 @@ namespace PassThru
                 IPPacket temp = (IPPacket)in_packet;
                 if (!(isIPAllowed(temp.SourceIP)))
                 {
-                    pmr = new PacketMainReturn("DDoS Module");
+                    pmr = new PacketMainReturn(this);
                     pmr.returnType = PacketMainReturnType.Drop;
                     return pmr;
                 }
@@ -129,7 +129,7 @@ namespace PassThru
                             ((ipcache[packet.SourceIP]) > 50) &&
                             (packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= data.dos_threshold)
                         {
-                            pmr = new PacketMainReturn("DDoS Module");
+                            pmr = new PacketMainReturn(this);
                             pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                             pmr.logMessage = "DoS attempt detected from IP " + packet.SourceIP + " (likely spoofed). "
                                         + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
@@ -162,7 +162,7 @@ namespace PassThru
                          packet.DestPort.Equals(19) || packet.DestPort.Equals(17) &&
                          (ipcache[packet.SourceIP]) > 50 )
                     {
-                        pmr = new PacketMainReturn("DDoS Module");
+                        pmr = new PacketMainReturn(this);
                         pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                         pmr.logMessage = "Potential fraggle attack from " + packet.SourceIP + " (likely spoofed). "
                             + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
@@ -204,7 +204,7 @@ namespace PassThru
                          (packet.PacketTime.Millisecond - ICMPprevious_packet.PacketTime.Millisecond) <= data.dos_threshold &&
                          ipcache[packet.SourceIP] > 50)
                     {
-                        pmr = new PacketMainReturn("DDoS Module");
+                        pmr = new PacketMainReturn(this);
                         pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                         pmr.logMessage = "Potential Smurf attack from " + packet.SourceIP + " (likely spoofed). "
                             + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";

@@ -103,7 +103,7 @@ namespace PassThru
                 else
                 {
                     PacketMainReturn pmr;
-                    pmr = new PacketMainReturn("ICMPFilter Module");
+                    pmr = new PacketMainReturn(this);
                     pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                     pmr.logMessage = "ICMP from " + packet.SourceIP.ToString() + " for " +
                         packet.DestIP.ToString() + " was dropped.";
@@ -123,7 +123,7 @@ namespace PassThru
                 else
                 {
                     PacketMainReturn pmr;
-                    pmr = new PacketMainReturn("ICMPFilter Module");
+                    pmr = new PacketMainReturn(this);
                     pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
                     pmr.logMessage = "ICMPv6 from " + packet.SourceIP.ToString() + " for " +
                         packet.DestIP.ToString() + " was dropped.";

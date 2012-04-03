@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using PassThru.Tabs;
 
 namespace PassThru
 {
@@ -14,6 +15,7 @@ namespace PassThru
     {
         static bool showPopups;
         static bool startMinimized;
+        static TrayPopup popup;
 
         // var updated whenever options checkbox changes
         public static bool displayTrayLogs
@@ -34,19 +36,18 @@ namespace PassThru
 		public TrayIcon() 
         {                
 			ContextMenu cm = new ContextMenu();
-            //List<MenuItem> links = new List<MenuItem>();
+            List<MenuItem> links = new List<MenuItem>();
 			MenuItem closeButton = new MenuItem("Exit", new EventHandler(Program.Close));
 
             adapters = new MenuItem("Adapters");
             cm.MenuItems.Add(adapters);
             
-            /*
             links.Add(new MenuItem("fireBwall.com", new EventHandler(ToFirebwallCom)));
             links.Add(new MenuItem("Facebook", new EventHandler(ToFacebook)));
             links.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
             links.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
             links.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
-            cm.MenuItems.Add("Links", links.ToArray());*/
+            cm.MenuItems.Add("Links", links.ToArray());
             
             cm.MenuItems.Add(closeButton);
 			tray = new NotifyIcon();
@@ -54,8 +55,11 @@ namespace PassThru
             Assembly target = Assembly.GetExecutingAssembly();
             tray.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newTray.ico"));
 			tray.Visible = true;
-			tray.BalloonTipClosed += new EventHandler(tray_BalloonTipClosed);
 			tray.DoubleClick += new EventHandler(tray_DoubleClick);
+            popup = new TrayPopup();
+            popup.Show();
+            popup.Location = new System.Drawing.Point(Screen.PrimaryScreen.WorkingArea.Width - popup.Width, Screen.PrimaryScreen.WorkingArea.Height - popup.Height);
+            popup.Visible = false;
             LoadConfig();
 		}
 		NotifyIcon tray;
@@ -134,13 +138,12 @@ namespace PassThru
         /// Adds a line to the display queue
         /// </summary>
         /// <param name="line"></param>
-		public void AddLine(string line) 
+		public void AddLine(LogEvent line) 
         {
             // only display if checked
             if (displayTrayLogs)
             {
-                tray.BalloonTipText = line;
-                tray.ShowBalloonTip(5000);
+                popup.AddLogEvent(line);
             }
 		}
 
@@ -149,18 +152,8 @@ namespace PassThru
         /// </summary>
 		public void Dispose() 
         {
+            popup.Close();
 			tray.Dispose();
-		}
-
-        /// <summary>
-        /// Clears the balloon tip when it closes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		void tray_BalloonTipClosed(object sender, EventArgs e) 
-        {
-			lines.Clear();
-			tray.BalloonTipText = "";
 		}
 
         /// <summary>

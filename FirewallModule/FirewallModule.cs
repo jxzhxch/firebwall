@@ -32,6 +32,12 @@ namespace FM
             returnType = PacketMainReturnType.Error | PacketMainReturnType.Log;
             logMessage = "An error has occurred in " + moduleName + " with no other details.";
         }
+        public PacketMainReturn(FirewallModule fm)
+        {
+            actualModule = fm;
+            Module = fm.MetaData.Name;
+            logMessage = "An error has occurred in " + Module + " with no other details.";
+        }
         public PacketMainReturn(string moduleName, Exception e)
         {
             Module = moduleName;
@@ -39,6 +45,7 @@ namespace FM
             logMessage = "An error has occurred in " + moduleName + ". " + e.Message + "\r\n" + e.StackTrace;
         }
         public string Module = null;
+        public FirewallModule actualModule = null;
         public Packet SendPacket = null;
         public string logMessage = null;
         public PacketMainReturnType returnType;

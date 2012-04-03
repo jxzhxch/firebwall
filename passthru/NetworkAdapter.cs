@@ -242,7 +242,7 @@ namespace PassThru
                                     continue;
                                 if ((pmr.returnType & PacketMainReturnType.Log) == PacketMainReturnType.Log && pmr.logMessage != null)
                                 {
-                                    LogCenter.Instance.Push(pmr.Module, pmr.logMessage);
+                                    LogCenter.Instance.Push(pmr);
                                 }
                                 if ((pmr.returnType & PacketMainReturnType.Drop) == PacketMainReturnType.Drop)
                                 {

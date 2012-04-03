@@ -25,6 +25,20 @@ namespace PassThru
 				Message = me;
 				time = DateTime.Now;
 			}
+            public LogEvent(PacketMainReturn pmr)
+            {
+                Module = pmr.Module;
+                Message = pmr.logMessage;
+                time = DateTime.Now;
+                PMR = pmr;
+            }
+
+            public override string ToString()
+            {
+                return time.ToString() + ": (" + Module + ") - " + Message;
+            }
+
+            public PacketMainReturn PMR = null;
 			public string Message = null;
 			public string Module = null;
 			public DateTime time;
@@ -71,6 +85,11 @@ namespace PassThru
                 logQueue.Enqueue(le);
 			}
 
+            public void Push(PacketMainReturn pmr)
+            {
+                logQueue.Enqueue(new LogEvent(pmr));
+            }
+
             /*
              * pushes a log message to the tray icon, as well as the
              * log window
@@ -81,7 +100,7 @@ namespace PassThru
             {
 				if (PushLogEvent != null)
 				{
-                    ti.AddLine(le.Message);
+                    ti.AddLine(le);
 					PushLogEvent(le);
                     WriteLogFile(le);
 				}
