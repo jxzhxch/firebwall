@@ -133,7 +133,7 @@ namespace PassThru
                                         else
                                             pmr.returnType = PacketMainReturnType.Drop;
                                         if (data.LogAttacks)
-                                            pmr.returnType |= PacketMainReturnType.Log;
+                                            pmr.returnType |= PacketMainReturnType.Log | PacketMainReturnType.Popup;
                                         switch (LanguageConfig.GetCurrentLanguage())
                                         {
                                             case LanguageConfig.Language.NONE:
@@ -202,7 +202,7 @@ namespace PassThru
                                         if (data.RectifyAttacks)
                                             pmra.returnType = PacketMainReturnType.Edited;
                                         else
-                                            pmra.returnType = PacketMainReturnType.Drop;
+                                            pmra.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Popup;
                                         switch (LanguageConfig.GetCurrentLanguage())
                                         {
                                             case LanguageConfig.Language.NONE:
@@ -287,7 +287,7 @@ namespace PassThru
                                     PacketMainReturn pmr = new PacketMainReturn(this);
                                     pmr.returnType = PacketMainReturnType.Drop;
                                     if (data.LogAttacks)
-                                        pmr.returnType |= PacketMainReturnType.Log;
+                                        pmr.returnType |= PacketMainReturnType.Log | PacketMainReturnType.Popup;
                                     switch (LanguageConfig.GetCurrentLanguage())
                                     {
                                         case LanguageConfig.Language.NONE:

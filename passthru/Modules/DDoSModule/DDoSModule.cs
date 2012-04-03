@@ -130,7 +130,7 @@ namespace PassThru
                             (packet.PacketTime - TCPprevious_packet.PacketTime).TotalMilliseconds <= data.dos_threshold)
                         {
                             pmr = new PacketMainReturn(this);
-                            pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                            pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log | PacketMainReturnType.Popup;
                             pmr.logMessage = "DoS attempt detected from IP " + packet.SourceIP + " (likely spoofed). "
                                         + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
                             data.BlockCache.Add(new BlockedIP(packet.SourceIP, DateTime.UtcNow, "DoS Attempt"));
@@ -163,7 +163,7 @@ namespace PassThru
                          (ipcache[packet.SourceIP]) > 50 )
                     {
                         pmr = new PacketMainReturn(this);
-                        pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                        pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log | PacketMainReturnType.Popup;
                         pmr.logMessage = "Potential fraggle attack from " + packet.SourceIP + " (likely spoofed). "
                             + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
                         data.BlockCache.Add(new BlockedIP(packet.SourceIP, DateTime.UtcNow, "Fraggle Attempt"));
@@ -205,7 +205,7 @@ namespace PassThru
                          ipcache[packet.SourceIP] > 50)
                     {
                         pmr = new PacketMainReturn(this);
-                        pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
+                        pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log | PacketMainReturnType.Popup;
                         pmr.logMessage = "Potential Smurf attack from " + packet.SourceIP + " (likely spoofed). "
                             + " Packets from this IP will be dropped.  You can unblock this IP from the module interface.";
                         data.BlockCache.Add(new BlockedIP(packet.SourceIP, DateTime.UtcNow, "Smurf Attempt"));
