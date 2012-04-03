@@ -41,7 +41,8 @@ namespace FM
         UDP,
         ICMP,
         DNS,
-        DHCP
+        DHCP,
+        SNMP
     }
 
     /// <summary>

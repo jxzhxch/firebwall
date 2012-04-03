@@ -41,6 +41,7 @@
             this.textBoxArguments = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxAction = new System.Windows.Forms.ComboBox();
+            this.notifyBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -168,11 +169,23 @@
             this.comboBoxAction.Size = new System.Drawing.Size(451, 21);
             this.comboBoxAction.TabIndex = 13;
             // 
+            // notifyBox
+            // 
+            this.notifyBox.AutoSize = true;
+            this.notifyBox.Location = new System.Drawing.Point(360, 56);
+            this.notifyBox.Name = "notifyBox";
+            this.notifyBox.Size = new System.Drawing.Size(53, 17);
+            this.notifyBox.TabIndex = 14;
+            this.notifyBox.Text = "Notify";
+            this.notifyBox.UseVisualStyleBackColor = true;
+            this.notifyBox.CheckedChanged += new System.EventHandler(this.notifyBox_CheckedChanged);
+            // 
             // AddEditRule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 186);
+            this.Controls.Add(this.notifyBox);
             this.Controls.Add(this.comboBoxAction);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxArguments);
@@ -210,5 +223,6 @@
         private System.Windows.Forms.TextBox textBoxArguments;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxAction;
+        private System.Windows.Forms.CheckBox notifyBox;
     }
 }

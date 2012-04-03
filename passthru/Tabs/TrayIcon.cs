@@ -141,7 +141,7 @@ namespace PassThru
         /// <param name="line"></param>
 		public void AddLine(LogEvent line) 
         {
-            // only display if checked
+            // only display if checked AND the return type is to notify
             if (displayTrayLogs && line.PMR != null && ((line.PMR.returnType & FM.PacketMainReturnType.Popup) == FM.PacketMainReturnType.Popup))
             {
                 popup.AddLogEvent(line);

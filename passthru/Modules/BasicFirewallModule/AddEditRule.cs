@@ -52,6 +52,9 @@ namespace PassThru
 
                 // set the action box
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.IPRule)
             {
@@ -70,6 +73,9 @@ namespace PassThru
 
                 //args
                 textBoxArguments.Text = t.ip.ToString();
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.TCPAllRule)
             {
@@ -85,6 +91,9 @@ namespace PassThru
 
                 //action
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.TCPIPPortRule)
             {
@@ -103,6 +112,9 @@ namespace PassThru
 
                 //args
                 textBoxArguments.Text = String.Format("{0} {1}", t.ip, t.port);
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.TCPPortRule)
             {
@@ -121,6 +133,9 @@ namespace PassThru
 
                 //args
                 textBoxArguments.Text = t.GetPortString();
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.UDPAllRule)
             {
@@ -136,6 +151,9 @@ namespace PassThru
 
                 //action
                 comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
             else if (tmp is BasicFirewall.UDPPortRule)
             {
@@ -154,6 +172,9 @@ namespace PassThru
 
                 //args
                 textBoxArguments.Text = t.GetPortString();
+
+                //notify
+                notifyBox.Checked = (t.notify);
             }
         }
 
@@ -246,7 +267,8 @@ namespace PassThru
                     // multiple ports and the ip:port rule are parsed later on, so send all args as a string
 
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
-                    newRule = BasicFirewall.RuleFactory.MakeRule(rt, ps, dir, textBoxArguments.Text, checkBoxLog.Checked);
+                    newRule = BasicFirewall.RuleFactory.MakeRule(rt, ps, dir, textBoxArguments.Text, 
+                                                            checkBoxLog.Checked, notifyBox.Checked);
                     this.Close();
                 }
                 catch (Exception exception)
@@ -329,6 +351,26 @@ namespace PassThru
                     comboBox1.Items.Add("todos los Regla");
                     comboBox1.Items.Add("Regla IP");
                     break;
+            }
+        }
+
+        /// <summary>
+        /// if checked, lock Log into a check state as well since we can't notify without
+        /// logging enabled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void notifyBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (notifyBox.Checked)
+            {
+                checkBoxLog.Checked = true;
+                checkBoxLog.Enabled = false;
+            }
+            else
+            {
+                checkBoxLog.Checked = false;
+                checkBoxLog.Enabled = true;
             }
         }
     }

@@ -77,6 +77,12 @@ namespace FM
             return (SourcePort == 53 || DestPort == 53);
         }
 
+        public bool isSNMP()
+        {
+            // agent listens on 161, manager receives on 162
+            return (SourcePort == 161 || SourcePort == 162);
+        }
+
         public ushort DestPort
         {
             get

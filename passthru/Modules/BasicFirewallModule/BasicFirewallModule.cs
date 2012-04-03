@@ -48,6 +48,7 @@ namespace PassThru
             PacketStatus GetStatus(Packet pkt);
             string ToFileString();
             string GetLogMessage();
+            bool Notify();
             string String
             {
                 get;
@@ -67,24 +68,24 @@ namespace PassThru
 
         public class RuleFactory
         {
-            public static Rule MakeRule(RuleType ruleType, PacketStatus ps, Direction dir, string args, bool log)
+            public static Rule MakeRule(RuleType ruleType, PacketStatus ps, Direction dir, string args, bool log, bool notify)
             {
                 switch (ruleType)
                 {
                     case RuleType.IP:
-                        return new IPRule(ps, IPAddress.Parse(args), dir, log);
+                        return new IPRule(ps, IPAddress.Parse(args), dir, log, notify);
                     case RuleType.TCPALL:
-                        return new TCPAllRule(ps, dir, log);
+                        return new TCPAllRule(ps, dir, log, notify);
                     case RuleType.TCPIPPORT:
-                        return new TCPIPPortRule(ps, IPAddress.Parse(args.Split(' ')[0]), int.Parse(args.Split(' ')[1]), dir, log);
+                        return new TCPIPPortRule(ps, IPAddress.Parse(args.Split(' ')[0]), int.Parse(args.Split(' ')[1]), dir, log, notify);
                     case RuleType.TCPPORT:
-                        return GenTCPPORT(ps, args, dir, log);
+                        return GenTCPPORT(ps, args, dir, log, notify);
                     case RuleType.UDPALL:
-                        return new UDPAllRule(ps, dir, log);
+                        return new UDPAllRule(ps, dir, log, notify);
                     case RuleType.UDPPORT:
-                        return GenUDPPORT(ps, args, dir, log);
+                        return GenUDPPORT(ps, args, dir, log, notify);
                     case RuleType.ALL:
-                        return new AllRule(ps, dir, log);
+                        return new AllRule(ps, dir, log, notify);
                 }
                 return null;
             }
@@ -118,15 +119,17 @@ namespace PassThru
             public PacketStatus ps;
             public Direction direction;
             public bool log = true;
+            public bool notify = true;
             public IPAddress ip;
             string message = "";
 
-            public IPRule(PacketStatus ps, IPAddress ip, Direction direction, bool log)
+            public IPRule(PacketStatus ps, IPAddress ip, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.ip = ip;
                 this.log = log;
+                this.notify = notify;
             }
 
             public PacketStatus GetStatus(Packet pkt)
@@ -204,6 +207,11 @@ namespace PassThru
                     ret += " and logs";
                 return ret;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         [Serializable]
@@ -212,12 +220,14 @@ namespace PassThru
             public PacketStatus ps;
             public Direction direction;
             public bool log = true;
+            public bool notify = true;
 
-            public AllRule(PacketStatus ps, Direction direction, bool log)
+            public AllRule(PacketStatus ps, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.log = log;
+                this.notify = notify;
             }
 
             public PacketStatus GetStatus(Packet pkt)
@@ -277,6 +287,8 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -286,6 +298,11 @@ namespace PassThru
             {
                 return null;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         [Serializable]
@@ -294,12 +311,14 @@ namespace PassThru
             public PacketStatus ps;
             public Direction direction;
             public bool log = true;
+            public bool notify = true;
 
-            public UDPAllRule(PacketStatus ps, Direction direction, bool log)
+            public UDPAllRule(PacketStatus ps, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.log = log;
+                this.notify = notify;
             }
 
             public PacketStatus GetStatus(Packet pkt)
@@ -365,7 +384,9 @@ namespace PassThru
                 else if (direction == Direction.IN)
                 {
                     ret += " in";
-                }
+                } 
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -374,6 +395,11 @@ namespace PassThru
             public string ToFileString()
             {
                 return null;
+            }
+
+            public bool Notify()
+            {
+                return notify;
             }
         }
 
@@ -384,7 +410,7 @@ namespace PassThru
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private static UDPPortRule GenUDPPORT(PacketStatus ps, string args, Direction dir, bool log)
+        private static UDPPortRule GenUDPPORT(PacketStatus ps, string args, Direction dir, bool log, bool notify)
         {
             // first tokenize the args
             List<string> tmp = new List<string>(args.Split(' '));
@@ -427,6 +453,7 @@ namespace PassThru
                 rule.ps = ps;
                 rule.direction = dir;
                 rule.log = log;
+                rule.notify = notify;
             }
             catch (Exception e)
             {
@@ -446,6 +473,7 @@ namespace PassThru
             public List<int> port;
             public List<PortRange> port_ranges;
             public bool log = true;
+            public bool notify = true;
 
             public override string ToString()
             {
@@ -471,17 +499,20 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
             }
 
-            public UDPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log)
+            public UDPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.port = port;
                 this.log = log;
+                this.notify = notify;
             }
 
             public UDPPortRule() 
@@ -577,6 +608,11 @@ namespace PassThru
                 tmp += String.Join(" ", port_ranges.ConvertAll<string>(delegate(PortRange i) { return i.ToString(); }).ToArray());
                 return tmp;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         [Serializable]
@@ -587,6 +623,7 @@ namespace PassThru
             public int port;
             public IPAddress ip;
             public bool log = true;
+            public bool notify = true;
 
             public override string ToString()
             {
@@ -612,18 +649,21 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
             }
 
-            public TCPIPPortRule(PacketStatus ps, IPAddress ip, int port, Direction direction, bool log)
+            public TCPIPPortRule(PacketStatus ps, IPAddress ip, int port, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.port = port;
                 this.ip = ip;
                 this.log = log;
+                this.notify = notify;
             }
 
             public PacketStatus GetStatus(Packet pkt)
@@ -681,6 +721,11 @@ namespace PassThru
             {
                 return null;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         /// <summary>
@@ -690,7 +735,7 @@ namespace PassThru
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private static TCPPortRule GenTCPPORT(PacketStatus ps, string args, Direction dir, bool log)
+        private static TCPPortRule GenTCPPORT(PacketStatus ps, string args, Direction dir, bool log, bool notify)
         {
             // first tokenize the args
             List<string> tmp = new List<string>(args.Split(' '));
@@ -731,6 +776,7 @@ namespace PassThru
                 rule.ps = ps;
                 rule.direction = dir;
                 rule.log = log;
+                rule.notify = notify;
             }
             catch (Exception e)
             {
@@ -750,6 +796,7 @@ namespace PassThru
             public List<int> port;
             public List<PortRange> port_ranges = new List<PortRange>();
             public bool log = true;
+            public bool notify = true;
 
             public override string ToString()
             {
@@ -775,12 +822,14 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
             }
 
-            public TCPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log)
+            public TCPPortRule(PacketStatus ps, List<int> port, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
@@ -884,6 +933,11 @@ namespace PassThru
                 tmp += String.Join(" ", port_ranges.ConvertAll<string>(delegate(PortRange i) { return i.ToString(); }).ToArray());
                 return tmp;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         [Serializable]
@@ -892,6 +946,7 @@ namespace PassThru
             public PacketStatus ps;
             public Direction direction;
             public bool log = true;
+            public bool notify = true;
 
             public string String
             {
@@ -922,16 +977,19 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += ", notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
             }
 
-            public TCPAllRule(PacketStatus ps, Direction direction, bool log)
+            public TCPAllRule(PacketStatus ps, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.direction = direction;
                 this.log = log;
+                this.notify = notify;
             }
 
             public PacketStatus GetStatus(Packet pkt)
@@ -978,6 +1036,11 @@ namespace PassThru
             {
                 return null;
             }
+
+            public bool Notify()
+            {
+                return notify;
+            }
         }
 
         readonly object padlock = new object();
@@ -990,7 +1053,7 @@ namespace PassThru
             {
                 if (PersistentData == null)
                 {
-                    rules.Add(new TCPAllRule(PacketStatus.BLOCKED, Direction.IN, true));
+                    rules.Add(new TCPAllRule(PacketStatus.BLOCKED, Direction.IN, true, true));
                 }
                 else
                 {
@@ -1033,6 +1096,10 @@ namespace PassThru
                         {
                             pmr.returnType |= PacketMainReturnType.Log;
                             pmr.logMessage = r.GetLogMessage();
+                        }
+                        if (r.Notify())
+                        {
+                            pmr.returnType |= PacketMainReturnType.Popup;
                         }
                         return pmr;
                     }
