@@ -21,6 +21,12 @@ namespace DNSCache
         {
             UpdateList();
             cache.CacheUpdate += new System.Threading.ThreadStart(cache_CacheUpdate);
+            this.ParentForm.FormClosing += new FormClosingEventHandler(ParentForm_FormClosing);
+        }
+
+        void ParentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            cache.CacheUpdate -= new System.Threading.ThreadStart(cache_CacheUpdate);
         }
 
         void cache_CacheUpdate()

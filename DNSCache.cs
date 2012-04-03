@@ -15,7 +15,7 @@ namespace DNSCache
             MetaData.Contact = "nightstrike9809@gmail.com";
             MetaData.Description = "Caches your DNS query responses, so in the rare chance that DNS servers go down or get lagged, you will be mostly unaffected.";
             MetaData.HelpString = "";
-            MetaData.Version = "0.0.1.0";
+            MetaData.Version = "0.1.0.0";
         }
 
         public SerializableDictionary<string, IPAddress> cache = new SerializableDictionary<string, IPAddress>();
@@ -76,7 +76,7 @@ namespace DNSCache
                 IPAddress answer;
                 lock (cache)
                 {
-                    if (cache.TryGetValue(dns.Queries[0].ToString(), out answer))
+                    if (dns.Queries.Length > 0 && cache.TryGetValue(dns.Queries[0].ToString(), out answer))
                     {
                         DNSPacket.DNSAnswer[] answers = new DNSPacket.DNSAnswer[1];
                         DNSPacket.DNSAnswer ans = new DNSPacket.DNSAnswer();
@@ -116,7 +116,7 @@ namespace DNSCache
                     {
                         if (ans.RDLength == 4 && ans.Type == 0x01 && ans.Class == 0x01)
                         {
-                            cache.Add(dns.Queries[0].ToString(), new IPAddress(ans.RData));
+                            cache[dns.Queries[0].ToString()] = new IPAddress(ans.RData);
                             break;
                         }                        
                     }
