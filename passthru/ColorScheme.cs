@@ -25,9 +25,17 @@ namespace PassThru
                 }
                 else
                 {
-                    control.BackColor = Color.FromArgb(64, 32, 16);
+                    control.BackColor = Color.FromArgb(64, 0, 0);
                     control.ForeColor = Color.White;
                 }
+            }
+            else if (control is DataGridView)
+            {
+                ((DataGridView)control).GridColor = Color.Black;
+                ((DataGridView)control).ForeColor = Color.White;
+                ((DataGridView)control).BackgroundColor = Color.FromArgb(64, 0, 0);
+                ((DataGridView)control).ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle() { ForeColor = Color.White, BackColor = Color.FromArgb(64, 32, 16), SelectionForeColor = Color.White, SelectionBackColor = Color.FromArgb(64, 32, 16) };
+                ((DataGridView)control).DefaultCellStyle = new DataGridViewCellStyle() { ForeColor = Color.White, BackColor = Color.FromArgb(64, 0, 0), SelectionBackColor = Color.FromArgb(128, 0, 0), SelectionForeColor = Color.White };
             }
             else
             {
