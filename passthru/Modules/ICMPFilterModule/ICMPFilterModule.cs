@@ -77,9 +77,13 @@ namespace PassThru
             public SerializableDictionary<string, List<string>> RuleTablev6
                         { get { return ruleTablev6; } set { ruleTablev6 = new SerializableDictionary<string, List<string>>(value); } }
 
-            private bool denyAll = false;
-            public bool DenyAll 
-                        { get { return denyAll; } set { denyAll = value; } }
+            private bool denyIPv4 = false;
+            public bool DenyIPv4 
+                        { get { return denyIPv4; } set { denyIPv4 = value; } }
+
+            private bool denyIPv6 = false;
+            public bool DenyIPv6
+                        { get { return denyIPv6; } set { denyIPv6 = value; } }
 
             public bool Save = true;
         }
@@ -95,7 +99,7 @@ namespace PassThru
                 ICMPPacket packet = (ICMPPacket)in_packet;
                 // check if the packet is allowed and deny all is false
                 if (isAllowed(packet.Type.ToString(), packet.Code.ToString(), 4) && 
-                    !data.DenyAll)
+                    !data.DenyIPv4)
                 {
                     return null;
                 }
@@ -116,7 +120,7 @@ namespace PassThru
             {
                 ICMPv6Packet packet = (ICMPv6Packet)in_packet;
                 if (isAllowed(packet.Type.ToString(), packet.Code.ToString(), 6) &&
-                    !data.DenyAll)
+                    !data.DenyIPv6)
                 {
                     return null;
                 }
@@ -190,7 +194,9 @@ namespace PassThru
                 + "\t|    0   |  Type |  Code  |  Checksum       |\n"
                 + "\t|   32   |      Rest of Header                   |\n"
                 + "\t|——————————————————————————————|\n"
-                + "A full list of supported control messages can be found on the module page (View ICMP).";
+                + "A full list of supported control messages can be found on the module page (View ICMP)."
+                + "\n\nAs of .3.11, ICMPFilter differentiates between ICMPv4 and ICMPv6.  It can block all IPv4 or all IPv6 packets, as well"
+                + " as in inidividual v4/v6.";
         }
     }
 }

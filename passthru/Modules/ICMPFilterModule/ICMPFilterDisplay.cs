@@ -218,11 +218,11 @@ namespace PassThru
             // rebuild the datagrid
             rebuildTable();
 
-            // load up the deny all state
-            if (filter.data.DenyAll)
-            {
-                allBox.CheckState = CheckState.Checked;
-            }
+            // deny ipv4
+            allBox.Checked = filter.data.DenyIPv4;
+
+            // deny ipv6
+            blockIPv6Box.Checked = filter.data.DenyIPv6;
         }
 
         // pushes update to the ruletable object
@@ -240,15 +240,41 @@ namespace PassThru
         */
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            typeField.Enabled = !(allBox.Checked);
-            codeField.Enabled = !(allBox.Checked);
-            addButton.Enabled = !(allBox.Checked);
-            deleteButton.Enabled = !(allBox.Checked);
-            viewICMP.Enabled = !(allBox.Checked);
-            ipv6Box.Enabled = !(ipv6Box.Enabled);
-            this.filter.data.DenyAll = allBox.Checked;
+            this.filter.data.DenyIPv4 = allBox.Checked;
+
+            // if the ipv6 box is checked, don't do anything
+            if (blockIPv6Box.Checked)
+                return;
+            flip();
         }
 
+        /// <summary>
+        /// Handles when the block ipv6 box changes status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void blockIPv6Box_CheckedChanged(object sender, EventArgs e)
+        {
+            this.filter.data.DenyIPv6 = blockIPv6Box.Checked;
+
+            // if the ipv4 box is already checked, don't do anything
+            if (allBox.Checked)
+                return;
+            flip();
+        }
+
+        /// <summary>
+        /// flip the 
+        /// </summary>
+        private void flip()
+        {
+            typeField.Enabled = !(typeField.Enabled);
+            codeField.Enabled = !(codeField.Enabled);
+            addButton.Enabled = !(addButton.Enabled);
+            deleteButton.Enabled = !(deleteButton.Enabled);
+            viewICMP.Enabled = !(viewICMP.Enabled);
+            ipv6Box.Enabled = !(ipv6Box.Enabled);
+        }
         /*
          * Method handles the View ICMP button;
          * Displays all available ICMP types/codes
@@ -315,6 +341,7 @@ namespace PassThru
             addButton.Enabled = !(addButton.Enabled);
             deleteButton.Enabled = !(deleteButton.Enabled);
             allBox.Enabled = !(allBox.Enabled);
+            blockIPv6Box.Enabled = !(blockIPv6Box.Enabled);
         }
 
         /// <summary>

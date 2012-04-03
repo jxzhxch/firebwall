@@ -44,6 +44,7 @@
             this.Version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.blockIPv6Box = new System.Windows.Forms.CheckBox();
             this.ipv6Box = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -121,9 +122,9 @@
             this.allBox.AutoSize = true;
             this.allBox.Location = new System.Drawing.Point(368, 32);
             this.allBox.Name = "allBox";
-            this.allBox.Size = new System.Drawing.Size(96, 17);
+            this.allBox.Size = new System.Drawing.Size(92, 17);
             this.allBox.TabIndex = 10;
-            this.allBox.Text = "Block All ICMP";
+            this.allBox.Text = "Block All IPv4";
             this.allBox.UseVisualStyleBackColor = true;
             this.allBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -158,7 +159,7 @@
             this.tableDisplay.RowHeadersVisible = false;
             this.tableDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tableDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableDisplay.Size = new System.Drawing.Size(595, 288);
+            this.tableDisplay.Size = new System.Drawing.Size(595, 291);
             this.tableDisplay.TabIndex = 7;
             // 
             // Type
@@ -202,11 +203,12 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.05464F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.94535F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 368);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 371);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.blockIPv6Box);
             this.panel1.Controls.Add(this.ipv6Box);
             this.panel1.Controls.Add(this.typeField);
             this.panel1.Controls.Add(this.viewICMP);
@@ -218,10 +220,21 @@
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 297);
+            this.panel1.Location = new System.Drawing.Point(3, 300);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(595, 68);
             this.panel1.TabIndex = 8;
+            // 
+            // blockIPv6Box
+            // 
+            this.blockIPv6Box.AutoSize = true;
+            this.blockIPv6Box.Location = new System.Drawing.Point(368, 48);
+            this.blockIPv6Box.Name = "blockIPv6Box";
+            this.blockIPv6Box.Size = new System.Drawing.Size(92, 17);
+            this.blockIPv6Box.TabIndex = 13;
+            this.blockIPv6Box.Text = "Block All IPv6";
+            this.blockIPv6Box.UseVisualStyleBackColor = true;
+            this.blockIPv6Box.CheckedChanged += new System.EventHandler(this.blockIPv6Box_CheckedChanged);
             // 
             // ipv6Box
             // 
@@ -240,7 +253,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ICMPFilterDisplay";
-            this.Size = new System.Drawing.Size(601, 368);
+            this.Size = new System.Drawing.Size(601, 371);
             this.Load += new System.EventHandler(this.ICMPFilterDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -269,6 +282,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
         private System.Windows.Forms.DataGridViewTextBoxColumn Version;
         private System.Windows.Forms.CheckBox ipv6Box;
+        private System.Windows.Forms.CheckBox blockIPv6Box;
 
     }
 }
