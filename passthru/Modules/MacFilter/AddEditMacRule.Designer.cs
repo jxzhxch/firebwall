@@ -38,6 +38,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.notifyBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // comboBoxAction
@@ -137,11 +138,23 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Direction:";
             // 
+            // notifyBox
+            // 
+            this.notifyBox.AutoSize = true;
+            this.notifyBox.Location = new System.Drawing.Point(346, 6);
+            this.notifyBox.Name = "notifyBox";
+            this.notifyBox.Size = new System.Drawing.Size(53, 17);
+            this.notifyBox.TabIndex = 25;
+            this.notifyBox.Text = "Notify";
+            this.notifyBox.UseVisualStyleBackColor = true;
+            this.notifyBox.CheckedChanged += new System.EventHandler(this.notifyBox_CheckedChanged);
+            // 
             // AddEditMacRule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 135);
+            this.Controls.Add(this.notifyBox);
             this.Controls.Add(this.comboBoxAction);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxArguments);
@@ -172,5 +185,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox notifyBox;
     }
 }

@@ -42,6 +42,9 @@ namespace PassThru.Modules.MacFilter
                 comboBoxAction.SelectedIndex = 1;
             else 
                 comboBoxAction.SelectedIndex = 0;
+
+            //notify
+            notifyBox.Checked = RULE.notify;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -66,12 +69,13 @@ namespace PassThru.Modules.MacFilter
 
                 if (String.IsNullOrEmpty(textBoxArguments.Text))
                 {
-                    newRule = new MacFilterModule.MacRule(ps, dir, checkBoxLog.Checked);
+                    newRule = new MacFilterModule.MacRule(ps, dir, checkBoxLog.Checked, notifyBox.Checked);
                 }
                 else
                 {
                     string macString = textBoxArguments.Text.ToUpper().Replace("-", "").Replace(":", "").Replace(";", "");
-                    newRule = new MacFilterModule.MacRule(ps, System.Net.NetworkInformation.PhysicalAddress.Parse(macString), dir, checkBoxLog.Checked);
+                    newRule = new MacFilterModule.MacRule(ps, System.Net.NetworkInformation.PhysicalAddress.Parse(macString), 
+                                                          dir, checkBoxLog.Checked, notifyBox.Checked);
                 }
                 DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -79,9 +83,35 @@ namespace PassThru.Modules.MacFilter
             catch { }
         }
 
+        /// <summary>
+        /// Close the addrule window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// when notify is checked, we autocheck Log and lock it.  We can't
+        /// notify without logging.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void notifyBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (notifyBox.Checked)
+            {
+                checkBoxLog.Checked = true;
+                checkBoxLog.Enabled = false;
+            }
+            else
+            {
+                checkBoxLog.Checked = false;
+                checkBoxLog.Enabled = true;
+            }
+
         }
     }
 }

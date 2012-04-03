@@ -29,6 +29,7 @@ namespace PassThru.Modules.MacFilter
             public byte[] mac;
             public Direction direction;
             public bool log = true;
+            public bool notify = true;
 
             public string String
             {
@@ -62,25 +63,29 @@ namespace PassThru.Modules.MacFilter
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
             }
             
-            public MacRule(PacketStatus ps, Direction direction, bool log)
+            public MacRule(PacketStatus ps, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.mac = null;
                 this.direction = direction;
                 this.log = log;
+                this.notify = notify;
             }
 
-            public MacRule(PacketStatus ps, PhysicalAddress mac, Direction direction, bool log)
+            public MacRule(PacketStatus ps, PhysicalAddress mac, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
                 this.mac = mac.GetAddressBytes();
                 this.direction = direction;
                 this.log = log;
+                this.notify = notify;
             }
 
             [DllImport("msvcrt.dll")]
@@ -199,6 +204,10 @@ namespace PassThru.Modules.MacFilter
                         {
                             pmr.returnType |= PacketMainReturnType.Log;
                             pmr.logMessage = r.GetLogMessage();
+                        }
+                        if (r.notify)
+                        {
+                            pmr.returnType |= PacketMainReturnType.Popup;
                         }
                         return pmr;
                     }

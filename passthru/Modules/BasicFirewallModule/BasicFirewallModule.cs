@@ -203,6 +203,8 @@ namespace PassThru
                 {
                     ret += " in";
                 }
+                if (notify)
+                    ret += "and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -288,7 +290,7 @@ namespace PassThru
                     ret += " in";
                 }
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -386,7 +388,7 @@ namespace PassThru
                     ret += " in";
                 } 
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -500,7 +502,7 @@ namespace PassThru
                     ret += " in";
                 }
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -650,7 +652,7 @@ namespace PassThru
                     ret += " in";
                 }
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -823,7 +825,7 @@ namespace PassThru
                     ret += " in";
                 }
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
@@ -978,7 +980,7 @@ namespace PassThru
                     ret += " in";
                 }
                 if (notify)
-                    ret += ", notifies";
+                    ret += " and notifies";
                 if (log)
                     ret += " and logs";
                 return ret;
