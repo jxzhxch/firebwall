@@ -17,7 +17,8 @@ namespace FM
         Drop = 1 << 1,           //Drops the packet
         Allow = 1 << 2,          //Allows the packet to be passed on to the next module
         Edited = 1 << 3,
-        Log = 1 << 4	        //Logs the packet
+        Log = 1 << 4,	        //Logs the packet
+        Popup = 1 << 5
     }
 
     public class PacketMainReturn

@@ -57,6 +57,7 @@ namespace PassThru
 			tray.Visible = true;
 			tray.DoubleClick += new EventHandler(tray_DoubleClick);
             popup = new TrayPopup();
+            ColorScheme.SetColorScheme(popup);
             popup.Show();
             popup.Location = new System.Drawing.Point(Screen.PrimaryScreen.WorkingArea.Width - popup.Width, Screen.PrimaryScreen.WorkingArea.Height - popup.Height);
             popup.Visible = false;

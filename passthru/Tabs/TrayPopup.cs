@@ -77,6 +77,11 @@ namespace PassThru.Tabs
             }
         }
 
+        protected override bool ShowWithoutActivation
+        {
+            get { return true; }
+        }
+
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)

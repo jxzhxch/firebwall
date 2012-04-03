@@ -35,7 +35,7 @@ namespace PassThru
 
             public override string ToString()
             {
-                return time.ToString() + ": (" + Module + ") - " + Message;
+                return time.ToShortTimeString() + ": (" + Module + ") - " + Message;
             }
 
             public PacketMainReturn PMR = null;
