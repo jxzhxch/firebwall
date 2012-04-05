@@ -47,6 +47,7 @@ namespace PassThru
             links.Add(new MenuItem("Reddit", new EventHandler(ToReddit)));
             links.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
             links.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
+            links.Add(new MenuItem("fireBwall Forum", new EventHandler(ToForum)));
             cm.MenuItems.Add("Links", links.ToArray());
             
             cm.MenuItems.Add(closeButton);
@@ -65,6 +66,11 @@ namespace PassThru
 		}
 		NotifyIcon tray;
         public MenuItem adapters;
+
+        void ToForum(object we, EventArgs dontMatter)
+        {
+            System.Diagnostics.Process.Start("http://firebwall.proboards.com");
+        }
 
         void ToFirebwallCom(object we, EventArgs dontMatter)
         {

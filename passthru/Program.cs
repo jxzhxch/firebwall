@@ -54,6 +54,7 @@ namespace PassThru
 		static void Main(string[] args) 
         {                
             //tray = new TrayIcon();
+            ColorScheme.LoadThemes();
             uc.Updater();
             mainWindow = new MainWindow();
             foreach (NetworkAdapter ni in NetworkAdapter.GetAllAdapters())

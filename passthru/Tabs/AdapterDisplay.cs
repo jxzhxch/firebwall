@@ -46,6 +46,7 @@ namespace PassThru
             f.Controls.Add(new Modules.ModuleConfiguration(ai.NetAdapter) { Dock = DockStyle.Fill });
             System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
             f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
+            ColorScheme.SetColorScheme(f);
             f.Show();
         }
 
