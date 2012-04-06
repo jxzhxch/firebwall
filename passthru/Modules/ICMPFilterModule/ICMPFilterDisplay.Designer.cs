@@ -46,6 +46,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.blockIPv6Box = new System.Windows.Forms.CheckBox();
             this.ipv6Box = new System.Windows.Forms.CheckBox();
+            this.allButNDP = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -208,6 +209,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.allButNDP);
             this.panel1.Controls.Add(this.blockIPv6Box);
             this.panel1.Controls.Add(this.ipv6Box);
             this.panel1.Controls.Add(this.typeField);
@@ -247,6 +249,17 @@
             this.ipv6Box.UseVisualStyleBackColor = true;
             this.ipv6Box.CheckedChanged += new System.EventHandler(this.ipv6Box_CheckedChanged);
             // 
+            // allButNDP
+            // 
+            this.allButNDP.AutoSize = true;
+            this.allButNDP.Location = new System.Drawing.Point(222, 48);
+            this.allButNDP.Name = "allButNDP";
+            this.allButNDP.Size = new System.Drawing.Size(140, 17);
+            this.allButNDP.TabIndex = 14;
+            this.allButNDP.Text = "All ICMPv6 Except NDP";
+            this.allButNDP.UseVisualStyleBackColor = true;
+            this.allButNDP.CheckedChanged += new System.EventHandler(this.allButNDP_CheckedChanged);
+            // 
             // ICMPFilterDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +296,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Version;
         private System.Windows.Forms.CheckBox ipv6Box;
         private System.Windows.Forms.CheckBox blockIPv6Box;
+        private System.Windows.Forms.CheckBox allButNDP;
 
     }
 }

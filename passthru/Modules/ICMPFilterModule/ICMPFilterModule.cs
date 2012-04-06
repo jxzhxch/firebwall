@@ -85,6 +85,10 @@ namespace PassThru
             public bool DenyIPv6
                         { get { return denyIPv6; } set { denyIPv6 = value; } }
 
+            public bool denyIPv6NDP = false;
+            public bool DenyIPv6NDP
+                        { get { return denyIPv6NDP; } set { denyIPv6NDP = value; } }
+
             public bool Save = true;
         }
 
@@ -119,8 +123,8 @@ namespace PassThru
             if (in_packet.GetHighestLayer() == Protocol.ICMPv6)
             {
                 ICMPv6Packet packet = (ICMPv6Packet)in_packet;
-                if (isAllowed(packet.Type.ToString(), packet.Code.ToString(), 6) &&
-                    !data.DenyIPv6)
+                if ((isAllowed(packet.Type.ToString(), packet.Code.ToString(), 6) &&
+                    !data.DenyIPv6) && isDeniedNDP(packet))
                 {
                     return null;
                 }
@@ -176,11 +180,36 @@ namespace PassThru
             return isAllowed;
         }
 
+        /// <summary>
+        /// Checks if ICMPv6 is blocked, and then whether or not the packet is an NDP 
+        /// </summary>
+        /// <param name="packet"></param>
+        /// <returns>Returns true if the packet is allowed, false if it is not allowed</returns>
+        private bool isDeniedNDP(ICMPv6Packet packet)
+        {
+            // if they're denying all IPv6 except NDP
+            if (data.DenyIPv6NDP)
+            {
+                // check if it's NDP
+                if ((packet.Type <= 133) && (packet.Type >= 137))
+                {
+                    // it is, return allowed
+                    return true;
+                }
+                // nope it's not, return BLOCKED
+                else
+                    return false;
+            }
+
+            // default true because they're not blocking ipv6 
+            return true;
+        }
+
         // module metadata
         private void Help()
         {
             MetaData.Name = "ICMP Filter";
-            MetaData.Version = "1.0.1.0";
+            MetaData.Version = "1.0.2.0";
             MetaData.Description = "Blocks ICMP packets of a given type/code";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Author = "Bryan A. (drone)";
@@ -196,7 +225,8 @@ namespace PassThru
                 + "\t|——————————————————————————————|\n"
                 + "A full list of supported control messages can be found on the module page (View ICMP)."
                 + "\n\nAs of .3.11, ICMPFilter differentiates between ICMPv4 and ICMPv6.  It can block all IPv4 or all IPv6 packets, as well"
-                + " as in inidividual v4/v6.";
+                + " as in inidividual v4/v6.\n\nThe module can also now block all ICMPv6 packets EXCEPT for NDP packets.  This is because"
+                + " NDP packets are required for intranet connectivity and other vital tasks.";
         }
     }
 }

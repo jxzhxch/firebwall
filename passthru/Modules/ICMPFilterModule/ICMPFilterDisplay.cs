@@ -223,6 +223,9 @@ namespace PassThru
 
             // deny ipv6
             blockIPv6Box.Checked = filter.data.DenyIPv6;
+
+            // deny ipv6 except ndp
+            allButNDP.Checked = filter.data.DenyIPv6NDP;
         }
 
         // pushes update to the ruletable object
@@ -242,8 +245,8 @@ namespace PassThru
         {
             this.filter.data.DenyIPv4 = allBox.Checked;
 
-            // if the ipv6 box is checked, don't do anything
-            if (blockIPv6Box.Checked)
+            // if the ipv6 or ipv6ndp box is checked, don't do anything
+            if (blockIPv6Box.Checked || allButNDP.Checked)
                 return;
             flip();
         }
@@ -257,8 +260,28 @@ namespace PassThru
         {
             this.filter.data.DenyIPv6 = blockIPv6Box.Checked;
 
-            // if the ipv4 box is already checked, don't do anything
-            if (allBox.Checked)
+            // invert the all but ndp button
+            allButNDP.Enabled = !(allButNDP.Enabled);
+
+            // if the ipv4 or ipv6ndp box is already checked, don't do anything
+            if (allBox.Checked || allButNDP.Checked)
+                return;
+            flip();
+        }
+
+        /// <summary>
+        /// Handles the all ipv6 but ndp check
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void allButNDP_CheckedChanged(object sender, EventArgs e)
+        {
+            this.filter.data.DenyIPv6NDP = allButNDP.Checked;
+
+            // invert the all but ndp button
+            blockIPv6Box.Enabled = !(blockIPv6Box.Enabled);
+
+            if (allBox.Checked || blockIPv6Box.Checked)
                 return;
             flip();
         }
@@ -342,6 +365,7 @@ namespace PassThru
             deleteButton.Enabled = !(deleteButton.Enabled);
             allBox.Enabled = !(allBox.Enabled);
             blockIPv6Box.Enabled = !(blockIPv6Box.Enabled);
+            allButNDP.Enabled = !(allButNDP.Enabled);
         }
 
         /// <summary>
