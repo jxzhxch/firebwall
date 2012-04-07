@@ -59,9 +59,7 @@ namespace PassThru
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            if (!File.Exists(folder + Path.DirectorySeparatorChar + "currentTheme.cfg"))
-                currentTheme = null;
-            else
+            if (File.Exists(folder + Path.DirectorySeparatorChar + "currentTheme.cfg"))
                 currentTheme = File.ReadAllText(folder + Path.DirectorySeparatorChar + "currentTheme.cfg");
             folder = folder + Path.DirectorySeparatorChar + "themes";
             if (!Directory.Exists(folder))
