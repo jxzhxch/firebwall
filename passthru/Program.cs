@@ -47,6 +47,14 @@ namespace PassThru
             LogCenter.Kill();
 		}
 
+        static void MoveOldConfig()
+        {
+            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "firebwall") && !Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "firebwall"))
+            {
+                Directory.Move(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "firebwall", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "firebwall");
+            }
+        }
+
         /// <summary>
         /// Entry point for the application
         /// </summary>
@@ -54,6 +62,7 @@ namespace PassThru
 		static void Main(string[] args) 
         {                
             //tray = new TrayIcon();
+            MoveOldConfig();
             ColorScheme.LoadThemes();
             uc.Updater();
             mainWindow = new MainWindow();

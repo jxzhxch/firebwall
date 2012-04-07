@@ -55,7 +55,7 @@ namespace PassThru
             themes["Light"] = lightTheme;
             currentTheme = "Light";
 
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -106,7 +106,7 @@ namespace PassThru
 
         public static void Save()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);

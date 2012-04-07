@@ -105,7 +105,7 @@ namespace PassThru
 
         public static void SaveConfig()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -115,7 +115,7 @@ namespace PassThru
 
         public static void LoadConfig()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);

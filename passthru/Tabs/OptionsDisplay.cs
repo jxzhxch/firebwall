@@ -85,6 +85,16 @@ namespace PassThru
             checkBoxStartMinimized.Checked = TrayIcon.StartMinimized;
             textBox1.Text = Program.uc.Config.MinuteInterval.ToString();
             displayTrayLogs.Checked = TrayIcon.displayTrayLogs;
+            ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
+        }
+
+        void ColorScheme_ThemeChanged()
+        {
+            themeBox.Items.Clear();
+            foreach (string theme in ColorScheme.GetThemes())
+                themeBox.Items.Add(theme);
+            themeBox.SelectedItem = ColorScheme.GetCurrentTheme();
+            ColorScheme.SetColorScheme(this);
         }        
 
         /// <summary>

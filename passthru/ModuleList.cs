@@ -20,7 +20,7 @@ namespace PassThru
 
             public void SaveModuleOrder()
             {
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 folder = folder + Path.DirectorySeparatorChar + "firebwall";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
@@ -66,7 +66,7 @@ namespace PassThru
 
             public void LoadModuleOrder()
             {
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 folder = folder + Path.DirectorySeparatorChar + "firebwall";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
@@ -154,7 +154,7 @@ namespace PassThru
                         LoadModule(fi.FullName);
                     }
                 }
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 if(Directory.Exists(folder + Path.DirectorySeparatorChar + "firebwall" + Path.DirectorySeparatorChar + "modules"))
                 {
                     DirectoryInfo di = new DirectoryInfo(folder + Path.DirectorySeparatorChar + "firebwall" + Path.DirectorySeparatorChar + "modules");

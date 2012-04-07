@@ -64,7 +64,7 @@ namespace PassThru
         {
             try
             {
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 folder = folder + Path.DirectorySeparatorChar + "firebwall";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
@@ -93,7 +93,7 @@ namespace PassThru
         {
             try
             {
-                string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 folder = folder + Path.DirectorySeparatorChar + "firebwall";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
