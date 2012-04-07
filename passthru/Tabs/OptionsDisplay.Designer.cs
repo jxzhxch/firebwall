@@ -39,6 +39,8 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBoxStartMinimized = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.themeBox = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +87,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(4, 201);
+            this.linkLabel1.Location = new System.Drawing.Point(4, 228);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(225, 13);
             this.linkLabel1.TabIndex = 3;
@@ -100,7 +102,7 @@
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Location = new System.Drawing.Point(7, 65);
+            this.groupBox1.Location = new System.Drawing.Point(7, 97);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(267, 119);
             this.groupBox1.TabIndex = 8;
@@ -168,11 +170,32 @@
             this.checkBoxStartMinimized.UseVisualStyleBackColor = true;
             this.checkBoxStartMinimized.CheckedChanged += new System.EventHandler(this.checkBoxStartMinimized_CheckedChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 73);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Theme:";
+            // 
+            // themeBox
+            // 
+            this.themeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.themeBox.FormattingEnabled = true;
+            this.themeBox.Location = new System.Drawing.Point(68, 70);
+            this.themeBox.Name = "themeBox";
+            this.themeBox.Size = new System.Drawing.Size(121, 21);
+            this.themeBox.TabIndex = 11;
+            this.themeBox.SelectedIndexChanged += new System.EventHandler(this.themeBox_SelectedIndexChanged);
+            // 
             // OptionsDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.themeBox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBoxStartMinimized);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.linkLabel1);
@@ -203,6 +226,8 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.CheckBox checkBoxStartMinimized;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox themeBox;
 
 
 

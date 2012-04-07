@@ -35,7 +35,11 @@ namespace PassThru
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OptionsDisplay_Load(object sender, EventArgs e)
-        {            
+        {
+            foreach (string theme in ColorScheme.GetThemes())
+                themeBox.Items.Add(theme);
+            themeBox.SelectedText = ColorScheme.GetCurrentTheme();
+
             switch (LanguageConfig.GetCurrentLanguage())
             {
                 case LanguageConfig.Language.NONE:
@@ -156,6 +160,12 @@ namespace PassThru
         private void checkBoxStartMinimized_CheckedChanged(object sender, EventArgs e)
         {
             TrayIcon.StartMinimized = checkBoxStartMinimized.Checked;
+        }
+
+        private void themeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ColorScheme.GetThemes().Contains((string)themeBox.SelectedItem))
+                ColorScheme.ChangeTheme((string)themeBox.SelectedItem);
         }
     }
 }

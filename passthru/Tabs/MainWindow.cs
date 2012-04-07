@@ -17,7 +17,11 @@ namespace PassThru
 			}
 
 			public void Exit() {
-				Application.Exit();
+                try
+                {
+                    Application.Exit();
+                }
+                catch { }
 			}
 			
             private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) 
@@ -70,6 +74,8 @@ namespace PassThru
                 help.Dock = DockStyle.Fill;
                 //tabPage4.Controls.Add(help);
 
+                ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
+
                 switch (LanguageConfig.GetCurrentLanguage())
                 {
                     case LanguageConfig.Language.NONE:
@@ -110,6 +116,15 @@ namespace PassThru
                     this.WindowState = FormWindowState.Minimized;
                 }
 			}
+
+            void ColorScheme_ThemeChanged()
+            {
+                ColorScheme.SetColorScheme(this);
+                ColorScheme.SetColorScheme(log);
+                ColorScheme.SetColorScheme(ac);
+                ColorScheme.SetColorScheme(od);
+                ColorScheme.SetColorScheme(help);
+            }
 
             private void MainWindow_Resize(object sender, EventArgs e)
             {

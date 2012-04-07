@@ -59,11 +59,17 @@ namespace PassThru
 			tray.DoubleClick += new EventHandler(tray_DoubleClick);
             popup = new TrayPopup();
             ColorScheme.SetColorScheme(popup);
+            ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
             popup.Show();
             popup.Location = new System.Drawing.Point(Screen.PrimaryScreen.WorkingArea.Width - popup.Width, Screen.PrimaryScreen.WorkingArea.Height - popup.Height);
             popup.Visible = false;
             LoadConfig();
 		}
+
+        void ColorScheme_ThemeChanged()
+        {
+            ColorScheme.SetColorScheme(popup);
+        }
 		NotifyIcon tray;
         public MenuItem adapters;
 

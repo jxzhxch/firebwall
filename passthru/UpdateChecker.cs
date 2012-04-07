@@ -175,7 +175,7 @@ namespace PassThru
             {
                 WebClient wc = new WebClient();
                 string xml = wc.DownloadString("http://www.firebwall.com/currentVersion.php");
-                string url = "http://www.firebwall.com/index.php#fireBwall " + xml;
+                string url = "http://www.firebwall.com/index.php#fireBwall%20" + xml;
                 string version = xml;
                 string a = version.Substring(0, version.IndexOf("."));
                 if (versionA == int.Parse(a))

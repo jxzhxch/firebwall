@@ -5,12 +5,13 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 using FM;
+using System.IO;
 
 namespace PassThru
 {
     public static class ColorScheme
     {
-        public static SerializableDictionary<string, Color> currentTheme = null;
+        public static string currentTheme = null;
         public static SerializableDictionary<string, SerializableDictionary<string, Color>> themes = new SerializableDictionary<string, SerializableDictionary<string, Color>>();
 
         public static void LoadThemes()
@@ -52,7 +53,78 @@ namespace PassThru
 
             themes["Mordor"] = mordorTheme;
             themes["Light"] = lightTheme;
-            currentTheme = lightTheme;
+            currentTheme = "Light";
+
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            if (!File.Exists(folder + Path.DirectorySeparatorChar + "currentTheme.cfg"))
+                currentTheme = null;
+            else
+                currentTheme = File.ReadAllText(folder + Path.DirectorySeparatorChar + "currentTheme.cfg");
+            folder = folder + Path.DirectorySeparatorChar + "themes";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            foreach (string dir in Directory.GetFiles(folder))
+            {
+                if (currentTheme == null)
+                {
+                    currentTheme = dir;
+                }
+                string themeName = dir.Substring(dir.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+                themes[themeName] = new SerializableDictionary<string, Color>();
+                foreach (string line in File.ReadAllLines(dir))
+                {
+                    string[] split = line.Split(':');
+                    themes[themeName][split[0]] = Color.FromArgb(int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
+                }
+            }
+
+            Save();
+        }
+
+        public static List<string> GetThemes()
+        {
+            return new List<string>(themes.Keys);
+        }
+
+        public static string GetCurrentTheme()
+        {
+            return currentTheme;
+        }
+
+        public static void ChangeTheme(string newTheme)
+        {
+            currentTheme = newTheme;
+            Save();
+            if (ThemeChanged != null)
+                ThemeChanged();
+        }
+
+        public static event System.Threading.ThreadStart ThemeChanged;
+
+        public static void Save()
+        {
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            File.WriteAllText(folder + Path.DirectorySeparatorChar + "currentTheme.cfg", currentTheme);
+            folder = folder + Path.DirectorySeparatorChar + "themes";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            foreach (KeyValuePair<string, SerializableDictionary<string, Color>> theme in themes)
+            {
+                string ThemeString = "";
+                foreach (KeyValuePair<string, Color> value in theme.Value)
+                {
+                    ThemeString += value.Key + ":" + value.Value.R.ToString() + ":" + value.Value.G.ToString() + ":" + value.Value.B.ToString() + "\n";
+                }
+                File.WriteAllText(folder + Path.DirectorySeparatorChar + theme.Key, ThemeString);
+            }
         }
 
         public static void SetColorScheme(Control control)
@@ -61,27 +133,27 @@ namespace PassThru
             {
                 if (((Button)control).FlatStyle == FlatStyle.Flat)
                 {
-                    control.BackColor = currentTheme["FlatButtonBack"];
-                    control.ForeColor = currentTheme["FlatButtonFore"];
+                    control.BackColor = themes[currentTheme]["FlatButtonBack"];
+                    control.ForeColor = themes[currentTheme]["FlatButtonFore"];
                 }
                 else
                 {
-                    control.BackColor = currentTheme["ButtonBack"];
-                    control.ForeColor = currentTheme["ButtonFore"];
+                    control.BackColor = themes[currentTheme]["ButtonBack"];
+                    control.ForeColor = themes[currentTheme]["ButtonFore"];
                 }
             }
             else if (control is DataGridView)
             {
-                ((DataGridView)control).GridColor = currentTheme["GridColor"];
-                ((DataGridView)control).ForeColor = currentTheme["GridForeColor"];
-                ((DataGridView)control).BackgroundColor = currentTheme["GridBackColor"];
-                ((DataGridView)control).ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle() { ForeColor = currentTheme["GridHeaderFore"], BackColor = currentTheme["GridHeaderBack"], SelectionForeColor = currentTheme["GridHeaderFore"], SelectionBackColor = currentTheme["GridHeaderBack"] };
-                ((DataGridView)control).DefaultCellStyle = new DataGridViewCellStyle() { ForeColor = currentTheme["GridCellFore"], BackColor = currentTheme["GridCellBack"], SelectionBackColor = currentTheme["GridSelectCellBack"], SelectionForeColor = currentTheme["GridSelectCellFore"] };
+                ((DataGridView)control).GridColor = themes[currentTheme]["GridColor"];
+                ((DataGridView)control).ForeColor = themes[currentTheme]["GridForeColor"];
+                ((DataGridView)control).BackgroundColor = themes[currentTheme]["GridBackColor"];
+                ((DataGridView)control).ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle() { ForeColor = themes[currentTheme]["GridHeaderFore"], BackColor = themes[currentTheme]["GridHeaderBack"], SelectionForeColor = themes[currentTheme]["GridHeaderFore"], SelectionBackColor = themes[currentTheme]["GridHeaderBack"] };
+                ((DataGridView)control).DefaultCellStyle = new DataGridViewCellStyle() { ForeColor = themes[currentTheme]["GridCellFore"], BackColor = themes[currentTheme]["GridCellBack"], SelectionBackColor = themes[currentTheme]["GridSelectCellBack"], SelectionForeColor = themes[currentTheme]["GridSelectCellFore"] };
             }
             else
             {
-                control.BackColor = currentTheme["Back"];
-                control.ForeColor = currentTheme["Fore"];
+                control.BackColor = themes[currentTheme]["Back"];
+                control.ForeColor = themes[currentTheme]["Fore"];
             }
             foreach (Control c in control.Controls)
                 SetColorScheme(c);
