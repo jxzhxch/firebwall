@@ -61,6 +61,8 @@ namespace PassThru
                 Directory.CreateDirectory(folder);
             if (File.Exists(folder + Path.DirectorySeparatorChar + "currentTheme.cfg"))
                 currentTheme = File.ReadAllText(folder + Path.DirectorySeparatorChar + "currentTheme.cfg");
+            if (string.IsNullOrEmpty(currentTheme))
+                currentTheme = "Light";
             folder = folder + Path.DirectorySeparatorChar + "themes";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -79,7 +81,6 @@ namespace PassThru
                     themes[themeName][split[0]] = Color.FromArgb(int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
                 }
             }
-
             Save();
         }
 
