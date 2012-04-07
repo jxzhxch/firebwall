@@ -94,6 +94,13 @@ namespace PassThru.Modules
                     break;
             }
             loading = false;
+            ColorScheme.SetColorScheme(this);
+            ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
+        }
+
+        void ColorScheme_ThemeChanged()
+        {
+            ColorScheme.SetColorScheme(this);
         }
 
         private void buttonEnable_Click(object sender, EventArgs e)
@@ -130,7 +137,7 @@ namespace PassThru.Modules
                 UserControl uc = na.modules.GetModule(checkedListBoxModules.SelectedIndex).GetControl();
                 if (uc != null)
                 {
-                    Form f = new Form();
+                    ThemedForm f = new ThemedForm();
                     f.Size = new System.Drawing.Size(640, 480);
                     System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                     f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));

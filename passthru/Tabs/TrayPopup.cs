@@ -96,7 +96,7 @@ namespace PassThru.Tabs
                             UserControl uc = le.PMR.actualModule.GetControl();
                             if (uc != null)
                             {
-                                Form f = new Form();
+                                ThemedForm f = new ThemedForm();
                                 f.Size = new System.Drawing.Size(640, 480);
                                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                                 f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
