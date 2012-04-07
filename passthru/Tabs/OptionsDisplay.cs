@@ -88,12 +88,12 @@ namespace PassThru
             ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
         }
 
+        bool dontupdate = false;
         void ColorScheme_ThemeChanged()
         {
             themeBox.Items.Clear();
             foreach (string theme in ColorScheme.GetThemes())
                 themeBox.Items.Add(theme);
-            themeBox.SelectedItem = ColorScheme.GetCurrentTheme();
             ColorScheme.SetColorScheme(this);
         }        
 
@@ -174,7 +174,7 @@ namespace PassThru
 
         private void themeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ColorScheme.GetThemes().Contains((string)themeBox.SelectedItem))
+            if (ColorScheme.GetThemes().Contains((string)themeBox.SelectedItem) && !dontupdate)
                 ColorScheme.ChangeTheme((string)themeBox.SelectedItem);
         }
 
