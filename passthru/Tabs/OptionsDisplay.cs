@@ -38,7 +38,7 @@ namespace PassThru
         {
             foreach (string theme in ColorScheme.GetThemes())
                 themeBox.Items.Add(theme);
-            themeBox.SelectedText = ColorScheme.GetCurrentTheme();
+            themeBox.SelectedItem = ColorScheme.GetCurrentTheme();
 
             switch (LanguageConfig.GetCurrentLanguage())
             {
