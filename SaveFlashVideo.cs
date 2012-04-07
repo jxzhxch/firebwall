@@ -23,7 +23,7 @@ namespace SaveFlashVideo
 
         public override ModuleError ModuleStart()
         {
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             folder = folder + Path.DirectorySeparatorChar + "firebwall";
             folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar;
             folder = folder + Path.DirectorySeparatorChar + "SaveFlashVideo" + Path.DirectorySeparatorChar;
@@ -166,7 +166,7 @@ namespace SaveFlashVideo
             {
                 try
                 {
-                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                     folder = folder + Path.DirectorySeparatorChar + "firebwall";
                     folder = folder + Path.DirectorySeparatorChar + "modules" + Path.DirectorySeparatorChar;
                     folder = folder + Path.DirectorySeparatorChar + "SaveFlashVideo" + Path.DirectorySeparatorChar;

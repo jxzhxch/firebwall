@@ -81,7 +81,7 @@ namespace SaveFlashVideo
         {
             try
             {
-                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + System.IO.Path.DirectorySeparatorChar + "firebwall" + System.IO.Path.DirectorySeparatorChar + "modules" + System.IO.Path.DirectorySeparatorChar + "SaveFlashVideo");
+                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + System.IO.Path.DirectorySeparatorChar + "firebwall" + System.IO.Path.DirectorySeparatorChar + "modules" + System.IO.Path.DirectorySeparatorChar + "SaveFlashVideo");
             }
             catch { };
         }
