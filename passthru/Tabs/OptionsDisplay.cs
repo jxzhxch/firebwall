@@ -167,5 +167,15 @@ namespace PassThru
             if (ColorScheme.GetThemes().Contains((string)themeBox.SelectedItem))
                 ColorScheme.ChangeTheme((string)themeBox.SelectedItem);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ColorSchemeEditor cse = new ColorSchemeEditor(ColorScheme.currentTheme);
+            cse.Width = 640;
+            cse.Height = 480;
+            System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
+            cse.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
+            cse.Show();
+        }
     }
 }

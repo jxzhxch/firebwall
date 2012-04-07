@@ -41,6 +41,7 @@
             this.checkBoxStartMinimized = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.themeBox = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -189,11 +190,22 @@
             this.themeBox.TabIndex = 11;
             this.themeBox.SelectedIndexChanged += new System.EventHandler(this.themeBox_SelectedIndexChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(196, 70);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(78, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Edit Current Theme";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // OptionsDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.themeBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBoxStartMinimized);
@@ -228,6 +240,7 @@
         public System.Windows.Forms.CheckBox checkBoxStartMinimized;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox themeBox;
+        private System.Windows.Forms.Button button1;
 
 
 
