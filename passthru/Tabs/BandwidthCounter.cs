@@ -14,46 +14,36 @@ namespace PassThru
         /// </summary>
         class MiniCounter
         {
-            public uint bytes = 0;
-            public uint kbytes = 0;
-            public uint mbytes = 0;
-            public uint gbytes = 0;
-            public uint tbytes = 0;
-            public uint pbytes = 0;
-            DateTime lastRead = DateTime.Now;
+            public uint bits = 0;
+            public uint kbits = 0;
+            public uint mbits = 0;
+            public uint gbits = 0;
+            public uint tbits = 0;
+            public uint pbits = 0;
+            DateTime lastRead = DateTime.UtcNow;
 
             /// <summary>
-            /// Adds bits(total misnomer because bits per second looks a lot better than bytes per second)
+            /// Adds bits
             /// </summary>
             /// <param name="count">The number of bits to add</param>
-            public void AddBytes(uint count)
+            public void AddBits(uint count)
             {
-                bytes += count;
-                while (bytes > 1024)
-                {
-                    kbytes++;
-                    bytes -= 1024;
-                }
-                while (kbytes > 1024)
-                {
-                    mbytes++;
-                    kbytes -= 1024;
-                }
-                while (mbytes > 1024)
-                {
-                    gbytes++;
-                    mbytes -= 1024;
-                }
-                while (gbytes > 1024)
-                {
-                    tbytes++;
-                    gbytes -= 1024;
-                }
-                while (tbytes > 1024)
-                {
-                    pbytes++;
-                    tbytes -= 1024;
-                }
+                bits += count;
+
+                kbits += bits / 1024;
+                bits = bits % 1024;
+
+                mbits += kbits / 1024;
+                kbits = kbits % 1024;
+
+                gbits += mbits / 1024;
+                mbits = mbits % 1024;
+
+                tbits += gbits / 1024;
+                gbits = gbits % 1024;
+
+                pbits += tbits / 1024;
+                tbits = tbits % 1024;
             }
 
             /// <summary>
@@ -62,51 +52,51 @@ namespace PassThru
             /// <returns></returns>
             public override string ToString()
             {
-                if (pbytes > 0)
+                if (pbits > 0)
                 {
-                    double ret = (double)pbytes + ((double)((double)tbytes / 1024));
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = (double)pbits + ((double)((double)tbits / 1024));
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
                     return s + " Pb";
                 }
-                else if (tbytes > 0)
+                else if (tbits > 0)
                 {
-                    double ret = (double)tbytes + ((double)((double)gbytes / 1024));
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = (double)tbits + ((double)((double)gbits / 1024));
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
                     return s + " Tb";
                 }
-                else if (gbytes > 0)
+                else if (gbits > 0)
                 {
-                    double ret = (double)gbytes + ((double)((double)mbytes / 1024));
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = (double)gbits + ((double)((double)mbits / 1024));
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
                     return s + " Gb";
                 }
-                else if (mbytes > 0)
+                else if (mbits > 0)
                 {
-                    double ret = (double)mbytes + ((double)((double)kbytes / 1024));
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = (double)mbits + ((double)((double)kbits / 1024));
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
                     return s + " Mb";
                 }
-                else if (kbytes > 0)
+                else if (kbits > 0)
                 {
-                    double ret = (double)kbytes + ((double)((double)bytes / 1024));
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = (double)kbits + ((double)((double)bits / 1024));
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
@@ -114,9 +104,9 @@ namespace PassThru
                 }
                 else
                 {
-                    double ret = bytes;
-                    ret = ret / (DateTime.Now - lastRead).TotalSeconds;
-                    lastRead = DateTime.Now;
+                    double ret = bits;
+                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
@@ -125,12 +115,12 @@ namespace PassThru
             }
         }
 
-        private uint bytes = 0;
-        private uint kbytes = 0;
-        private uint mbytes = 0;
-        private uint gbytes = 0;
-        private uint tbytes = 0;
-        private uint pbytes = 0;
+        private uint bits = 0;
+        private uint kbits = 0;
+        private uint mbits = 0;
+        private uint gbits = 0;
+        private uint tbits = 0;
+        private uint pbits = 0;
         MiniCounter perSecond = new MiniCounter();
 
         /// <summary>
@@ -153,43 +143,32 @@ namespace PassThru
         }
 
         /// <summary>
-        /// Adds bytes to the total transfered
+        /// Adds bits to the total transfered
         /// </summary>
         /// <param name="count">Byte count</param>
-        public void AddBytes(uint count)
+        public void AddBits(uint count)
         {
             // overflow max
             if ((count * 8) >= Int32.MaxValue)
                 return;
        
             count = 8 * count;
-            perSecond.AddBytes(count);
-            bytes += count;
-            while (bytes > 1024)
-            {
-                kbytes++;
-                bytes -= 1024;
-            }
-            while (kbytes > 1024)
-            {
-                mbytes++;
-                kbytes -= 1024;
-            }
-            while (mbytes > 1024)
-            {
-                gbytes++;
-                mbytes -= 1024;
-            }
-            while (gbytes > 1024)
-            {
-                tbytes++;
-                gbytes -= 1024;
-            }
-            while (tbytes > 1024)
-            {
-                pbytes++;
-                tbytes -= 1024;
-            }
+            perSecond.AddBits(count);
+            bits += count;
+            kbits += bits / 1024;
+            bits = bits % 1024;
+
+            mbits += kbits / 1024;
+            kbits = kbits % 1024;
+
+            gbits += mbits / 1024;
+            mbits = mbits % 1024;
+
+            tbits += gbits / 1024;
+            gbits = gbits % 1024;
+
+            pbits += tbits / 1024;
+            tbits = tbits % 1024;
         }
 
         /// <summary>
@@ -198,41 +177,41 @@ namespace PassThru
         /// <returns></returns>
         public override string ToString()
         {
-            if (pbytes > 0)
+            if (pbits > 0)
             {
-                double ret = (double)pbytes + ((double)((double)tbytes / 1024));
+                double ret = (double)pbits + ((double)((double)tbits / 1024));
                 string s = ret.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
                 return s + " Pb";
             }
-            else if (tbytes > 0)
+            else if (tbits > 0)
             {
-                double ret = (double)tbytes + ((double)((double)gbytes / 1024));
+                double ret = (double)tbits + ((double)((double)gbits / 1024));
                 string s = ret.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
                 return s + " Tb";
             }
-            else if (gbytes > 0)
+            else if (gbits > 0)
             {
-                double ret = (double)gbytes + ((double)((double)mbytes / 1024));
+                double ret = (double)gbits + ((double)((double)mbits / 1024));
                 string s = ret.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
                 return s + " Gb";
             }
-            else if (mbytes > 0)
+            else if (mbits > 0)
             {
-                double ret = (double)mbytes + ((double)((double)kbytes / 1024));
+                double ret = (double)mbits + ((double)((double)kbits / 1024));
                 string s = ret.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
                 return s + " Mb";
             }
-            else if (kbytes > 0)
+            else if (kbits > 0)
             {
-                double ret = (double)kbytes + ((double)((double)bytes / 1024));
+                double ret = (double)kbits + ((double)((double)bits / 1024));
                 string s = ret.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
@@ -240,7 +219,7 @@ namespace PassThru
             }
             else
             {
-                string s = bytes.ToString();
+                string s = bits.ToString();
                 if (s.Length > 6)
                     s = s.Substring(0, 6);
                 return s + " b";

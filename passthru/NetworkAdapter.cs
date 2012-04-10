@@ -222,11 +222,11 @@ namespace PassThru
 
                         if (pkt.Outbound)
                         {
-                            OutBandwidth.AddBytes(pkt.Length());
+                            OutBandwidth.AddBits(pkt.Length());
                         }
                         else
                         {
-                            InBandwidth.AddBytes(pkt.Length());
+                            InBandwidth.AddBits(pkt.Length());
                         }
 
                         bool drop = false;
@@ -274,11 +274,11 @@ namespace PassThru
 
                         if (pkt.Outbound)
                         {
-                            OutBandwidth.AddBytes(pkt.Length());
+                            OutBandwidth.AddBits(pkt.Length());
                         }
                         else
                         {
-                            InBandwidth.AddBytes(pkt.Length());
+                            InBandwidth.AddBits(pkt.Length());
                         }
 
                         bool drop = false;
