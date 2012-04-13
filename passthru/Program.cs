@@ -28,7 +28,7 @@ namespace PassThru
 	class Program
     {        
 		public static MainWindow mainWindow;
-        public static UpdateChecker uc = new UpdateChecker();
+        public static UpdateChecker uc;
 		static bool Running = true;
 
         /// <summary>
@@ -65,7 +65,6 @@ namespace PassThru
             //tray = new TrayIcon();
             MoveOldConfig();
             ColorScheme.LoadThemes();
-            uc.Updater();
             mainWindow = new MainWindow();
             foreach (NetworkAdapter ni in NetworkAdapter.GetAllAdapters())
             {

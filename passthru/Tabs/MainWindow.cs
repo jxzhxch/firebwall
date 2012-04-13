@@ -30,7 +30,7 @@ namespace PassThru
 				{
 					this.Visible = false;
 					e.Cancel = true;
-                    ac.Kill();
+                    //ac.Kill();
 				}
 			}
 
@@ -47,6 +47,12 @@ namespace PassThru
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 this.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
                 LogCenter.ti = new TrayIcon();
+                Program.uc = new UpdateChecker();
+                Program.uc.Updater();
+                PassThru.Tabs.DownloadCenter.Instance.Width = 800;
+                PassThru.Tabs.DownloadCenter.Instance.Height = 600;
+                PassThru.Tabs.DownloadCenter.Instance.Show();
+                PassThru.Tabs.DownloadCenter.Instance.Hide();
                 // call the log purger
                 LogCenter.cleanLogs();
 

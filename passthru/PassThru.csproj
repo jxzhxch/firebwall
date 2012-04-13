@@ -128,6 +128,12 @@
     </Compile>
     <Compile Include="iphlp.cs" />
     <Compile Include="LogCenter.cs" />
+    <Compile Include="Tabs\DownloadCenter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tabs\DownloadCenter.Designer.cs">
+      <DependentUpon>DownloadCenter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tabs\Help.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -247,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ICMPFilterModule\ICMPFilterDisplay.resx">
       <DependentUpon>ICMPFilterDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tabs\DownloadCenter.resx">
+      <DependentUpon>DownloadCenter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\Help.resx">
       <DependentUpon>Help.cs</DependentUpon>

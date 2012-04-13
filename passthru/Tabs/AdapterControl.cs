@@ -43,6 +43,7 @@ namespace PassThru
 				InitializeComponent();
 				UpdateAdapterList();
                 t = new Thread(new ThreadStart(Timing));
+                t.Name = "AdapterControl Adapter Update Thread";
                 t.Start();
                 flowLayoutPanel1.SizeChanged += new EventHandler(flowLayoutPanel1_SizeChanged);
 			}

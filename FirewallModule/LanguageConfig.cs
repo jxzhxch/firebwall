@@ -63,6 +63,61 @@ namespace FM
             catch { }
         }
 
+        public static string GetCurrentTwoLetter()
+        {
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            folder = folder + Path.DirectorySeparatorChar + "firebwall";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string file = folder + Path.DirectorySeparatorChar + "language.cfg";
+            if (File.Exists(file))
+            {
+                string twoLetter = File.ReadAllText(file);
+                switch (twoLetter)
+                {
+                    case "en":
+                        cLanguage = Language.ENGLISH;
+                        break;
+                    case "es":
+                        cLanguage = Language.SPANISH;
+                        break;
+                    case "de":
+                        cLanguage = Language.GERMAN;
+                        break;
+                    case "zh":
+                        cLanguage = Language.CHINESE;
+                        break;
+                    case "ru":
+                        cLanguage = Language.RUSSIAN;
+                        break;
+                    case "pt":
+                        cLanguage = Language.PORTUGUESE;
+                        break;
+                }
+            }
+            else if (cLanguage == Language.NONE)
+            {
+                switch (cLanguage)
+                {
+                    case Language.NONE:
+                        return CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                    case Language.ENGLISH:
+                        return "en";
+                    case Language.CHINESE:
+                        return "zh";
+                    case Language.GERMAN:
+                        return "de";
+                    case Language.PORTUGUESE:
+                        return "pt";
+                    case Language.RUSSIAN:
+                        return "ru";
+                    case Language.SPANISH:
+                        return "es";
+                } 
+            }
+            return "en";
+        }
+
         /// <summary>
         /// Returns the current language, or sets it if it hasn't been.
         /// </summary>

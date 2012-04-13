@@ -4,21 +4,37 @@ using System.Text;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Xml;
 using FM;
 
 namespace PassThru
 {
+    public class fireBwallMetaData
+    {
+        public List<string> changelog = new List<string>();
+        public string Description = "";
+        public string filename = "";
+        public string version = "";
+        public string downloadUrl = "";
+        public string imageUrl = "";
+        public List<string> screenShotUrls = new List<string>();
+    }
+
     public class UpdateChecker
     {
-        int versionA = 0;
-        int versionB = 3;
-        int versionC = 11;
-        int versionD = 0;
+        static int versionA = 0;
+        static int versionB = 3;
+        static int versionC = 11;
+        static int versionD = 0;
         Thread updateThread;
+
+        public static fireBwallMetaData availableFirebwall = null;
+        static object padlock = new object();
 
         [Serializable]
         public class UpdateConfig
@@ -111,6 +127,7 @@ namespace PassThru
         {
             LoadConfig();
             updateThread = new Thread(new ThreadStart(UpdateLoop));
+            updateThread.Name = "Update Loop";
             updateThread.Start();            
         }
 
@@ -141,84 +158,130 @@ namespace PassThru
             }
         }
 
-        // REVIEW
+        public void UpdateFirebwallMetaVersion()
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                client.Headers[HttpRequestHeader.UserAgent] = "firebwall 0.3.11.0 Updater";
+                XmlTextReader reader = new XmlTextReader("https://www.firebwall.com/api/firebwall/" + LanguageConfig.GetCurrentTwoLetter() + ".xml");
+                lock (padlock)
+                {
+                    availableFirebwall = new fireBwallMetaData();
+                    while (reader.Read())
+                    {
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Element:
+                                if (reader.Name == "current")
+                                {
+                                    availableFirebwall.version = reader.GetAttribute("version");
+                                }
+                                else if (reader.Name == "filename")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                        availableFirebwall.filename = reader.Value;
+                                }
+                                else if (reader.Name == "description")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                        availableFirebwall.Description = reader.Value;
+                                }
+                                else if (reader.Name == "entry")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                        availableFirebwall.changelog.Add(reader.Value);
+                                }
+                                else if (reader.Name == "downloadurl")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                        availableFirebwall.downloadUrl = reader.Value;
+                                }
+                                else if (reader.Name == "imageurl")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                        availableFirebwall.imageUrl = reader.Value;
+                                }
+                                else if (reader.Name == "url")
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                    {
+                                        availableFirebwall.screenShotUrls.Add(reader.Value);
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        public static bool IsVersionNew()
+        {
+            string version = availableFirebwall.version;
+            string a = version.Substring(0, version.IndexOf("."));
+            if (versionA == int.Parse(a))
+            {
+                version = version.Substring(version.IndexOf(".") + 1);
+                string b = version.Substring(0, version.IndexOf("."));
+                if (versionB == int.Parse(b))
+                {
+                    version = version.Substring(version.IndexOf(".") + 1);
+                    string c = version.Substring(0, version.IndexOf("."));
+                    if (versionC == int.Parse(c))
+                    {
+                        version = version.Substring(version.IndexOf(".") + 1);
+                        if (versionD == int.Parse(version))
+                        {
+                            return false;
+                        }
+                        else if (versionD < int.Parse(version))
+                        {
+                            return true;
+                        }
+                    }
+                    else if (versionC < int.Parse(c))
+                    {
+                        return true;
+                    }
+                }
+                else if (versionB < int.Parse(b))
+                {
+                    return true;
+                }
+            }
+            else if (versionA < int.Parse(a))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void UpdateLoop()
         {
-            WebClient wc = new WebClient();
             bool firstTime = true;
             while (true)
             {
                 Thread.Sleep(30000);
                 if ((firstTime && Config.StartUpCheck) || Config.Enabled)
                 {
-                    string ret = CheckForNewVersion();
-                    if (ret != null)
+                    UpdateFirebwallMetaVersion();
+                    if (availableFirebwall != null && IsVersionNew())
                     {
-                        string questionA = "Would you like to download the newest version of fireBwall?";
-                        string headerA = "New Update Available!";
-                        if (MessageBox.Show(questionA, headerA, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            System.Diagnostics.Process.Start(ret);                            
-                        }
+                        PassThru.Tabs.DownloadCenter.Instance.ShowFirebwallUpdate();
                         return;
                     }
                 }
                 firstTime = false;
                 Thread.Sleep(new TimeSpan(0, (int)Config.MinuteInterval, 0));
             }
-        }
-
-        // REVIEW
-        public string CheckForNewVersion()
-        {
-            try
-            {
-                WebClient wc = new WebClient();
-                string xml = wc.DownloadString("http://www.firebwall.com/currentVersion.php");
-                string url = "http://www.firebwall.com/index.php#fireBwall%20" + xml;
-                string version = xml;
-                string a = version.Substring(0, version.IndexOf("."));
-                if (versionA == int.Parse(a))
-                {
-                    version = version.Substring(version.IndexOf(".") + 1);
-                    string b = version.Substring(0, version.IndexOf("."));
-                    if (versionB == int.Parse(b))
-                    {
-                        version = version.Substring(version.IndexOf(".") + 1);
-                        string c = version.Substring(0, version.IndexOf("."));
-                        if (versionC == int.Parse(c))
-                        {
-                            version = version.Substring(version.IndexOf(".") + 1);
-                            if (versionD == int.Parse(version))
-                            {
-                                return null;
-                            }
-                            else if (versionD < int.Parse(version))
-                            {
-                                return url;
-                            }
-                        }
-                        else if (versionC < int.Parse(c))
-                        {
-                            return url;
-                        }
-                    }
-                    else if (versionB < int.Parse(b))
-                    {
-                        return url;
-                    }
-                }
-                else if (versionA < int.Parse(a))
-                {
-                    return url;
-                }
-                return null;
-            }
-            catch (Exception e) 
-            {
-                LogCenter.WriteErrorLog(e);
-            }
-            return null;
         }
     }
 }
