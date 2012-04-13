@@ -66,67 +66,59 @@
                 // 
                 // tabPage1
                 // 
-                this.tabPage1.BackColor = System.Drawing.Color.Black;
-                this.tabPage1.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage1.AutoSize = true;
+                this.tabPage1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
                 this.tabPage1.FlatAppearance.BorderSize = 0;
                 this.tabPage1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-                this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.tabPage1.ForeColor = System.Drawing.Color.White;
-                this.tabPage1.Location = new System.Drawing.Point(86, 26);
+                this.tabPage1.Location = new System.Drawing.Point(26, 35);
                 this.tabPage1.Name = "tabPage1";
-                this.tabPage1.Size = new System.Drawing.Size(85, 33);
+                this.tabPage1.Size = new System.Drawing.Size(63, 23);
                 this.tabPage1.TabIndex = 1;
-                this.tabPage1.Text = "button1";
-                this.tabPage1.UseVisualStyleBackColor = false;
-                this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+                this.tabPage1.Text = "tabPage1";
+                this.tabPage1.UseVisualStyleBackColor = true;
+                this.tabPage1.Click += new System.EventHandler(this.button1_Click);
                 // 
                 // tabPage2
                 // 
-                this.tabPage2.BackColor = System.Drawing.Color.Black;
-                this.tabPage2.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage2.AutoSize = true;
+                this.tabPage2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
                 this.tabPage2.FlatAppearance.BorderSize = 0;
                 this.tabPage2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-                this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.tabPage2.ForeColor = System.Drawing.Color.White;
-                this.tabPage2.Location = new System.Drawing.Point(513, 26);
+                this.tabPage2.Location = new System.Drawing.Point(176, 35);
                 this.tabPage2.Name = "tabPage2";
-                this.tabPage2.Size = new System.Drawing.Size(75, 33);
+                this.tabPage2.Size = new System.Drawing.Size(63, 23);
                 this.tabPage2.TabIndex = 2;
-                this.tabPage2.Text = "button1";
-                this.tabPage2.UseVisualStyleBackColor = false;
-                this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+                this.tabPage2.Text = "tabPage1";
+                this.tabPage2.UseVisualStyleBackColor = true;
+                this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click_3);
                 // 
                 // tabPage3
                 // 
-                this.tabPage3.BackColor = System.Drawing.Color.Black;
-                this.tabPage3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage3.AutoSize = true;
+                this.tabPage3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
                 this.tabPage3.FlatAppearance.BorderSize = 0;
                 this.tabPage3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-                this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.tabPage3.ForeColor = System.Drawing.Color.White;
-                this.tabPage3.Location = new System.Drawing.Point(213, 26);
+                this.tabPage3.Location = new System.Drawing.Point(494, 35);
                 this.tabPage3.Name = "tabPage3";
-                this.tabPage3.Size = new System.Drawing.Size(95, 33);
+                this.tabPage3.Size = new System.Drawing.Size(63, 23);
                 this.tabPage3.TabIndex = 3;
-                this.tabPage3.Text = "button1";
-                this.tabPage3.UseVisualStyleBackColor = false;
-                this.tabPage3.Click += new System.EventHandler(this.tabPage2_Click_1);
+                this.tabPage3.Text = "tabPage1";
+                this.tabPage3.UseVisualStyleBackColor = true;
+                this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click_1);
                 // 
                 // tabPage4
                 // 
-                this.tabPage4.BackColor = System.Drawing.Color.Black;
-                this.tabPage4.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+                this.tabPage4.AutoSize = true;
+                this.tabPage4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
                 this.tabPage4.FlatAppearance.BorderSize = 0;
                 this.tabPage4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-                this.tabPage4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.tabPage4.ForeColor = System.Drawing.Color.White;
-                this.tabPage4.Location = new System.Drawing.Point(687, 26);
+                this.tabPage4.Location = new System.Drawing.Point(703, 35);
                 this.tabPage4.Name = "tabPage4";
-                this.tabPage4.Size = new System.Drawing.Size(95, 33);
+                this.tabPage4.Size = new System.Drawing.Size(39, 23);
                 this.tabPage4.TabIndex = 4;
                 this.tabPage4.Text = "Help";
-                this.tabPage4.UseVisualStyleBackColor = false;
-                this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
+                this.tabPage4.UseVisualStyleBackColor = true;
+                this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click_2);
                 // 
                 // MainWindow
                 // 
@@ -145,6 +137,7 @@
                 this.Load += new System.EventHandler(this.MainWindow_Load);
                 this.Resize += new System.EventHandler(this.MainWindow_Resize);
                 this.splitContainer1.Panel1.ResumeLayout(false);
+                this.splitContainer1.Panel1.PerformLayout();
                 this.splitContainer1.ResumeLayout(false);
                 ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
                 this.ResumeLayout(false);
@@ -152,9 +145,9 @@
             }
             private System.Windows.Forms.SplitContainer splitContainer1;
             private System.Windows.Forms.PictureBox pictureBox1;
-            private System.Windows.Forms.Button tabPage1;
             private System.Windows.Forms.Button tabPage4;
             private System.Windows.Forms.Button tabPage3;
             private System.Windows.Forms.Button tabPage2;
+            private System.Windows.Forms.Button tabPage1;
 		}
 }

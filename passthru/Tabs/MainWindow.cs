@@ -124,14 +124,15 @@ namespace PassThru
                 ColorScheme.SetColorScheme(ac);
                 ColorScheme.SetColorScheme(od);
                 ColorScheme.SetColorScheme(help);
+                pictureBox1.Image = ColorScheme.GetCurrentBanner();
             }
 
             private void MainWindow_Resize(object sender, EventArgs e)
             {
-                tabPage1.Location = new Point(pictureBox1.Width / 20, (pictureBox1.Height / 2) - (tabPage1.Height / 2) - 4);
-                tabPage2.Location = new Point(12 * pictureBox1.Width / 20, (pictureBox1.Height / 2) - (tabPage2.Height / 2) - 4);
-                tabPage3.Location = new Point(5 * pictureBox1.Width / 20, (pictureBox1.Height / 2) - (tabPage3.Height / 2) - 4);
-                tabPage4.Location = new Point(16 * pictureBox1.Width / 20, (pictureBox1.Height / 2) - (tabPage4.Height / 2) - 4);                
+                tabPage1.Location = new Point(2 * pictureBox1.Width / 20 - tabPage1.Width / 2, (pictureBox1.Height / 2) - (tabPage1.Height / 2) - 4);
+                tabPage2.Location = new Point(14 * pictureBox1.Width / 20 - tabPage2.Width / 2, (pictureBox1.Height / 2) - (tabPage2.Height / 2) - 4);
+                tabPage3.Location = new Point(6 * pictureBox1.Width / 20 - tabPage3.Width / 2, (pictureBox1.Height / 2) - (tabPage3.Height / 2) - 4);
+                tabPage4.Location = new Point(18 * pictureBox1.Width / 20 - tabPage4.Width / 2, (pictureBox1.Height / 2) - (tabPage4.Height / 2) - 4);                
             }
 
             private void tabPage1_Click(object sender, EventArgs e)
@@ -156,6 +157,51 @@ namespace PassThru
             {
                 splitContainer1.Panel2.Controls.Clear();
                 splitContainer1.Panel2.Controls.Add(help);
+            }
+
+            private void tabPage1_MouseClick(object sender, MouseEventArgs e)
+            {
+                
+            }
+
+            private void tabPage3_Click(object sender, EventArgs e)
+            {
+                tabPage2_Click_1(sender, e);
+            }
+
+            private void tabPage1_Click_1(object sender, EventArgs e)
+            {
+                tabPage1_Click(sender, e);
+            }
+
+            private void tabPage2_Click_2(object sender, EventArgs e)
+            {
+                tabPage2_Click(sender, e);
+            }
+
+            private void tabPage4_Click_1(object sender, EventArgs e)
+            {
+                tabPage4_Click(sender, e);
+            }
+
+            private void button1_Click(object sender, EventArgs e)
+            {
+                tabPage1_Click_1(sender, e);
+            }
+
+            private void tabPage2_Click_3(object sender, EventArgs e)
+            {
+                tabPage2_Click_2(sender, e);
+            }
+
+            private void tabPage3_Click_1(object sender, EventArgs e)
+            {
+                tabPage3_Click(sender, e);
+            }
+
+            private void tabPage4_Click_2(object sender, EventArgs e)
+            {
+                tabPage4_Click_1(sender, e);
             }
 		}
 }

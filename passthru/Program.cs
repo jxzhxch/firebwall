@@ -58,7 +58,8 @@ namespace PassThru
         /// <summary>
         /// Entry point for the application
         /// </summary>
-        /// <param name="args"></param>            
+        /// <param name="args"></param>  
+        [STAThread]
 		static void Main(string[] args) 
         {                
             //tray = new TrayIcon();

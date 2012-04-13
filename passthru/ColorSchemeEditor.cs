@@ -5,35 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PassThru
 {
     public partial class ColorSchemeEditor : Form
     {
         string themeName;
-        SerializableDictionary<string, Color> theme;
-
-        public ColorSchemeEditor()
-        {
-            themeName = "NewTheme-" + DateTime.Now.Ticks;
-            theme = new SerializableDictionary<string, Color>();
-            theme["FlatButtonBack"] = Color.Black;
-            theme["FlatButtonFore"] = Color.White;
-            theme["ButtonBack"] = Color.WhiteSmoke;
-            theme["ButtonFore"] = Color.DarkBlue;
-            theme["GridColor"] = Color.WhiteSmoke;
-            theme["GridForeColor"] = Color.DarkBlue;
-            theme["GridBackColor"] = Color.WhiteSmoke;
-            theme["GridHeaderFore"] = Color.DarkBlue;
-            theme["GridHeaderBack"] = Color.WhiteSmoke;
-            theme["GridCellFore"] = Color.DarkBlue;
-            theme["GridCellBack"] = Color.WhiteSmoke;
-            theme["GridSelectCellBack"] = Color.LightBlue;
-            theme["GridSelectCellFore"] = Color.DarkBlue;
-            theme["Back"] = Color.WhiteSmoke;
-            theme["Fore"] = Color.DarkBlue;
-            InitializeComponent();
-        }
+        SerializableDictionary<string, string> theme;
 
         public ColorSchemeEditor(string themeName)
         {
@@ -47,8 +26,14 @@ namespace PassThru
             this.Text = themeName;
             textBox1.Text = themeName;
             DataSet ds = new DataSet();
-            foreach (KeyValuePair<string, Color> i in theme)
-                dataGridView1.Rows.Add((string)i.Key, ((int)i.Value.R).ToString(), ((int)i.Value.G).ToString(), ((int)i.Value.B).ToString());
+            foreach (KeyValuePair<string, string> i in theme)
+            {
+                if (i.Key != "BannerImage")
+                {
+                    string[] split = i.Value.Split(':');
+                    dataGridView1.Rows.Add((string)i.Key, split[0], split[1], split[2], split[3]);
+                }
+            }
             ColorScheme.SetColorScheme(this);
             ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
         }
@@ -70,13 +55,30 @@ namespace PassThru
             {
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    theme[(string)row.Cells[0].Value] = Color.FromArgb(int.Parse((string)row.Cells[1].Value), int.Parse((string)row.Cells[2].Value), int.Parse((string)row.Cells[3].Value));
+                    theme[(string)row.Cells[0].Value] = ((string)row.Cells[1].Value) + ":" +((string)row.Cells[2].Value) + ":" + ((string)row.Cells[3].Value) + ":" + ((string)row.Cells[4].Value);
                 }
             }
             catch { }
             ColorScheme.themes[themeName] = theme;
             ColorScheme.Save();
             ColorScheme.ChangeTheme(themeName);
+        }
+
+        [STAThread]
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.InitialDirectory = "c:\\";
+                ofd.RestoreDirectory = true;
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    theme["BannerImage"] = Convert.ToBase64String(File.ReadAllBytes(ofd.FileName));
+                    button1_Click(null, null);
+                }
+            }
+            catch { }
         }
     }
 }
