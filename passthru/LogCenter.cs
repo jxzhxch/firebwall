@@ -51,6 +51,7 @@ namespace PassThru
 
 			LogCenter() 
             {
+                pusher.Name = "Log Pusher Loop";
                 pusher.Start();
 			}
 

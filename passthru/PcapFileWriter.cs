@@ -29,6 +29,7 @@ namespace PassThru
             referenceTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 			start = DateTime.UtcNow;
             t = new Thread(new ThreadStart(WriteLoop));
+            t.Name = "PcapFile Write Loop";
             t.Start();
 		}
 

@@ -55,7 +55,7 @@ namespace PassThru
                 if (pbits > 0)
                 {
                     double ret = (double)pbits + ((double)((double)tbits / 1024));
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
@@ -65,7 +65,7 @@ namespace PassThru
                 else if (tbits > 0)
                 {
                     double ret = (double)tbits + ((double)((double)gbits / 1024));
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
@@ -75,7 +75,7 @@ namespace PassThru
                 else if (gbits > 0)
                 {
                     double ret = (double)gbits + ((double)((double)mbits / 1024));
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
@@ -85,7 +85,7 @@ namespace PassThru
                 else if (mbits > 0)
                 {
                     double ret = (double)mbits + ((double)((double)kbits / 1024));
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
@@ -95,7 +95,7 @@ namespace PassThru
                 else if (kbits > 0)
                 {
                     double ret = (double)kbits + ((double)((double)bits / 1024));
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)
@@ -105,7 +105,7 @@ namespace PassThru
                 else
                 {
                     double ret = bits;
-                    ret = ret / (DateTime.UtcNow - lastRead).TotalSeconds;
+                    ret = 1000 * ret / (DateTime.UtcNow - lastRead).TotalMilliseconds;
                     lastRead = DateTime.UtcNow;
                     string s = ret.ToString();
                     if (s.Length > 6)

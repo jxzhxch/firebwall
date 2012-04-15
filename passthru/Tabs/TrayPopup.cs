@@ -17,6 +17,7 @@ namespace PassThru.Tabs
         {
             InitializeComponent();
             t = new Thread(Loop);
+            t.Name = "Tray Hide Timer Loop";
             t.Start();
         }
 

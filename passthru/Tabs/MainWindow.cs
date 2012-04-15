@@ -19,6 +19,7 @@ namespace PassThru
 			public void Exit() {
                 try
                 {
+                    ac.Kill();
                     Application.Exit();
                 }
                 catch { }
@@ -121,6 +122,7 @@ namespace PassThru
                 {
                     this.WindowState = FormWindowState.Minimized;
                 }
+                ColorScheme_ThemeChanged();
 			}
 
             void ColorScheme_ThemeChanged()

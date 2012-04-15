@@ -100,6 +100,7 @@ namespace PassThru
 			SetAdapterMode();
 			SetPacketEvent();
 			processingThread = new Thread(ProcessLoop);
+            processingThread.Name = "ProcessLoop for " + this.InterfaceInformation.Name;
 			processing = true;
 			processingThread.Start();
 			return AdapterStartReturn.NoError;
