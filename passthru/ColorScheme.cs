@@ -35,7 +35,7 @@ namespace PassThru
             mordorTheme["Fore"] = Color.White;
 
             SerializableDictionary<string, Color> lightTheme = new SerializableDictionary<string, Color>();
-            lightTheme["FlatButtonBack"] = Color.Black;
+            lightTheme["FlatButtonBack"] = Color.Transparent;
             lightTheme["FlatButtonFore"] = Color.White;
             lightTheme["ButtonBack"] = Color.WhiteSmoke;
             lightTheme["ButtonFore"] = Color.DarkBlue;
