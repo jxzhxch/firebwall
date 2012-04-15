@@ -33,12 +33,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
             this.ColorName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Transparency = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Red = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Green = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Blue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -122,17 +122,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(515, 314);
             this.dataGridView1.TabIndex = 1;
             // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(3, 383);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(515, 24);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Save and Update";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // ColorName
             // 
             this.ColorName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -167,6 +156,17 @@
             this.Blue.HeaderText = "Blue";
             this.Blue.Name = "Blue";
             this.Blue.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(3, 383);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(515, 24);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Save and Update";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 

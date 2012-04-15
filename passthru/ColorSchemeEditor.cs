@@ -17,7 +17,7 @@ namespace PassThru
         public ColorSchemeEditor(string themeName)
         {
             this.themeName = themeName;
-            theme = ColorScheme.themes[themeName];
+            theme = new SerializableDictionary<string,string>(ColorScheme.themes[themeName]);
             InitializeComponent();
         }
 
