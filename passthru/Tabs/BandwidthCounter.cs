@@ -137,9 +137,12 @@ namespace PassThru
         /// <returns></returns>
         public string GetPerSecond()
         {
-            string s = perSecond.ToString() + "/s";
-            perSecond = new MiniCounter();
-            return s;
+            lock (this)
+            {
+                string s = perSecond.ToString() + "/s";
+                perSecond = new MiniCounter();
+                return s;
+            }
         }
 
         /// <summary>
@@ -153,7 +156,10 @@ namespace PassThru
                 return;
        
             count = 8 * count;
-            perSecond.AddBits(count);
+            lock (this)
+            {
+                perSecond.AddBits(count);
+            }
             bits += count;
             kbits += bits / 1024;
             bits = bits % 1024;
