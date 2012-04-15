@@ -211,5 +211,10 @@ namespace PassThru
             {
                 tabPage4_Click_1(sender, e);
             }
+
+            private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+            {
+                MainWindow_Resize(null, null);
+            }
 		}
 }
