@@ -94,6 +94,7 @@ namespace PassThru.Modules
                     break;
             }
             loading = false;
+            checkedListBoxModules.SelectedIndex = 0;
             ColorScheme.SetColorScheme(this);
             ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
         }
