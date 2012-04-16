@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using FM;
 using System.Runtime.InteropServices;
 
-namespace PassThru.Modules.MacFilter
+namespace MacFilter
 {
     public class MacFilterModule : FirewallModule
     {
@@ -69,7 +69,7 @@ namespace PassThru.Modules.MacFilter
                     ret += " and logs";
                 return ret;
             }
-            
+
             public MacRule(PacketStatus ps, Direction direction, bool log, bool notify)
             {
                 this.ps = ps;
@@ -104,7 +104,7 @@ namespace PassThru.Modules.MacFilter
                     if (mac == null || Compare(mac, epkt.ToMac))
                     {
                         if (log)
-                            message = "packet from " + new PhysicalAddress(epkt.FromMac).ToString() + 
+                            message = "packet from " + new PhysicalAddress(epkt.FromMac).ToString() +
                                 " to " + new PhysicalAddress(epkt.ToMac).ToString();
                         return ps;
                     }
@@ -114,7 +114,7 @@ namespace PassThru.Modules.MacFilter
                     if (mac == null || Compare(mac, epkt.FromMac))
                     {
                         if (log)
-                            message = "packet from " + new PhysicalAddress(epkt.FromMac).ToString() + 
+                            message = "packet from " + new PhysicalAddress(epkt.FromMac).ToString() +
                                 " to " + new PhysicalAddress(epkt.ToMac).ToString();
                         return ps;
                     }
@@ -140,11 +140,11 @@ namespace PassThru.Modules.MacFilter
             }
         }
 
-        public MacFilterModule(NetworkAdapter adapter)
-            : base(adapter)
+        public MacFilterModule()
+            : base()
         {
             MetaData.Name = "MAC Address Filter";
-            MetaData.Version = "1.0.0.0";
+            MetaData.Version = "1.1.0.0";
             MetaData.HelpString = "Each network adapter has a MAC address.  It can only be changed or faked in rare circumstances."
                 + "Each packet sent over the network says the MAC its from and the MAC its to."
                 + "This module allows you to control which MAC you will send or recieve data from.  Similarly to the Basic Firewall, the rules are processed in order from top to bottom.  You can also reorder the rules by clicking move up and move down.  To add a rule, click on Add Rule, and to remove one, click Remove Rule.";
@@ -159,11 +159,12 @@ namespace PassThru.Modules.MacFilter
         public override ModuleError ModuleStart()
         {
             LoadConfig();
+            rules = new List<MacRule>();
             lock (padlock)
             {
                 if (PersistentData != null)
                 {
-                    rules = (List<MacRule>)PersistentData;
+                    rules.AddRange((MacRule[])PersistentData);
                 }
                 else
                     rules = new List<MacRule>();
@@ -176,7 +177,7 @@ namespace PassThru.Modules.MacFilter
 
         public override ModuleError ModuleStop()
         {
-            PersistentData = rules;
+            PersistentData = rules.ToArray();
             SaveConfig();
             ModuleError me = new ModuleError();
             me.errorType = ModuleErrorType.Success;

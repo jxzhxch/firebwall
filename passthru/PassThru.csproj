@@ -77,13 +77,6 @@
     <Compile Include="ColorSchemeEditor.Designer.cs">
       <DependentUpon>ColorSchemeEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\ARPPoisoningModule\ArpPoisoningProtection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\ARPPoisoningModule\ArpPoisoningProtection.Designer.cs">
-      <DependentUpon>ArpPoisoningProtection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\ARPPoisoningModule\ARPPP.cs" />
     <Compile Include="Tabs\AdapterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -97,35 +90,6 @@
       <DependentUpon>AdapterDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Tabs\BandwidthCounter.cs" />
-    <Compile Include="Modules\BasicFirewallModule\AddEditRule.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\BasicFirewallModule\AddEditRule.Designer.cs">
-      <DependentUpon>AddEditRule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\BasicFirewallModule\BasicFirewallControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\BasicFirewallModule\BasicFirewallControl.Designer.cs">
-      <DependentUpon>BasicFirewallControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\BasicFirewallModule\BasicFirewallModule.cs" />
-    <Compile Include="Modules\DDoSModule\DDoSDisplay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\DDoSModule\DDoSDisplay.Designer.cs">
-      <DependentUpon>DDoSDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\DDoSModule\DDoSModule.cs" />
-    <Compile Include="Modules\DumpToPcapModule.cs" />
-    <Compile Include="Modules\EthEncryptionModule.cs" />
-    <Compile Include="Modules\ICMPFilterModule\ICMPFilterModule.cs" />
-    <Compile Include="Modules\ICMPFilterModule\ICMPFilterDisplay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\ICMPFilterModule\ICMPFilterDisplay.Designer.cs">
-      <DependentUpon>ICMPFilterDisplay.cs</DependentUpon>
-    </Compile>
     <Compile Include="iphlp.cs" />
     <Compile Include="LogCenter.cs" />
     <Compile Include="Tabs\DownloadCenter.cs">
@@ -153,30 +117,10 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ModuleList.cs" />
-    <Compile Include="Modules\IPMonitorModule\IPMonitorDisplay.cs">
+    <Compile Include="Tabs\ModuleConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Modules\IPMonitorModule\IPMonitorDisplay.Designer.cs">
-      <DependentUpon>IPMonitorDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\IPMonitorModule\IPMonitorModule.cs" />
-    <Compile Include="Modules\MacFilter\AddEditMacRule.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\MacFilter\AddEditMacRule.Designer.cs">
-      <DependentUpon>AddEditMacRule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\MacFilter\MacFilterControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\MacFilter\MacFilterControl.Designer.cs">
-      <DependentUpon>MacFilterControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\MacFilter\MacFilterModule.cs" />
-    <Compile Include="Modules\ModuleConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\ModuleConfiguration.Designer.cs">
+    <Compile Include="Tabs\ModuleConfiguration.Designer.cs">
       <DependentUpon>ModuleConfiguration.cs</DependentUpon>
     </Compile>
     <Compile Include="ndisapi.cs" />
@@ -233,26 +177,11 @@
     <EmbeddedResource Include="ColorSchemeEditor.resx">
       <DependentUpon>ColorSchemeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\ARPPoisoningModule\ArpPoisoningProtection.resx">
-      <DependentUpon>ArpPoisoningProtection.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Tabs\AdapterControl.resx">
       <DependentUpon>AdapterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\AdapterDisplay.resx">
       <DependentUpon>AdapterDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\BasicFirewallModule\AddEditRule.resx">
-      <DependentUpon>AddEditRule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\BasicFirewallModule\BasicFirewallControl.resx">
-      <DependentUpon>BasicFirewallControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\DDoSModule\DDoSDisplay.resx">
-      <DependentUpon>DDoSDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\ICMPFilterModule\ICMPFilterDisplay.resx">
-      <DependentUpon>ICMPFilterDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\DownloadCenter.resx">
       <DependentUpon>DownloadCenter.cs</DependentUpon>
@@ -266,16 +195,7 @@
     <EmbeddedResource Include="Tabs\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\IPMonitorModule\IPMonitorDisplay.resx">
-      <DependentUpon>IPMonitorDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\MacFilter\AddEditMacRule.resx">
-      <DependentUpon>AddEditMacRule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\MacFilter\MacFilterControl.resx">
-      <DependentUpon>MacFilterControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\ModuleConfiguration.resx">
+    <EmbeddedResource Include="Tabs\ModuleConfiguration.resx">
       <DependentUpon>ModuleConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

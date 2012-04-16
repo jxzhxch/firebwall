@@ -1,4 +1,4 @@
-﻿namespace PassThru
+﻿namespace BasicFirewall
 {
     partial class AddEditRule
     {

@@ -1,4 +1,4 @@
-﻿namespace PassThru.Modules.MacFilter
+﻿namespace MacFilter
 {
     partial class AddEditMacRule
     {

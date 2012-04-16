@@ -167,34 +167,6 @@ namespace PassThru
 
                 modules = new ModuleList(this);                
 
-                //Static and test modules
-                PassThru.Modules.MacFilter.MacFilterModule mfm = new Modules.MacFilter.MacFilterModule(this);
-                mfm.ModuleStart();
-                modules.AddModule(mfm);
-
-                ARPPP afm = new ARPPP(this);
-                afm.ModuleStart();
-                modules.AddModule(afm);
-
-                // ICMP filtering module
-                ICMPFilterModule icmpFilter = new ICMPFilterModule(this);
-                icmpFilter.ModuleStart();
-                modules.AddModule(icmpFilter);
-
-                BasicFirewall tfm = new BasicFirewall(this);
-                tfm.ModuleStart();
-                modules.AddModule(tfm);
-
-                //DDoS module
-                DDoSModule dos = new DDoSModule(this);
-                dos.ModuleStart();
-                modules.AddModule(dos);
-
-                // IP monitor module
-                IPMonitorModule ipm = new IPMonitorModule(this);
-                ipm.ModuleStart();
-                modules.AddModule(ipm);
-
                 modules.LoadExternalModules();
 
                 modules.UpdateModuleOrder();

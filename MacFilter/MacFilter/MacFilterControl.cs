@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PassThru.Modules.MacFilter
+namespace MacFilter
 {
     public partial class MacFilterControl : UserControl
     {
@@ -88,7 +88,7 @@ namespace PassThru.Modules.MacFilter
             }
             catch (Exception exception)
             {
-                LogCenter.WriteErrorLog(exception);
+                //LogCenter.WriteErrorLog(exception);
             }
         }
 
@@ -193,7 +193,7 @@ namespace PassThru.Modules.MacFilter
             }
             catch (Exception exception)
             {
-                LogCenter.WriteErrorLog(exception);
+                //LogCenter.WriteErrorLog(exception);
             }
         }
     }

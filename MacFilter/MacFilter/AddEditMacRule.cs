@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 
-namespace PassThru.Modules.MacFilter
+namespace MacFilter
 {
     public partial class AddEditMacRule : Form
     {

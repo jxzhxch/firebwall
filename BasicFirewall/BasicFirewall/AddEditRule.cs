@@ -7,12 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using FM;
 
-namespace PassThru
+namespace BasicFirewall
 {
     public partial class AddEditRule : Form
     {
-        private BasicFirewall.Rule newRule;
-        public BasicFirewall.Rule NewRule
+        private Rule newRule;
+        public Rule NewRule
         {
             get { return newRule; }
             set { newRule = value; }
@@ -27,7 +27,7 @@ namespace PassThru
         /// Constructor for initializing the GUi when editing a rule
         /// </summary>
         /// <param name="tmp"></param>
-        public AddEditRule(BasicFirewall.Rule tmp)
+        public AddEditRule(Rule tmp)
         {
             InitializeComponent();
 
@@ -38,38 +38,38 @@ namespace PassThru
             comboBox1.Enabled = false;
 
             // set the rule type and GUI options
-            if (tmp is BasicFirewall.AllRule)
+            if (tmp is AllRule)
             {
-                BasicFirewall.AllRule t = (BasicFirewall.AllRule)tmp;
+                AllRule t = (AllRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 // set the rule type
                 comboBox1.SelectedIndex = 5;
 
                 // set the direction
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 // set the action box
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.IPRule)
+            else if (tmp is IPRule)
             {
-                BasicFirewall.IPRule t = (BasicFirewall.IPRule)tmp;
+                IPRule t = (IPRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 6;
 
                 //direction
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
                 textBoxArguments.Text = t.ip.ToString();
@@ -77,38 +77,38 @@ namespace PassThru
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.TCPAllRule)
+            else if (tmp is TCPAllRule)
             {
-                BasicFirewall.TCPAllRule t = (BasicFirewall.TCPAllRule)tmp;
+                TCPAllRule t = (TCPAllRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 0;
 
                 //dir
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.TCPIPPortRule)
+            else if (tmp is TCPIPPortRule)
             {
-                BasicFirewall.TCPIPPortRule t = (BasicFirewall.TCPIPPortRule)tmp;
+                TCPIPPortRule t = (TCPIPPortRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 1;
 
                 //dir
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
                 textBoxArguments.Text = String.Format("{0} {1}", t.ip, t.port);
@@ -116,20 +116,20 @@ namespace PassThru
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.TCPPortRule)
+            else if (tmp is TCPPortRule)
             {
-                BasicFirewall.TCPPortRule t = (BasicFirewall.TCPPortRule)tmp;
+                TCPPortRule t = (TCPPortRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 2;
 
                 //dir
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
                 textBoxArguments.Text = t.GetPortString();
@@ -137,38 +137,38 @@ namespace PassThru
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.UDPAllRule)
+            else if (tmp is UDPAllRule)
             {
-                BasicFirewall.UDPAllRule t = (BasicFirewall.UDPAllRule)tmp;
+                UDPAllRule t = (UDPAllRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 3;
 
                 //dir
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //notify
                 notifyBox.Checked = (t.notify);
             }
-            else if (tmp is BasicFirewall.UDPPortRule)
+            else if (tmp is UDPPortRule)
             {
-                BasicFirewall.UDPPortRule t = (BasicFirewall.UDPPortRule)tmp;
+                UDPPortRule t = (UDPPortRule)tmp;
                 checkBoxLog.Checked = t.log;
 
                 //idx
                 comboBox1.SelectedIndex = 4;
 
                 //dir
-                checkBoxIn.Checked = ((t.direction & BasicFirewall.Direction.IN) != 0) ? true : false;
-                checkBoxOut.Checked = ((t.direction & BasicFirewall.Direction.OUT) != 0) ? true : false;
+                checkBoxIn.Checked = ((t.direction & Direction.IN) != 0) ? true : false;
+                checkBoxOut.Checked = ((t.direction & Direction.OUT) != 0) ? true : false;
 
                 //action
-                comboBoxAction.SelectedIndex = ((t.ps & BasicFirewall.PacketStatus.ALLOWED) != 0) ? 1 : 0;
+                comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
                 textBoxArguments.Text = t.GetPortString();
@@ -220,61 +220,61 @@ namespace PassThru
             {
                 try
                 {
-                    BasicFirewall.RuleType rt = BasicFirewall.RuleType.ALL;
+                    RuleType rt = RuleType.ALL;
                     switch (comboBox1.SelectedIndex)
                     {
                         case 3:
-                            rt = BasicFirewall.RuleType.UDPALL;
+                            rt = RuleType.UDPALL;
                             break;
                         case 4:
-                            rt = BasicFirewall.RuleType.UDPPORT;
+                            rt = RuleType.UDPPORT;
                             break;
                         case 1:
-                            rt = BasicFirewall.RuleType.TCPIPPORT;
+                            rt = RuleType.TCPIPPORT;
                             break;
                         case 2:
-                            rt = BasicFirewall.RuleType.TCPPORT;
+                            rt = RuleType.TCPPORT;
                             break;
                         case 0:
-                            rt = BasicFirewall.RuleType.TCPALL;
+                            rt = RuleType.TCPALL;
                             break;
                         case 5:
-                            rt = BasicFirewall.RuleType.ALL;
+                            rt = RuleType.ALL;
                             break;
                         case 6:
-                            rt = BasicFirewall.RuleType.IP;
+                            rt = RuleType.IP;
                             break;
                     }
-                    BasicFirewall.Direction dir;
+                    Direction dir;
                     if (checkBoxIn.Checked && checkBoxOut.Checked)
                     {
-                        dir = BasicFirewall.Direction.IN | BasicFirewall.Direction.OUT;
+                        dir = Direction.IN | Direction.OUT;
                     }
                     else if (checkBoxOut.Checked)
                     {
-                        dir = BasicFirewall.Direction.OUT;
+                        dir = Direction.OUT;
                     }
                     else
                     {
-                        dir = BasicFirewall.Direction.IN;
+                        dir = Direction.IN;
                     }
-                    BasicFirewall.PacketStatus ps;
+                    PacketStatus ps;
                     if (comboBoxAction.Text == "Block")
-                        ps = BasicFirewall.PacketStatus.BLOCKED;
+                        ps = PacketStatus.BLOCKED;
                     else
-                        ps = BasicFirewall.PacketStatus.ALLOWED;
+                        ps = PacketStatus.ALLOWED;
 
                     // multiple ports and the ip:port rule are parsed later on, so send all args as a string
 
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
-                    newRule = BasicFirewall.RuleFactory.MakeRule(rt, ps, dir, textBoxArguments.Text, 
+                    newRule = BasicFirewallModule.RuleFactory.MakeRule(rt, ps, dir, textBoxArguments.Text, 
                                                             checkBoxLog.Checked, notifyBox.Checked);
                     this.Close();
                 }
                 catch (Exception exception)
                 {
                     MessageBox.Show("Error in creating rule.");
-                    LogCenter.WriteErrorLog(exception);
+                    //LogCenter.WriteErrorLog(exception);
                 }
             }
             else

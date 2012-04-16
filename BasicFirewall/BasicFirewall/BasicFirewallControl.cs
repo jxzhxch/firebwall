@@ -6,13 +6,13 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PassThru
+namespace BasicFirewall
 {
     public partial class BasicFirewallControl : UserControl
     {
-        BasicFirewall basicfirewall;
+        BasicFirewallModule basicfirewall;
 
-        public BasicFirewallControl(BasicFirewall basicfirewall)
+        public BasicFirewallControl(BasicFirewallModule basicfirewall)
         {
             this.basicfirewall = basicfirewall;            
             InitializeComponent();
@@ -25,15 +25,15 @@ namespace PassThru
                 int index = listBox1.SelectedIndex;
                 if (index != 0)
                 {
-                    BasicFirewall.Rule rule = (BasicFirewall.Rule)listBox1.Items[index];
+                    Rule rule = (Rule)listBox1.Items[index];
                     listBox1.Items.RemoveAt(index);
                     index--;
                     listBox1.Items.Insert(index, rule);
                     listBox1.SelectedIndex = index;
-                    List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                    List<Rule> r = new List<Rule>();
                     foreach (object ru in listBox1.Items)
                     {
-                        r.Add((BasicFirewall.Rule)ru);
+                        r.Add((Rule)ru);
                     }
 
                     basicfirewall.InstanceGetRuleUpdates(r);
@@ -50,10 +50,10 @@ namespace PassThru
                 if (aer.ShowDialog() == DialogResult.OK)
                 {
                     listBox1.Items.Add(aer.NewRule);
-                    List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                    List<Rule> r = new List<Rule>();
                     foreach (object rule in listBox1.Items)
                     {
-                        r.Add((BasicFirewall.Rule)rule);
+                        r.Add((Rule)rule);
                     }
 
                     basicfirewall.InstanceGetRuleUpdates(r);
@@ -61,7 +61,8 @@ namespace PassThru
             }
             catch (Exception exception)
             {
-                LogCenter.WriteErrorLog(exception);
+                //LogCenter.WriteErrorLog(exception);
+                //Log Center isn't accessable directly from external modules
             }
         }
 
@@ -72,10 +73,10 @@ namespace PassThru
                 if (listBox1.SelectedItem == null) return;
                 listBox1.Items.RemoveAt(listBox1.SelectedIndex);
 
-                List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                List<Rule> r = new List<Rule>();
                 foreach (object rule in listBox1.Items)
                 {
-                    r.Add((BasicFirewall.Rule)rule);
+                    r.Add((Rule)rule);
                 }
 
                 basicfirewall.InstanceGetRuleUpdates(r);
@@ -86,8 +87,8 @@ namespace PassThru
         private void BasicFirewallControl_Load(object sender, EventArgs e)
         {
             listBox1.DisplayMember = "String";
-            List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>(basicfirewall.rules);
-            foreach (BasicFirewall.Rule rule in r)
+            List<Rule> r = new List<Rule>(basicfirewall.rules);
+            foreach (Rule rule in r)
             {
                 listBox1.Items.Add(rule);
             }
@@ -140,15 +141,15 @@ namespace PassThru
                 int index = listBox1.SelectedIndex;
                 if (index != listBox1.Items.Count - 1)
                 {
-                    BasicFirewall.Rule rule = (BasicFirewall.Rule)listBox1.Items[index];
+                    Rule rule = (Rule)listBox1.Items[index];
                     listBox1.Items.RemoveAt(index);
                     index++;
                     listBox1.Items.Insert(index, rule);
                     listBox1.SelectedIndex = index;
-                    List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                    List<Rule> r = new List<Rule>();
                     foreach (object ru in listBox1.Items)
                     {
-                        r.Add((BasicFirewall.Rule)ru);
+                        r.Add((Rule)ru);
                     }
 
                     basicfirewall.InstanceGetRuleUpdates(r);
@@ -170,7 +171,7 @@ namespace PassThru
             try
             {
                 int idx = listBox1.SelectedIndex;
-                BasicFirewall.Rule tmp = basicfirewall.rules[idx];
+                Rule tmp = basicfirewall.rules[idx];
                 AddEditRule aer = new AddEditRule(tmp);
 
                 // show dialog and confirm changes
@@ -178,10 +179,10 @@ namespace PassThru
                 {
                     // insert the new rule
                     listBox1.Items[idx] = aer.NewRule;
-                    List<BasicFirewall.Rule> r = new List<BasicFirewall.Rule>();
+                    List<Rule> r = new List<Rule>();
                     foreach (object rule in listBox1.Items)
                     {
-                        r.Add((BasicFirewall.Rule)rule);
+                        r.Add((Rule)rule);
                     }
 
                     basicfirewall.InstanceGetRuleUpdates(r);
@@ -189,7 +190,7 @@ namespace PassThru
             }
             catch (Exception ex)
             {
-                LogCenter.WriteErrorLog(ex);
+                //LogCenter.WriteErrorLog(ex);
             }
         }
     }
