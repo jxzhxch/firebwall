@@ -49,7 +49,7 @@
                 this.splitContainer1.Panel1.Controls.Add(this.tabPage2);
                 this.splitContainer1.Panel1.Controls.Add(this.tabPage1);
                 this.splitContainer1.Size = new System.Drawing.Size(794, 572);
-                this.splitContainer1.SplitterDistance = 143;
+                this.splitContainer1.SplitterDistance = 97;
                 this.splitContainer1.TabIndex = 4;
                 this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
                 // 
