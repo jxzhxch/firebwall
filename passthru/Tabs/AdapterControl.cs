@@ -22,7 +22,7 @@ namespace PassThru
                 {
                     while (timing)
                     {
-                        Thread.Sleep(500);
+                        Thread.Sleep(1000);
                         UpdateAdapterList();
                     }
                 }

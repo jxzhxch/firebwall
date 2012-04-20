@@ -115,7 +115,10 @@ namespace PassThru
 				hEvent.Close();
 				for (int x = 0; x < modules.Count; x++)
 				{
-					modules.GetModule(x).ModuleStop();
+                    if (modules.GetModule(x).Enabled)
+                    {
+                        modules.GetModule(x).ModuleStop();
+                    }
 				}
                 pcaplog.Close();
 			}
