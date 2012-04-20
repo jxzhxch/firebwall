@@ -72,7 +72,7 @@ namespace BasicFirewall
                 comboBoxAction.SelectedIndex = ((t.ps & PacketStatus.ALLOWED) != 0) ? 1 : 0;
 
                 //args
-                textBoxArguments.Text = t.ip.ToString();
+                textBoxArguments.Text = t.GetIPString();
 
                 //notify
                 notifyBox.Checked = (t.notify);
@@ -201,7 +201,7 @@ namespace BasicFirewall
                     tmp = "(Space Separated) IP Port";
                     break;
                 case 6:
-                    tmp = "IP";
+                    tmp = "(Space Separated) IP";
                     break;
             }
 
@@ -271,7 +271,7 @@ namespace BasicFirewall
                                                             checkBoxLog.Checked, notifyBox.Checked);
                     this.Close();
                 }
-                catch (Exception exception)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Error in creating rule.");
                     //LogCenter.WriteErrorLog(exception);

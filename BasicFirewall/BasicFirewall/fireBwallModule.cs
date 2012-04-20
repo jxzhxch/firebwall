@@ -17,7 +17,7 @@ namespace BasicFirewall
             : base()
         {
             MetaData.Name = "Basic Firewall";
-            MetaData.Version = "1.1.0.0";
+            MetaData.Version = "1.2.0.0";
             MetaData.HelpString = "Computers on networks often communicate using protocols that have ports.  TCP and UDP are the most common protocols.  You will see TCP being used very often, as it allows for stable and reliable connections.  UDP is less reliable and is used a bit less.  Both of these use ports to communicate.  Certain ports are used for certain things.  Some you may want open so you can share files or remotely control you computer, but in most cases, you want them closed."
                 + "\r\n\r\nThis module uses rules to Allow or Drop packets depending on what port or ip they are for.  It is the one part that is in about every firewall."
                 + "\r\n\r\nThis module works based on ordered rules.  The rules are displayed from top to bottom, and the order can be changed by clicking and dragging the rule.  Rules can be added with the Add Rule button, and removed with the Remove Rule button."
@@ -37,7 +37,7 @@ namespace BasicFirewall
                 switch (ruleType)
                 {
                     case RuleType.IP:
-                        return new IPRule(ps, IPAddress.Parse(args), dir, log, notify);
+                        return GenIPRule(ps, args, dir, log, notify);
                     case RuleType.TCPALL:
                         return new TCPAllRule(ps, dir, log, notify);
                     case RuleType.TCPIPPORT:
@@ -167,11 +167,44 @@ namespace BasicFirewall
                 rule.log = log;
                 rule.notify = notify;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // probably a parsing error; log it
                 // and throw an exception so the rule isn't changed
                 //LogCenter.WriteErrorLog(e);
+                throw new Exception();
+            }
+            return rule;
+        }
+
+        /// <summary>
+        /// Used to generate a new IPRule
+        /// </summary>
+        /// <returns></returns>
+        private static IPRule GenIPRule(PacketStatus ps, string args, Direction dir, bool log, bool notify)
+        {
+            List<string> tokens = new List<string>(args.Split(' '));
+            IPRule rule = new IPRule();
+            
+            try
+            {
+                // iterate through the tokens and try and parse them into 
+                // an IP address
+                foreach ( string s in tokens )
+                {
+                    IPAddress tmp = IPAddress.Parse(s);
+                    rule.ips.Add(tmp);
+                }
+
+                // set the rest of the fields
+                rule.ps = ps;
+                rule.direction = dir;
+                rule.log = log;
+                rule.notify = notify;
+            }
+            catch (Exception)
+            {
+                // probably a parse error
                 throw new Exception();
             }
             return rule;
@@ -1047,14 +1080,16 @@ namespace BasicFirewall
         public Direction direction;
         public bool log = true;
         public bool notify = true;
-        public IPAddress ip;
+        public List<IPAddress> ips = new List<IPAddress>();
         string message = "";
 
-        public IPRule(PacketStatus ps, IPAddress ip, Direction direction, bool log, bool notify)
+        public IPRule() { }
+
+        public IPRule(PacketStatus ps, List<IPAddress> ip, Direction direction, bool log, bool notify)
         {
             this.ps = ps;
             this.direction = direction;
-            this.ip = ip;
+            this.ips = ip;
             this.log = log;
             this.notify = notify;
         }
@@ -1066,7 +1101,7 @@ namespace BasicFirewall
                 IPPacket tcppkt = (IPPacket)pkt;
                 if (pkt.Outbound && (direction & Direction.OUT) == Direction.OUT)
                 {
-                    if (tcppkt.DestIP.Equals(ip))
+                    if ( ips.Contains(tcppkt.DestIP))
                     {
                         if (log)
                             message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
@@ -1075,7 +1110,7 @@ namespace BasicFirewall
                 }
                 else if (!pkt.Outbound && (direction & Direction.IN) == Direction.IN)
                 {
-                    if (tcppkt.DestIP.Equals(ip))
+                    if ( ips.Contains(tcppkt.DestIP))
                     {
                         if (log)
                             message = " IP packet from " + tcppkt.SourceIP.ToString() + " to " + tcppkt.DestIP.ToString();
@@ -1117,7 +1152,7 @@ namespace BasicFirewall
             {
                 ret = "Blocks";
             }
-            ret += " IP " + ip.ToString(); ;
+            ret += " IP " + GetIPString();
             if (direction == (Direction.IN | Direction.OUT))
             {
                 ret += " in and out";
@@ -1140,6 +1175,20 @@ namespace BasicFirewall
         public bool Notify()
         {
             return notify;
+        }
+
+
+        /// <summary>
+        /// Returns the array of IPs as a single string.
+        /// 
+        /// This takes the list of IPAddress's, converts it to a list of strings, returns it as an array
+        /// and finally joins all elements together with a space.
+        /// </summary>
+        /// <returns></returns>
+        public string GetIPString()
+        {
+            string tmp = String.Join(" ", ips.ConvertAll<string>(delegate(IPAddress i) { return i.ToString(); }).ToArray());
+            return tmp;
         }
     }
 
