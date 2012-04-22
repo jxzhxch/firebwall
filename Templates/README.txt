@@ -1,1 +1,0 @@
-Add this file to your My Documents\Visual Studio 2010\ folder, it contains the project templates for fireBwall modules
