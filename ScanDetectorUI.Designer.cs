@@ -42,6 +42,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.infoButton = new System.Windows.Forms.Button();
             this.removeBlockedButton = new System.Windows.Forms.Button();
+            this.cloakedMode = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blockedIPList)).BeginInit();
@@ -168,6 +169,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.cloakedMode);
             this.panel3.Controls.Add(this.infoButton);
             this.panel3.Controls.Add(this.removeBlockedButton);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -196,6 +198,17 @@
             this.removeBlockedButton.UseVisualStyleBackColor = true;
             this.removeBlockedButton.Click += new System.EventHandler(this.removeBlockedButton_Click);
             // 
+            // cloakedMode
+            // 
+            this.cloakedMode.AutoSize = true;
+            this.cloakedMode.Location = new System.Drawing.Point(251, 36);
+            this.cloakedMode.Name = "cloakedMode";
+            this.cloakedMode.Size = new System.Drawing.Size(95, 17);
+            this.cloakedMode.TabIndex = 2;
+            this.cloakedMode.Text = "Cloaked Mode";
+            this.cloakedMode.UseVisualStyleBackColor = true;
+            this.cloakedMode.CheckedChanged += new System.EventHandler(this.cloakedMode_CheckedChanged);
+            // 
             // ScanDetectorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,6 +223,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -227,5 +241,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IP;
         private System.Windows.Forms.CheckBox skipPotential;
         private System.Windows.Forms.Button blockButton;
+        private System.Windows.Forms.CheckBox cloakedMode;
     }
 }

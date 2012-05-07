@@ -50,6 +50,7 @@ namespace ScanDetector
 
             public bool Save = true;
             public bool blockImmediately = false;
+            public bool cloaked_mode = false;
         }
 
         public ScanData data;
@@ -84,7 +85,6 @@ namespace ScanDetector
                 me.moduleName = "Scan Detector";
                 data = new ScanData();
             }
-            //detect = new ScanDetectorUI(this) { Dock = System.Windows.Forms.DockStyle.Fill };
 
             return me;
         }
@@ -112,6 +112,37 @@ namespace ScanDetector
 
             if (in_packet.ContainsLayer(Protocol.TCP))
             {
+                // if we're in cloaked mode, respond with the SYN ACK
+                // More information about this in the GUI code and help string
+                if (data.cloaked_mode && ((TCPPacket)in_packet).SYN)
+                {
+                    TCPPacket from = (TCPPacket)in_packet;
+
+                    EthPacket eth = new EthPacket(60);
+                    eth.FromMac = adapter.InterfaceInformation.GetPhysicalAddress().GetAddressBytes();
+                    eth.ToMac = from.FromMac;
+                    eth.Proto = new byte[2] { 0x08, 0x00 };
+
+                    IPPacket ip = new IPPacket(eth);
+                    ip.DestIP = from.SourceIP;
+                    ip.SourceIP = from.DestIP;
+                    ip.NextProtocol = 0x06;
+                    ip.TotalLength = 40;
+                    ip.HeaderChecksum = ip.GenerateIPChecksum;
+
+                    TCPPacket tcp = new TCPPacket(ip);
+                    tcp.SourcePort = from.DestPort;
+                    tcp.DestPort = from.SourcePort;
+                    tcp.SequenceNumber = (uint)new Random().Next();
+                    tcp.AckNumber = 0;
+                    tcp.WindowSize = 8192;
+                    tcp.SYN = true;
+                    tcp.ACK = true;
+                    tcp.Checksum = tcp.GenerateChecksum;
+                    tcp.Outbound = true;
+                    adapter.SendPacket(tcp);
+                }
+
                 try
                 {
                     TCPPacket packet = (TCPPacket)in_packet;
@@ -247,9 +278,20 @@ namespace ScanDetector
             MetaData.Author = "Bryan A.";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Description = "Detects port scans.";
-            MetaData.HelpString = "No help at this time.";
+            MetaData.HelpString = "OVERVIEW\nPort scans typically range from troubleshooting, harmless self-inspection to a preemptive strike for a malicious attack."
+                                    + "They provide valuable information to attackers when searching for potential avenues for exploitation.  They are, also, not all"
+                                    + " completely malicious.  Many system administrators port scan themselves when attempting to diagnose issues, perform self-audits, or other various maintenance work."
+                                    + "  Scan Detector, on its default settings, only alerts the user of a potential scan.  The user can then decide "
+                                    + "whether or not to continue receiving packets from the IP address.  If the user wishes to not be the arbiter of that, a \'block immediately'" 
+                                    + " option is selectable.  \n\nTECHNICAL\nScan Detector logs how many ports an IP address has touched with a short window of time.  An IP has its ports washed "
+                                    + " after 30 seconds, and the IP is completely removed after 1 minute of inactivity.  These numbers were chosen based on performance and nmap timings.  nmap at its"
+                                    + " most paranoid spits out one packet per 15 seconds.  The number of distinct ports touched within this window is 100; this number was chosen based on nmap's "
+                                    + "-F flag, which runs a scan in \'Fast\' mode, or scan only the top 100 ports.\n\nCLOAKED MODE\nCloaked mode is an attempt to exploit the security-through-obscurity"
+                                    + " mechanisms behind port scanning/detecting.  It is an adaptation of Jon Erickson's Shroud application in \'The Art of Exploitation\'.  The objective is to "
+                                    + "disguise real ports within a sea of false positives.  If, for example, an attacker scans 2000 ports on the host system, all 2000 ports will respond as if they"
+                                    + " are actually open.  This works by merely responding to every SYN that passes by with a SYN ACK.";
             MetaData.Name = "Scan Detector";
-            MetaData.Version = "0.0.0.1";
+            MetaData.Version = "0.0.2.0";
         }
 
         /// <summary>

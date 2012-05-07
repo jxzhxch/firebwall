@@ -156,5 +156,19 @@ namespace ScanDetector
         {
             blockedIPList.ClearSelection();
         }
+
+        /// <summary>
+        /// Cloaked mode is a security measure that abuses the security-through-obscurity 
+        /// mechanisms behind port scan/detection.  Instead of attempting to -mitigate- scans
+        /// from detecting an open port, whether it's through port knocking or firewall hooks or 
+        /// throttling, we simply respond to ALL SYNs with a SYN ACK.  This floods the scanner with a 
+        /// flood of false positives, effectively hiding the truely open ports within.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cloakedMode_CheckedChanged(object sender, EventArgs e)
+        {
+            detector.data.cloaked_mode = cloakedMode.Checked;
+        }
     }
 }
