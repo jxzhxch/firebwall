@@ -33,13 +33,16 @@ namespace PassThru.Modules
             }
             else
             {
-                loading = true;
-                checkedListBoxModules.Items.Clear();
-                for (int x = 0; x < moduleOrder.Count; x++)
+                lock (this)
                 {
-                    checkedListBoxModules.Items.Add(moduleOrder[x].Value, moduleOrder[x].Key);
+                    loading = true;
+                    checkedListBoxModules.Items.Clear();
+                    for (int x = 0; x < moduleOrder.Count; x++)
+                    {
+                        checkedListBoxModules.Items.Add(moduleOrder[x].Value, moduleOrder[x].Key);
+                    }
+                    loading = false;
                 }
-                loading = false;
             }
         }
 
@@ -126,11 +129,14 @@ namespace PassThru.Modules
 
         private void checkedListBoxModules_ItemCheck_1(object sender, ItemCheckEventArgs e)
         {
-            if (!loading)
+            lock (this)
             {
-                moduleOrder[e.Index] = new KeyValuePair<bool, string>(e.NewValue == CheckState.Checked, moduleOrder[e.Index].Value);
-                na.modules.UpdateModuleOrder(moduleOrder);
-                moduleOrder = na.modules.GetModuleOrder();
+                if (!loading && moduleOrder.Count > e.Index && e.Index != -1)
+                {
+                    moduleOrder[e.Index] = new KeyValuePair<bool, string>(e.NewValue == CheckState.Checked, moduleOrder[e.Index].Value);
+                    na.modules.UpdateModuleOrder(moduleOrder);
+                    moduleOrder = na.modules.GetModuleOrder();
+                }
             }
         }        
 
