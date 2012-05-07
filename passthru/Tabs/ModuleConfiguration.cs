@@ -210,7 +210,7 @@ namespace PassThru.Modules
         {
             try
             {
-                Form f = new Form();
+                ThemedForm f = new ThemedForm();
                 f.Size = new System.Drawing.Size(640, 480);
                 System.Reflection.Assembly target = System.Reflection.Assembly.GetExecutingAssembly();
                 f.Icon = new System.Drawing.Icon(target.GetManifestResourceStream("PassThru.Resources.newIcon.ico"));
@@ -218,6 +218,7 @@ namespace PassThru.Modules
                 Help uc = new Help(checkedListBoxModules.SelectedItem);
                 uc.Dock = DockStyle.Fill;
                 f.Controls.Add(uc);
+                ColorScheme.SetColorScheme(f);
                 f.Show();
             }
             catch(Exception ne)
