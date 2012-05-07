@@ -113,13 +113,7 @@ namespace PassThru
 				processingThread.Abort();
 				processing = false;
 				hEvent.Close();
-				for (int x = 0; x < modules.Count; x++)
-				{
-                    if (modules.GetModule(x).Enabled)
-                    {
-                        modules.GetModule(x).ModuleStop();
-                    }
-				}
+                modules.ShutdownAllModules();
                 pcaplog.Close();
 			}
 		}

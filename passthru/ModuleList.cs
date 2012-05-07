@@ -275,6 +275,21 @@ namespace PassThru
                 return -1;
             }
 
+            public void ShutdownAllModules()
+            {
+                lock (padlock)
+                {
+                    foreach (FirewallModule fm in modules)
+                    {
+                        if (fm.Enabled)
+                        {
+                            fm.ModuleStop();
+                            fm.Enabled = false;
+                        }
+                    }
+                }
+            }
+
             public FirewallModule GetModule(int index) 
             {
                 lock (padlock)
