@@ -48,6 +48,7 @@ namespace PassThru
             links.Add(new MenuItem("Twitter", new EventHandler(ToTwitter)));
             links.Add(new MenuItem("fireBwall's Modules", new EventHandler(ToModules)));
             links.Add(new MenuItem("fireBwall Forum", new EventHandler(ToForum)));
+            links.Add(new MenuItem("fireBwall Trello", new EventHandler(ToTrello)));
             cm.MenuItems.Add("Links", links.ToArray());
             
             cm.MenuItems.Add(closeButton);
@@ -72,6 +73,11 @@ namespace PassThru
         }
 		NotifyIcon tray;
         public MenuItem adapters;
+
+        void ToTrello(object we, EventArgs dontMatter)
+        {
+            System.Diagnostics.Process.Start("https://trello.com/board/firebwall/4f6d3d48255ed1e9081e88ed");
+        }
 
         void ToForum(object we, EventArgs dontMatter)
         {

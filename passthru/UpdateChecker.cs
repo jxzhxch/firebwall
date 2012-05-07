@@ -167,6 +167,12 @@ namespace PassThru
                 XmlTextReader reader = new XmlTextReader("https://www.firebwall.com/api/firebwall/" + LanguageConfig.GetCurrentTwoLetter() + ".xml");
                 lock (padlock)
                 {
+                    if (!reader.Read())
+                    {
+                        availableFirebwall = null;
+                        reader.Close();
+                        return;
+                    }
                     availableFirebwall = new fireBwallMetaData();
                     while (reader.Read())
                     {
@@ -225,6 +231,8 @@ namespace PassThru
 
         public static bool IsVersionNew()
         {
+            if (availableFirebwall == null)
+                return false;
             string version = availableFirebwall.version;
             string a = version.Substring(0, version.IndexOf("."));
             if (versionA == int.Parse(a))
