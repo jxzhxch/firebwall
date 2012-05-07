@@ -208,13 +208,50 @@ namespace PassThru
                 }
             }
 
+            public string GatewayIP
+            {
+                get
+                {
+                    foreach (GatewayIPAddressInformation ip in ni.GetIPProperties().GatewayAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                            return ip.Address.ToString();
+                    }
+                    return null;
+                }
+            }
+
+            public string GatewayIPv6
+            {
+                get
+                {
+                    foreach (GatewayIPAddressInformation ip in ni.GetIPProperties().GatewayAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                            return ip.Address.ToString();
+                    }
+                    return null;
+                }
+            }
+
             public string Summary
             {
                 get
                 {
                     ni = na.InterfaceInformation;
-                    return NIName + ":(" + na.InterfaceInformation.GetPhysicalAddress().ToString() + ") " + IPv4 + 
-                        "\t" + IPv6 + "\r\nIn(" + DataIn + " | " + DataInPerSecond + ")\tOut(" + DataOut + " | " + DataOutPerSecond + ")";
+                    string ret = NIName + "\r\n";
+                    ret += "MAC Address:\t" + ni.GetPhysicalAddress().ToString() + "\r\n";
+                    ret += "IP Addresses:\t" + IPv4 + " \t" + IPv6 + "\r\n";
+                    ret += "In(" + DataIn + " | " + DataInPerSecond + ")\tOut(" + DataOut + " | " + DataOutPerSecond + ")\r\n";
+                    if (GatewayIP != null || GatewayIPv6 != null)
+                    {
+                        ret += "Gateway:\t";
+                        if (GatewayIP != null)
+                            ret += GatewayIP + "\t";
+                        if (GatewayIPv6 != null)
+                            ret += GatewayIPv6;
+                    }
+                    return ret;
                 }
             }
         }
