@@ -300,7 +300,6 @@ namespace PassThru
 			catch (Exception tae)
 			{
                 Marshal.FreeHGlobal(PacketBufferIntPtr);
-                LogCenter.WriteErrorLog(tae);
 			}
 		}
 

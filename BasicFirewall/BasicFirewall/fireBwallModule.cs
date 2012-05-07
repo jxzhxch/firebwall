@@ -1187,8 +1187,7 @@ namespace BasicFirewall
         /// <returns></returns>
         public string GetIPString()
         {
-            string tmp = String.Join(" ", ips.ConvertAll<string>(delegate(IPAddress i) { return i.ToString(); }).ToArray());
-            return tmp;
+            return String.Join(" ", ips.ConvertAll<string>(delegate(IPAddress i) { return i.ToString(); }).ToArray());
         }
     }
 
