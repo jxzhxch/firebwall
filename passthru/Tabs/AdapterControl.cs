@@ -239,6 +239,7 @@ namespace PassThru
                 get
                 {
                     ni = na.InterfaceInformation;
+                    
                     string ret = NIName + "\r\n";
                     ret += "MAC Address:\t" + ni.GetPhysicalAddress().ToString() + "\r\n";
                     ret += "IP Addresses:\t" + IPv4 + " \t" + IPv6 + "\r\n";
@@ -250,6 +251,12 @@ namespace PassThru
                             ret += GatewayIP + "\t";
                         if (GatewayIPv6 != null)
                             ret += GatewayIPv6;
+                    }
+                    ret += "\r\nDNS Addresses:\t";
+
+                    foreach (System.Net.IPAddress ip in ni.GetIPProperties().DnsAddresses)
+                    {
+                        ret += ip.ToString() + " \t";
                     }
                     return ret;
                 }
