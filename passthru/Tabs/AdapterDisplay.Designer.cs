@@ -38,6 +38,7 @@
             // textBoxDetails
             // 
             this.textBoxDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.textBoxDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxDetails.ForeColor = System.Drawing.Color.White;
             this.textBoxDetails.Location = new System.Drawing.Point(83, 3);

@@ -240,10 +240,9 @@ namespace PassThru
                 {
                     ni = na.InterfaceInformation;
                     
-                    string ret = NIName + "\r\n";
+                    string ret = NIName + "\t\t" + "In(" + DataIn + " | " + DataInPerSecond + ")\tOut(" + DataOut + " | " + DataOutPerSecond + ")\r\n";
                     ret += "MAC Address:\t" + ni.GetPhysicalAddress().ToString() + "\r\n";
                     ret += "IP Addresses:\t" + IPv4 + " \t" + IPv6 + "\r\n";
-                    ret += "In(" + DataIn + " | " + DataInPerSecond + ")\tOut(" + DataOut + " | " + DataOutPerSecond + ")\r\n";
                     if (GatewayIP != null || GatewayIPv6 != null)
                     {
                         ret += "Gateway:\t";
