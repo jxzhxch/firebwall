@@ -272,11 +272,19 @@ namespace PassThru
                 Thread.Sleep(30000);
                 if ((firstTime && Config.StartUpCheck) || Config.Enabled)
                 {
-                    UpdateFirebwallMetaVersion();
-                    if (availableFirebwall != null && IsVersionNew())
+                    try
                     {
-                        PassThru.Tabs.DownloadCenter.Instance.ShowFirebwallUpdate();
-                        return;
+                        UpdateFirebwallMetaVersion();
+                        if (availableFirebwall != null && IsVersionNew())
+                        {
+                            PassThru.Tabs.DownloadCenter.Instance.ShowFirebwallUpdate();
+                            return;
+                        }
+                    }
+                    catch
+                    {
+                        //Error checking fireBwall.com, sleep for 30 minutes
+                        Thread.Sleep(new TimeSpan(0, 30, 0));
                     }
                 }
                 firstTime = false;
