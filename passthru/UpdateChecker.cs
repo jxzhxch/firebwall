@@ -29,7 +29,7 @@ namespace PassThru
     {
         static int versionA = 0;
         static int versionB = 3;
-        static int versionC = 11;
+        static int versionC = 10;
         static int versionD = 0;
         Thread updateThread;
 

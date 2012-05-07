@@ -182,32 +182,48 @@ namespace PassThru
                 {
                     ProcessingIndex.Clear();
                     List<int> indexes = new List<int>();
-                    for (int i = 0; i < moduleOrder.Count; i++)
+                    if (moduleOrder.Count == 0)
                     {
-                        int mindex = GetModuleIndex(moduleOrder[i].Value);
-                        if (mindex != -1)
+                        for (int i = 0; i < Count; i++)
                         {
-                            indexes.Add(mindex);
-                            ProcessingIndex.Add(mindex);
-                            if (modules[mindex].Enabled != moduleOrder[i].Key)
+                            if (!indexes.Contains(i))
                             {
-                                if (modules[mindex].Enabled)
-                                {
-                                    modules[mindex].ModuleStop();
-                                }
-                                else
-                                {
-                                    modules[mindex].ModuleStart();
-                                }
-                                modules[mindex].Enabled = moduleOrder[i].Key;
+                                ProcessingIndex.Add(i);
+                                modules[i].Enabled = true;
+                                modules[i].ModuleStart();
                             }
                         }
                     }
-                    for (int i = 0; i < Count; i++)
+                    else
                     {
-                        if (!indexes.Contains(i))
+                        for (int i = 0; i < moduleOrder.Count; i++)
                         {
-                            ProcessingIndex.Add(i);
+                            int mindex = GetModuleIndex(moduleOrder[i].Value);
+                            if (mindex != -1)
+                            {
+                                indexes.Add(mindex);
+                                ProcessingIndex.Add(mindex);
+                                if (modules[mindex].Enabled != moduleOrder[i].Key)
+                                {
+                                    if (modules[mindex].Enabled)
+                                    {
+                                        modules[mindex].ModuleStop();
+                                    }
+                                    else
+                                    {
+                                        modules[mindex].ModuleStart();
+                                    }
+                                    modules[mindex].Enabled = moduleOrder[i].Key;
+                                }
+                            }
+                        }
+
+                        for (int i = 0; i < Count; i++)
+                        {
+                            if (!indexes.Contains(i))
+                            {
+                                ProcessingIndex.Add(i);
+                            }
                         }
                     }
                     moduleOrder.Clear();
