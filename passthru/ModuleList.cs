@@ -27,7 +27,7 @@ namespace PassThru
                 folder = folder + Path.DirectorySeparatorChar + "Adapters";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
-                folder = folder + Path.DirectorySeparatorChar + na.Name;
+                folder = folder + Path.DirectorySeparatorChar + na.Name.Replace("/DEVICE/", "");
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 string file = folder + Path.DirectorySeparatorChar + "modules.cfg";
@@ -73,7 +73,7 @@ namespace PassThru
                 folder = folder + Path.DirectorySeparatorChar + "Adapters";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
-                folder = folder + Path.DirectorySeparatorChar + na.Name;
+                folder = folder + Path.DirectorySeparatorChar + na.Name.Replace("/DEVICE/", "");
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 string file = folder + Path.DirectorySeparatorChar + "modules.cfg";

@@ -45,9 +45,9 @@
             this.textBoxDetails.Multiline = true;
             this.textBoxDetails.Name = "textBoxDetails";
             this.textBoxDetails.ReadOnly = true;
-            this.textBoxDetails.Size = new System.Drawing.Size(189, 85);
+            this.textBoxDetails.Size = new System.Drawing.Size(189, 69);
             this.textBoxDetails.TabIndex = 0;
-            this.textBoxDetails.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6";
+            this.textBoxDetails.Text = "1\r\n2\r\n3\r\n4\r\n5";
             // 
             // buttonConfig
             // 
@@ -58,7 +58,7 @@
             this.buttonConfig.ForeColor = System.Drawing.Color.White;
             this.buttonConfig.Location = new System.Drawing.Point(278, 3);
             this.buttonConfig.Name = "buttonConfig";
-            this.buttonConfig.Size = new System.Drawing.Size(64, 85);
+            this.buttonConfig.Size = new System.Drawing.Size(64, 69);
             this.buttonConfig.TabIndex = 0;
             this.buttonConfig.Text = "Configure Device";
             this.buttonConfig.UseVisualStyleBackColor = false;
@@ -78,7 +78,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(345, 91);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(345, 75);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // button1
@@ -90,7 +90,7 @@
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(74, 85);
+            this.button1.Size = new System.Drawing.Size(74, 69);
             this.button1.TabIndex = 1;
             this.button1.Text = "Enabled";
             this.button1.UseVisualStyleBackColor = false;
@@ -102,7 +102,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AdapterDisplay";
-            this.Size = new System.Drawing.Size(345, 91);
+            this.Size = new System.Drawing.Size(345, 75);
             this.Load += new System.EventHandler(this.AdapterDisplay_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
