@@ -281,10 +281,13 @@ namespace PassThru
                             return;
                         }
                     }
+                    catch (ThreadAbortException tae)
+                    {
+                        break;
+                    }
                     catch
                     {
-                        //Error checking fireBwall.com, sleep for 30 minutes
-                        Thread.Sleep(new TimeSpan(0, 30, 0));
+                        //Error checking fireBwall.com, nothing to do really
                     }
                 }
                 firstTime = false;
