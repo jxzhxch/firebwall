@@ -10,6 +10,9 @@ using System.Runtime.Serialization;
 
 namespace FM
 {
+    /// <summary>
+    /// Flags used to describe how the module handled the packet
+    /// </summary>
     [Flags]
     public enum PacketMainReturnType
     {
@@ -21,6 +24,9 @@ namespace FM
         Popup = 1 << 5
     }
 
+    /// <summary>
+    /// Class to be returned from a main in a module
+    /// </summary>
     public class PacketMainReturn
     {       
         /// <summary>
@@ -33,6 +39,11 @@ namespace FM
             returnType = PacketMainReturnType.Error | PacketMainReturnType.Log;
             logMessage = "An error has occurred in " + moduleName + " with no other details.";
         }
+
+        /// <summary>
+        /// The constructor to use for new modules, supports the more functional popup tray
+        /// </summary>
+        /// <param name="fm">The firewall module returning this PMR</param>
         public PacketMainReturn(FirewallModule fm)
         {
             actualModule = fm;

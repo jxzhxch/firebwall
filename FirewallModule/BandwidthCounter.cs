@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PassThru
+namespace FM
 {
     /// <summary>
     /// Class to manage an adapters total transfered data

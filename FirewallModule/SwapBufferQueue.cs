@@ -17,6 +17,10 @@ namespace FM
         private bool swap = false;
         private readonly object dumpLock = new object();
 
+        /// <summary>
+        /// Adds an object to the current queue for filling
+        /// </summary>
+        /// <param name="t">The object to be added</param>
         public void Enqueue(T t)
         {
             lock (this)
@@ -32,6 +36,10 @@ namespace FM
             }
         }
 
+        /// <summary>
+        /// Swaps the current buffer states, and empties the queue and returns a copy
+        /// </summary>
+        /// <returns>A copy of the queue</returns>
         public Queue<T> DumpBuffer()
         {
             lock (dumpLock)
