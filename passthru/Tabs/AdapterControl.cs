@@ -245,7 +245,7 @@ namespace PassThru
                     ret += "IP Addresses:\t" + IPv4 + " \t" + IPv6 + "\r\n";
                     if (GatewayIP != null || GatewayIPv6 != null)
                     {
-                        ret += "Gateway:\t";
+                        ret += "Gateway:\t\t";
                         if (GatewayIP != null)
                             ret += GatewayIP + "\t";
                         if (GatewayIPv6 != null)
