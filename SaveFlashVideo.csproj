@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\firebwall\modules\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FirewallModule">
-      <HintPath>..\..\firebwall\passthru\bin\Release\FirewallModule.dll</HintPath>
+      <HintPath>.\FirewallModule.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
