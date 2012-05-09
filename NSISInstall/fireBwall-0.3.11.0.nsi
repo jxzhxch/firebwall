@@ -147,11 +147,6 @@ Section "Save Flash Video"
 	File "SaveFlashVideo.dll"
 SectionEnd
 
-Section "Port Scan Detector"
-	SetOutPath $APPDATA\fireBwall\modules
-	File "ScanDetector.dll"
-SectionEnd
-
 Section "IP Guard"
 	SetOutPath $APPDATA\fireBwall\modules
 	File "IPGuard.dll"
