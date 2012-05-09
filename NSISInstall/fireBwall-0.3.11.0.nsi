@@ -42,7 +42,7 @@ pop $R1
 Name "fireBwall ${VERSION}"
 
 ; The file to write
-OutFile "fireBwall-${VERSION}.exe"
+OutFile "firebwall-${VERSION}.exe"
 
 ; The default installation directory
 InstallDir $PROGRAMFILES\fireBwall
