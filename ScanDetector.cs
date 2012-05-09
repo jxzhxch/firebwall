@@ -324,9 +324,24 @@ namespace ScanDetector
     {
         private IPAddress address;
         public IPAddress Address { get { return address; } set { this.address = value; }}
-        
-        private List<int> touched_ports = new List<int>();
-        public List<int> Touched_Ports { get { return touched_ports; } set { this.touched_ports = value; } }
+
+        [NonSerialized]
+        private int[] tps = new int[0];
+        private List<int> touched_ports = null;
+        public List<int> Touched_Ports 
+        { 
+            get 
+            {
+                if (touched_ports == null)
+                    touched_ports = new List<int>(tps);
+                return touched_ports; 
+            } 
+            set 
+            { 
+                this.touched_ports = value;
+                tps = touched_ports.ToArray();
+            } 
+        }
 
         public DateTime last_access;
         private DateTime last_packet;
