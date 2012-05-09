@@ -43,11 +43,22 @@ namespace DNSCache
             else
             {
                 listBox1.Items.Clear();
-                foreach (KeyValuePair<string, System.Net.IPAddress> pair in cache.GetCache())
+                foreach (KeyValuePair<string, FM.DNSPacket.DNSAnswer[]> pair in cache.GetCache())
                 {
-                    string i = pair.Key + " -> ";
-                    i = i + pair.Value.ToString();
-                    listBox1.Items.Add(i);
+                    foreach (FM.DNSPacket.DNSAnswer ans in pair.Value)
+                    {
+                        if (ans.RDLength == 4 && ans.Type == 1 && ans.Class == 1)
+                        {
+                            string i = "";
+                            if(ans.Name.Count == 2)
+                                i += pair.Key;
+                            else
+                                i += ans.ToString();
+                            i += " -> " + new System.Net.IPAddress(ans.RData).ToString();
+                            listBox1.Items.Add(i);
+                        }
+                        
+                    }
                 }
             }
         }

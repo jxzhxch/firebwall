@@ -18,13 +18,13 @@ namespace DNSCache
             MetaData.Version = "0.1.0.0";
         }
 
-        public SerializableDictionary<string, IPAddress> cache = new SerializableDictionary<string, IPAddress>();
+        public SerializableDictionary<string, DNSPacket.DNSAnswer[]> cache = new SerializableDictionary<string, DNSPacket.DNSAnswer[]>();
 
-        public SerializableDictionary<string, IPAddress> GetCache()
+        public SerializableDictionary<string, DNSPacket.DNSAnswer[]> GetCache()
         {
             lock (cache)
             {
-                return new SerializableDictionary<string, IPAddress>(cache);
+                return new SerializableDictionary<string, DNSPacket.DNSAnswer[]>(cache);
             }
         }
 
@@ -48,10 +48,10 @@ namespace DNSCache
                 this.LoadConfig();
                 if (this.PersistentData != null)
                 {
-                    cache = (SerializableDictionary<string, IPAddress>)PersistentData;
+                    cache = (SerializableDictionary<string, DNSPacket.DNSAnswer[]>)PersistentData;
                 }
                 else
-                    cache = new SerializableDictionary<string, IPAddress>();
+                    cache = new SerializableDictionary<string, DNSPacket.DNSAnswer[]>();
                 return new ModuleError() { errorType = ModuleErrorType.Success };
             }
         }
@@ -73,22 +73,12 @@ namespace DNSCache
             if (in_packet.Outbound && in_packet.ContainsLayer(Protocol.DNS))
             {
                 DNSPacket dns = (DNSPacket)in_packet;
-                IPAddress answer;
                 lock (cache)
                 {
+                    DNSPacket.DNSAnswer[] answer;
                     if (dns.Queries.Length > 0 && cache.TryGetValue(dns.Queries[0].ToString(), out answer))
                     {
-                        DNSPacket.DNSAnswer[] answers = new DNSPacket.DNSAnswer[1];
-                        DNSPacket.DNSAnswer ans = new DNSPacket.DNSAnswer();
-                        ans.Name = new List<byte>();
-                        ans.Name.Add(0xc0);
-                        ans.Name.Add(0x0c);
-                        ans.Class = 0x01;
-                        ans.Type = 0x01;
-                        ans.TTL = 0xffff;
-                        ans.RDLength = 4;
-                        ans.RData = answer.GetAddressBytes();
-                        answers[0] = ans;
+                        DNSPacket.DNSAnswer[] answers = answer;
                         dns.Answers = answers;
                         dns.DNSFlags = 0x8180;
                         dns.UDPLength = (ushort)(8 + dns.LayerLength());
@@ -105,6 +95,8 @@ namespace DNSCache
                         dns.UDPChecksum = dns.GenerateUDPChecksum;
                         return new PacketMainReturn("DNSCache") { returnType = PacketMainReturnType.Edited };
                     }
+                    else
+                        return null;
                 }
             }
             else if (!in_packet.Outbound && in_packet.ContainsLayer(Protocol.DNS))
@@ -112,17 +104,11 @@ namespace DNSCache
                 lock (cache)
                 {
                     DNSPacket dns = (DNSPacket)in_packet;
-                    foreach (DNSPacket.DNSAnswer ans in dns.Answers)
-                    {
-                        if (ans.RDLength == 4 && ans.Type == 0x01 && ans.Class == 0x01)
-                        {
-                            cache[dns.Queries[0].ToString()] = new IPAddress(ans.RData);
-                            break;
-                        }                        
-                    }
+                    cache[dns.Queries[0].ToString()] = dns.Answers;
                 }
                 if (CacheUpdate != null)
-                    CacheUpdate();                
+                    new System.Threading.Thread(CacheUpdate).Start();
+                return null;
             }
             return null;
         }
