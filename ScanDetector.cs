@@ -326,8 +326,8 @@ namespace ScanDetector
         public IPAddress Address { get { return address; } set { this.address = value; }}
 
         [NonSerialized]
-        private int[] tps = new int[0];
         private List<int> touched_ports = null;
+        private int[] tps = new int[0];
         public List<int> Touched_Ports 
         { 
             get 
@@ -362,8 +362,8 @@ namespace ScanDetector
         /// <param name="p"></param>
         public void addPort(int p)
         {
-            if (!touched_ports.Contains(p))
-                touched_ports.Add(p);
+            if (!Touched_Ports.Contains(p))
+                Touched_Ports.Add(p);
             time(DateTime.Now);
         }
 
@@ -389,7 +389,7 @@ namespace ScanDetector
         /// <returns></returns>
         public List<int> getTouchedPorts()
         {
-            return touched_ports;
+            return Touched_Ports;
         }
 
         /// <summary>
