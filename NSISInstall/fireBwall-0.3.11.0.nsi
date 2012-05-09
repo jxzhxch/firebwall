@@ -152,11 +152,6 @@ Section "Port Scan Detector"
 	File "ScanDetector.dll"
 SectionEnd
 
-Section "DNS Cache"
-	SetOutPath $APPDATA\fireBwall\modules
-	File "DNSCache.dll"
-SectionEnd
-
 Section "IP Guard"
 	SetOutPath $APPDATA\fireBwall\modules
 	File "IPGuard.dll"
