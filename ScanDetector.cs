@@ -327,19 +327,17 @@ namespace ScanDetector
 
         [NonSerialized]
         private List<int> touched_ports = null;
-        private int[] tps = new int[0];
         public List<int> Touched_Ports 
         { 
             get 
             {
                 if (touched_ports == null)
-                    touched_ports = new List<int>(tps);
+                    touched_ports = new List<int>();
                 return touched_ports; 
             } 
             set 
             { 
                 this.touched_ports = value;
-                tps = touched_ports.ToArray();
             } 
         }
 
