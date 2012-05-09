@@ -50,37 +50,31 @@ namespace PassThru
                 case LanguageConfig.Language.ENGLISH:
                     displayTrayLogs.Text = "Display Icon Popups";
                     languageLabel.Text = "Language: ";
-                    linkLabel1.Text = "Report Issue";
                     languageBox.SelectedIndex = 1;
                     break;
                 case LanguageConfig.Language.PORTUGUESE:
                     displayTrayLogs.Text = "Mostrar Popups Icon";
                     languageLabel.Text = "Linguagem: ";
-                    linkLabel1.Text = "Reportagem Edição";
                     languageBox.SelectedIndex = 6;
                     break;
                 case LanguageConfig.Language.CHINESE:
                     displayTrayLogs.Text = "显示图标弹出窗口";
                     languageLabel.Text = "語言標籤:";
-                    linkLabel1.Text = "报告问题";
                     languageBox.SelectedIndex = 4;
                     break;
                 case LanguageConfig.Language.GERMAN:
                     displayTrayLogs.Text = "Anzeige Icon Popups";
                     languageLabel.Text = "Sprachensiegel:";
-                    linkLabel1.Text = "Report Issue";
                     languageBox.SelectedIndex = 3;
                     break;
                 case LanguageConfig.Language.RUSSIAN:
                     displayTrayLogs.Text = "Показать Иконка всплывающие окна";
                     languageLabel.Text = "Язык этикетки:";
-                    linkLabel1.Text = "Сообщить о проблеме";
                     languageBox.SelectedIndex = 5;
                     break;
                 case LanguageConfig.Language.SPANISH:
                     displayTrayLogs.Text = "Mostrar ventanas emergentes Icono";
                     languageLabel.Text = "Lenguaje de etiquetas:";
-                    linkLabel1.Text = "informe del problema";
                     languageBox.SelectedIndex = 2;
                     break;
             }
@@ -298,55 +292,6 @@ namespace PassThru
                 }
             }
             catch { }
-        }
-
-        /// <summary>
-        /// .NET doesn't give us much control over the TabControl, so we have to draw it ourselves if we want
-        /// themes to work correctly.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Updating_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            Rectangle tabstripEndRect = optionsControl.GetTabRect(optionsControl.TabPages.Count - 1);
-            RectangleF tabstripEndRectF = new RectangleF(tabstripEndRect.X + tabstripEndRect.Width, tabstripEndRect.Y - 5,
-                                          optionsControl.Width -(tabstripEndRect.X + tabstripEndRect.Width), tabstripEndRect.Height + 5);
-
-            if (optionsControl.Parent.BackgroundImage != null)
-            {
-                RectangleF src = new RectangleF(tabstripEndRectF.X + optionsControl.Left,
-                                                tabstripEndRectF.Y + optionsControl.Top, tabstripEndRectF.Width,
-                                                tabstripEndRectF.Height);
-                e.Graphics.DrawImage(optionsControl.Parent.BackgroundImage, tabstripEndRectF, src, GraphicsUnit.Pixel);
-            }
-            else
-            {
-                using (Brush back = new SolidBrush(optionsControl.Parent.BackColor))
-                {
-                    e.Graphics.FillRectangle(back, tabstripEndRectF);
-                }
-            }
-
-            TabPage page = optionsControl.TabPages[e.Index];
-            Brush BackBrush = new SolidBrush(page.BackColor);
-            Brush ForeBrush = new SolidBrush(page.ForeColor);
-            string TabName = page.Text;
-
-            int iconOffset = 0;
-            Rectangle tabBackgroundRect = e.Bounds;
-            e.Graphics.FillRectangle(BackBrush, tabBackgroundRect);
-
-            Rectangle labelRect = new Rectangle(tabBackgroundRect.X + iconOffset,
-                tabBackgroundRect.Y + 3,
-                tabBackgroundRect.Width - iconOffset, tabBackgroundRect.Height - 3);
-            
-            StringFormat sf = new StringFormat();
-            sf.Alignment = StringAlignment.Center;
-            e.Graphics.DrawString(TabName, e.Font, ForeBrush, labelRect, sf);
-
-            sf.Dispose();
-            BackBrush.Dispose();
-            ForeBrush.Dispose();
         }
     }
 }

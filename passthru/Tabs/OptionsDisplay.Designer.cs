@@ -31,7 +31,6 @@
             this.displayTrayLogs = new System.Windows.Forms.CheckBox();
             this.languageBox = new System.Windows.Forms.ComboBox();
             this.languageLabel = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,21 +41,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.themeBox = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.optionsControl = new System.Windows.Forms.TabControl();
-            this.options = new System.Windows.Forms.TabPage();
             this.maxLogsBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.maxPcapBox = new System.Windows.Forms.TextBox();
-            this.themeTab = new System.Windows.Forms.TabPage();
-            this.updatingTab = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.optionsControl.SuspendLayout();
-            this.options.SuspendLayout();
-            this.themeTab.SuspendLayout();
-            this.updatingTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // displayTrayLogs
@@ -64,7 +57,7 @@
             this.displayTrayLogs.AutoSize = true;
             this.displayTrayLogs.Checked = true;
             this.displayTrayLogs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.displayTrayLogs.Location = new System.Drawing.Point(6, 6);
+            this.displayTrayLogs.Location = new System.Drawing.Point(6, 19);
             this.displayTrayLogs.Name = "displayTrayLogs";
             this.displayTrayLogs.Size = new System.Drawing.Size(123, 17);
             this.displayTrayLogs.TabIndex = 0;
@@ -84,31 +77,20 @@
             "中國",
             "русский",
             "Português"});
-            this.languageBox.Location = new System.Drawing.Point(89, 114);
+            this.languageBox.Location = new System.Drawing.Point(92, 88);
             this.languageBox.Name = "languageBox";
-            this.languageBox.Size = new System.Drawing.Size(121, 21);
+            this.languageBox.Size = new System.Drawing.Size(204, 21);
             this.languageBox.TabIndex = 1;
             this.languageBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // languageLabel
             // 
             this.languageLabel.AutoSize = true;
-            this.languageLabel.Location = new System.Drawing.Point(25, 117);
+            this.languageLabel.Location = new System.Drawing.Point(6, 91);
             this.languageLabel.Name = "languageLabel";
             this.languageLabel.Size = new System.Drawing.Size(58, 13);
             this.languageLabel.TabIndex = 2;
             this.languageLabel.Text = "Language:";
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(7, 282);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(225, 13);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://code.google.com/p/firebwall/issues/list";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // groupBox1
             // 
@@ -117,9 +99,10 @@
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 152);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(267, 119);
+            this.groupBox1.Size = new System.Drawing.Size(302, 89);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Update Options";
@@ -127,7 +110,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 89);
+            this.label4.Location = new System.Drawing.Point(49, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(212, 13);
             this.label4.TabIndex = 4;
@@ -136,7 +119,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 67);
+            this.label3.Location = new System.Drawing.Point(6, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 13);
             this.label3.TabIndex = 3;
@@ -144,16 +127,16 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(134, 64);
+            this.textBox1.Location = new System.Drawing.Point(112, 42);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(127, 20);
+            this.textBox1.Size = new System.Drawing.Size(184, 20);
             this.textBox1.TabIndex = 2;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(7, 43);
+            this.checkBox2.Location = new System.Drawing.Point(184, 19);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(112, 17);
             this.checkBox2.TabIndex = 1;
@@ -177,7 +160,7 @@
             this.checkBoxStartMinimized.AutoSize = true;
             this.checkBoxStartMinimized.Checked = true;
             this.checkBoxStartMinimized.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStartMinimized.Location = new System.Drawing.Point(135, 6);
+            this.checkBoxStartMinimized.Location = new System.Drawing.Point(199, 19);
             this.checkBoxStartMinimized.Name = "checkBoxStartMinimized";
             this.checkBoxStartMinimized.Size = new System.Drawing.Size(97, 17);
             this.checkBoxStartMinimized.TabIndex = 9;
@@ -188,7 +171,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 19);
+            this.label1.Location = new System.Drawing.Point(6, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 10;
@@ -198,7 +181,7 @@
             // 
             this.themeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.themeBox.FormattingEnabled = true;
-            this.themeBox.Location = new System.Drawing.Point(72, 16);
+            this.themeBox.Location = new System.Drawing.Point(92, 115);
             this.themeBox.Name = "themeBox";
             this.themeBox.Size = new System.Drawing.Size(121, 21);
             this.themeBox.TabIndex = 11;
@@ -206,7 +189,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(200, 16);
+            this.button1.Location = new System.Drawing.Point(219, 113);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(78, 23);
             this.button1.TabIndex = 12;
@@ -214,66 +197,18 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.optionsControl, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(555, 330);
-            this.tableLayoutPanel1.TabIndex = 13;
-            // 
-            // optionsControl
-            // 
-            this.optionsControl.Controls.Add(this.options);
-            this.optionsControl.Controls.Add(this.themeTab);
-            this.optionsControl.Controls.Add(this.updatingTab);
-            this.optionsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.optionsControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.optionsControl.Location = new System.Drawing.Point(3, 3);
-            this.optionsControl.Name = "optionsControl";
-            this.optionsControl.SelectedIndex = 0;
-            this.optionsControl.Size = new System.Drawing.Size(549, 324);
-            this.optionsControl.TabIndex = 0;
-            this.optionsControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Updating_DrawItem);
-            // 
-            // options
-            // 
-            this.options.Controls.Add(this.maxLogsBox);
-            this.options.Controls.Add(this.label5);
-            this.options.Controls.Add(this.label2);
-            this.options.Controls.Add(this.maxPcapBox);
-            this.options.Controls.Add(this.displayTrayLogs);
-            this.options.Controls.Add(this.checkBoxStartMinimized);
-            this.options.Controls.Add(this.linkLabel1);
-            this.options.Controls.Add(this.languageBox);
-            this.options.Controls.Add(this.languageLabel);
-            this.options.Location = new System.Drawing.Point(4, 22);
-            this.options.Name = "options";
-            this.options.Padding = new System.Windows.Forms.Padding(3);
-            this.options.Size = new System.Drawing.Size(541, 298);
-            this.options.TabIndex = 0;
-            this.options.Text = "General";
-            this.options.UseVisualStyleBackColor = true;
-            // 
             // maxLogsBox
             // 
-            this.maxLogsBox.Location = new System.Drawing.Point(89, 61);
+            this.maxLogsBox.Location = new System.Drawing.Point(92, 36);
             this.maxLogsBox.Name = "maxLogsBox";
-            this.maxLogsBox.Size = new System.Drawing.Size(40, 20);
+            this.maxLogsBox.Size = new System.Drawing.Size(204, 20);
             this.maxLogsBox.TabIndex = 13;
             this.maxLogsBox.TextChanged += new System.EventHandler(this.maxLogsBox_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 61);
+            this.label5.Location = new System.Drawing.Point(6, 39);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 13);
             this.label5.TabIndex = 12;
@@ -282,7 +217,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 90);
+            this.label2.Location = new System.Drawing.Point(6, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 13);
             this.label2.TabIndex = 11;
@@ -290,35 +225,49 @@
             // 
             // maxPcapBox
             // 
-            this.maxPcapBox.Location = new System.Drawing.Point(89, 87);
+            this.maxPcapBox.Location = new System.Drawing.Point(92, 62);
             this.maxPcapBox.Name = "maxPcapBox";
-            this.maxPcapBox.Size = new System.Drawing.Size(40, 20);
+            this.maxPcapBox.Size = new System.Drawing.Size(204, 20);
             this.maxPcapBox.TabIndex = 10;
             this.maxPcapBox.TextChanged += new System.EventHandler(this.maxPcapBox_TextChanged);
             // 
-            // themeTab
+            // groupBox2
             // 
-            this.themeTab.Controls.Add(this.button1);
-            this.themeTab.Controls.Add(this.label1);
-            this.themeTab.Controls.Add(this.themeBox);
-            this.themeTab.Location = new System.Drawing.Point(4, 22);
-            this.themeTab.Name = "themeTab";
-            this.themeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.themeTab.Size = new System.Drawing.Size(541, 298);
-            this.themeTab.TabIndex = 1;
-            this.themeTab.Text = "Theme";
-            this.themeTab.UseVisualStyleBackColor = true;
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.languageBox);
+            this.groupBox2.Controls.Add(this.themeBox);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.maxPcapBox);
+            this.groupBox2.Controls.Add(this.languageLabel);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.maxLogsBox);
+            this.groupBox2.Controls.Add(this.displayTrayLogs);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.checkBoxStartMinimized);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(302, 143);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "General Configuration";
             // 
-            // updatingTab
+            // tableLayoutPanel1
             // 
-            this.updatingTab.Controls.Add(this.groupBox1);
-            this.updatingTab.Location = new System.Drawing.Point(4, 22);
-            this.updatingTab.Name = "updatingTab";
-            this.updatingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.updatingTab.Size = new System.Drawing.Size(541, 298);
-            this.updatingTab.TabIndex = 2;
-            this.updatingTab.Text = "Updates";
-            this.updatingTab.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 308F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(507, 338);
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
             // OptionsDisplay
             // 
@@ -328,17 +277,13 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "OptionsDisplay";
-            this.Size = new System.Drawing.Size(555, 330);
+            this.Size = new System.Drawing.Size(507, 338);
             this.Load += new System.EventHandler(this.OptionsDisplay_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.optionsControl.ResumeLayout(false);
-            this.options.ResumeLayout(false);
-            this.options.PerformLayout();
-            this.themeTab.ResumeLayout(false);
-            this.themeTab.PerformLayout();
-            this.updatingTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -347,7 +292,6 @@
 
         public System.Windows.Forms.CheckBox displayTrayLogs;
         private System.Windows.Forms.Label languageLabel;
-        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ComboBox languageBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
@@ -359,15 +303,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox themeBox;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TabControl optionsControl;
-        private System.Windows.Forms.TabPage options;
-        private System.Windows.Forms.TabPage themeTab;
-        private System.Windows.Forms.TabPage updatingTab;
         private System.Windows.Forms.TextBox maxLogsBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox maxPcapBox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
 
 

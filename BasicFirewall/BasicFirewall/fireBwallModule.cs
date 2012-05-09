@@ -475,9 +475,29 @@ namespace BasicFirewall
         public PacketStatus ps;
         public Direction direction;
         public List<int> port;
-        public List<PortRange> port_ranges = new List<PortRange>();
         public bool log = true;
         public bool notify = true;
+
+        [NonSerialized]
+        List<PortRange> in_port_ranges = null;
+        PortRange[] prs = new PortRange[0];
+
+        public List<PortRange> port_ranges
+        {
+            get
+            {
+                if (in_port_ranges == null)
+                {
+                    in_port_ranges = new List<PortRange>(prs);
+                }
+                return in_port_ranges;
+            }
+            set
+            {
+                in_port_ranges = value;
+                prs = in_port_ranges.ToArray();
+            }
+        }
 
         public string ToString()
         {
@@ -740,9 +760,29 @@ namespace BasicFirewall
         public PacketStatus ps;
         public Direction direction;
         public List<int> port;
-        public List<PortRange> port_ranges;
         public bool log = true;
         public bool notify = true;
+
+        [NonSerialized]
+        List<PortRange> in_port_ranges = null;
+        PortRange[] prs = new PortRange[0];
+
+        public List<PortRange> port_ranges
+        {
+            get
+            {
+                if (in_port_ranges == null)
+                {
+                    in_port_ranges = new List<PortRange>(prs);
+                }
+                return in_port_ranges;
+            }
+            set
+            {
+                in_port_ranges = value;
+                prs = in_port_ranges.ToArray();
+            }
+        }
 
         public string ToString()
         {
