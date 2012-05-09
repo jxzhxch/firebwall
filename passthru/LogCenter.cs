@@ -198,12 +198,18 @@ namespace PassThru
              * Method called once per run, used to check log paths to 
              * clean up any old logs.  Called from MainWindow.cs - Load().
              * 
-             * Logs are retained for up to 5 days before being purged.
+             * Logs are retained for however long the user requests (default is 5 days)
              */
             public static void cleanLogs()
             {
+                if (OptionsDisplay.gSettings == null)
+                    OptionsDisplay.LoadGeneralConfig();
+
                 try
                 {
+                    //
+                    // first clean up the /Log/ folder
+                    //
                     string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                     folder = folder + Path.DirectorySeparatorChar + "firebwall";
                     if (!Directory.Exists(folder))
@@ -223,18 +229,52 @@ namespace PassThru
                         {
                             // grab the log date from file path name and 
                             // convert to DateTime for day check                            
-                            string logdate = s.Substring(s.LastIndexOf("_") + 1, 
+                            string logdate = s.Substring(s.LastIndexOf("_") + 1,
                                 (s.LastIndexOf(".") - s.LastIndexOf("_")) - 1);
-                            
+
                             DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
                             dtfi.ShortDatePattern = "MM-dd-yyyy";
                             dtfi.DateSeparator = "-";
                             DateTime logDate = Convert.ToDateTime(logdate, dtfi);
 
                             // if it's old, get rid of it
-                            if ((DateTime.Now - logDate).Days > 5)
+                            if ((DateTime.Now - logDate).Days > OptionsDisplay.gSettings.max_logs)
                             {
+                                if (isFileLocked(new FileInfo(s)))
+                                    continue;
+
                                 File.Delete(s);
+                            }
+                        }
+                    }
+
+                    //
+                    // Now clean up the pcap logs folder
+                    //
+                    folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    folder = folder + Path.DirectorySeparatorChar + "pcapLogs";
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    filepath = folder;
+
+                    if (Directory.Exists(filepath))
+                    {
+                        string[] files = Directory.GetFiles(filepath);
+
+                        if (files.Length > OptionsDisplay.gSettings.max_pcap_logs)
+                        {
+                            // hack off the number of files found in Settings (default should be 25), starting
+                            // from the oldest
+                            for (int i = 0; i < (files.Length - OptionsDisplay.gSettings.max_pcap_logs); ++i)
+                            {
+                                // if it's not accessible, skip it for next time
+                                if (isFileLocked(new FileInfo(files[i])))
+                                    continue;
+
+                                File.Delete(files[i]);
                             }
                         }
                     }
@@ -262,5 +302,31 @@ namespace PassThru
 			static LogCenter instance = null;
 
 			public static event NewLogEvent PushLogEvent;
+
+            /// <summary>
+            /// Utility method for checking if a file is locked/in-use or not
+            /// </summary>
+            /// <param name="file"></param>
+            /// <returns>True if the file is locked, false if it isn't</returns>
+            private static bool isFileLocked(FileInfo file)
+            {
+                FileStream stream = null;
+                try
+                {
+                    stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (IOException)
+                {
+                    // the file cannot be opened for whatever reason; return that the file is indeed
+                    // locked.
+                    return true;
+                }
+                finally
+                {
+                    if (null != stream)
+                        stream.Close();
+                }
+                return false;
+            }
 		}
 }

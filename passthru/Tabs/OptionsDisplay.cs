@@ -6,6 +6,9 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using FM;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing.Drawing2D;
 
 namespace PassThru
 {
@@ -17,6 +20,7 @@ namespace PassThru
         public OptionsDisplay()
         {
             InitializeComponent();
+            LoadGeneralConfig();
         }
 
         /// <summary>
@@ -86,6 +90,9 @@ namespace PassThru
             textBox1.Text = Program.uc.Config.MinuteInterval.ToString();
             displayTrayLogs.Checked = TrayIcon.displayTrayLogs;
             ColorScheme.ThemeChanged += new System.Threading.ThreadStart(ColorScheme_ThemeChanged);
+
+            maxLogsBox.Text = Convert.ToString(gSettings.max_logs);
+            maxPcapBox.Text = Convert.ToString(gSettings.max_pcap_logs);
         }
 
         void ColorScheme_ThemeChanged()
@@ -188,9 +195,158 @@ namespace PassThru
             cse.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        // object houses general settings
+        [Serializable]
+        public class GeneralSettings
         {
+            public int max_logs = 5;
+            public int max_pcap_logs = 25;
+        }
 
+        public static GeneralSettings gSettings;
+
+        /// <summary>
+        /// Save the general configuration 
+        /// </summary>
+        public void SaveGeneralConfig()
+        {
+            try
+            {
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string file = folder + Path.DirectorySeparatorChar + "generalconfig.cfg";
+                FileStream stream = File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+                BinaryFormatter bFormatter = new BinaryFormatter();
+                bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                bFormatter.Serialize(stream, gSettings);
+                stream.Close();
+            }
+            catch (Exception e) 
+            {
+                LogCenter.WriteErrorLog(e);
+            }
+        }
+
+        /// <summary>
+        /// load the general configuration up
+        /// </summary>
+        public static void LoadGeneralConfig()
+        {
+            try
+            {
+                string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                folder = folder + Path.DirectorySeparatorChar + "firebwall";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string file = folder + Path.DirectorySeparatorChar + "generalconfig.cfg";
+                if (File.Exists(file))
+                {
+                    FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    BinaryFormatter bFormatter = new BinaryFormatter();
+                    bFormatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                    bFormatter.Binder = new PassThru.UpdateChecker.VersionConfigToNamespaceAssemblyObjectBinder();
+                    gSettings = (GeneralSettings)bFormatter.Deserialize(stream);
+                    stream.Close();
+                }
+                else
+                {
+                    gSettings = new GeneralSettings();
+                }
+            }
+            catch
+            {
+                gSettings = new GeneralSettings();
+            }
+        }
+
+        /// <summary>
+        /// Stores the new max log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void maxLogsBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int tmp = Convert.ToInt32(maxLogsBox.Text);
+                if (tmp < Int32.MaxValue)
+                {
+                    gSettings.max_logs = tmp;
+                    SaveGeneralConfig();
+                }
+            }
+            catch
+            { }
+        }
+
+        /// <summary>
+        /// Stores the new max pcap log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void maxPcapBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int tmp = Convert.ToInt32(maxPcapBox.Text);
+                if (tmp < Int32.MaxValue)
+                {
+                    gSettings.max_pcap_logs = tmp;
+                    SaveGeneralConfig();
+                }
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// .NET doesn't give us much control over the TabControl, so we have to draw it ourselves if we want
+        /// themes to work correctly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Updating_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Rectangle tabstripEndRect = optionsControl.GetTabRect(optionsControl.TabPages.Count - 1);
+            RectangleF tabstripEndRectF = new RectangleF(tabstripEndRect.X + tabstripEndRect.Width, tabstripEndRect.Y - 5,
+                                          optionsControl.Width -(tabstripEndRect.X + tabstripEndRect.Width), tabstripEndRect.Height + 5);
+
+            if (optionsControl.Parent.BackgroundImage != null)
+            {
+                RectangleF src = new RectangleF(tabstripEndRectF.X + optionsControl.Left,
+                                                tabstripEndRectF.Y + optionsControl.Top, tabstripEndRectF.Width,
+                                                tabstripEndRectF.Height);
+                e.Graphics.DrawImage(optionsControl.Parent.BackgroundImage, tabstripEndRectF, src, GraphicsUnit.Pixel);
+            }
+            else
+            {
+                using (Brush back = new SolidBrush(optionsControl.Parent.BackColor))
+                {
+                    e.Graphics.FillRectangle(back, tabstripEndRectF);
+                }
+            }
+
+            TabPage page = optionsControl.TabPages[e.Index];
+            Brush BackBrush = new SolidBrush(page.BackColor);
+            Brush ForeBrush = new SolidBrush(page.ForeColor);
+            string TabName = page.Text;
+
+            int iconOffset = 0;
+            Rectangle tabBackgroundRect = e.Bounds;
+            e.Graphics.FillRectangle(BackBrush, tabBackgroundRect);
+
+            Rectangle labelRect = new Rectangle(tabBackgroundRect.X + iconOffset,
+                tabBackgroundRect.Y + 3,
+                tabBackgroundRect.Width - iconOffset, tabBackgroundRect.Height - 3);
+            
+            StringFormat sf = new StringFormat();
+            sf.Alignment = StringAlignment.Center;
+            e.Graphics.DrawString(TabName, e.Font, ForeBrush, labelRect, sf);
+
+            sf.Dispose();
+            BackBrush.Dispose();
+            ForeBrush.Dispose();
         }
     }
 }

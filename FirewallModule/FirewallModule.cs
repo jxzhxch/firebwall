@@ -178,7 +178,7 @@ namespace FM
                     stream.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 PersistentData = null;
             }
