@@ -39,7 +39,7 @@ pop $R1
 !define VERSION "0.3.11.0"
 
 ; The name of the installer
-Name "fireBwall ${VERSION}"
+Name "firebwall ${VERSION}"
 
 ; The file to write
 OutFile "firebwall-${VERSION}.exe"
