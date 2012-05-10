@@ -81,9 +81,13 @@ namespace ICMPFilter
             public bool DenyIPv6
             { get { return denyIPv6; } set { denyIPv6 = value; } }
 
-            public bool denyIPv6NDP = false;
+            private bool denyIPv6NDP = false;
             public bool DenyIPv6NDP
             { get { return denyIPv6NDP; } set { denyIPv6NDP = value; } }
+
+            private bool log = true;
+            public bool Log
+            { get { return log; } set { log = value; } }
 
             public bool Save = true;
         }
@@ -108,9 +112,13 @@ namespace ICMPFilter
                 {
                     PacketMainReturn pmr;
                     pmr = new PacketMainReturn(this);
-                    pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
-                    pmr.logMessage = "ICMP from " + packet.SourceIP.ToString() + " for " +
-                        packet.DestIP.ToString() + " was dropped.";
+                    pmr.returnType = PacketMainReturnType.Drop;
+                    if (data.Log)
+                    {
+                        pmr.returnType |= PacketMainReturnType.Log;
+                        pmr.logMessage = "ICMP from " + packet.SourceIP.ToString() + " for " +
+                            packet.DestIP.ToString() + " was dropped.";
+                    }
                     return pmr;
                 }
             }
@@ -128,9 +136,13 @@ namespace ICMPFilter
                 {
                     PacketMainReturn pmr;
                     pmr = new PacketMainReturn(this);
-                    pmr.returnType = PacketMainReturnType.Drop | PacketMainReturnType.Log;
-                    pmr.logMessage = "ICMPv6 from " + packet.SourceIP.ToString() + " for " +
-                        packet.DestIP.ToString() + " was dropped.";
+                    pmr.returnType = PacketMainReturnType.Drop;
+                    if (data.Log)
+                    {
+                        pmr.returnType |= PacketMainReturnType.Log;
+                        pmr.logMessage = "ICMPv6 from " + packet.SourceIP.ToString() + " for " +
+                            packet.DestIP.ToString() + " was dropped.";
+                    }
                     return pmr;
                 }
             }
@@ -205,7 +217,7 @@ namespace ICMPFilter
         private void Help()
         {
             MetaData.Name = "ICMP Filter";
-            MetaData.Version = "1.0.2.0";
+            MetaData.Version = "1.0.3.0";
             MetaData.Description = "Blocks ICMP packets of a given type/code";
             MetaData.Contact = "shodivine@gmail.com";
             MetaData.Author = "Bryan A. (drone)";

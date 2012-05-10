@@ -44,12 +44,15 @@
             this.Version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.allButNDP = new System.Windows.Forms.CheckBox();
             this.blockIPv6Box = new System.Windows.Forms.CheckBox();
             this.ipv6Box = new System.Windows.Forms.CheckBox();
-            this.allButNDP = new System.Windows.Forms.CheckBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.logBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -121,7 +124,7 @@
             this.allBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.allBox.AutoSize = true;
-            this.allBox.Location = new System.Drawing.Point(368, 32);
+            this.allBox.Location = new System.Drawing.Point(458, 3);
             this.allBox.Name = "allBox";
             this.allBox.Size = new System.Drawing.Size(92, 17);
             this.allBox.TabIndex = 10;
@@ -146,21 +149,22 @@
             this.tableDisplay.AllowUserToAddRows = false;
             this.tableDisplay.AllowUserToDeleteRows = false;
             this.tableDisplay.AllowUserToResizeRows = false;
+            this.tableDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tableDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableDisplay.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Type,
             this.Code,
             this.Description,
             this.Version});
-            this.tableDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableDisplay.Location = new System.Drawing.Point(3, 3);
+            this.tableDisplay.Location = new System.Drawing.Point(0, 3);
             this.tableDisplay.MultiSelect = false;
             this.tableDisplay.Name = "tableDisplay";
             this.tableDisplay.ReadOnly = true;
             this.tableDisplay.RowHeadersVisible = false;
             this.tableDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tableDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableDisplay.Size = new System.Drawing.Size(595, 291);
+            this.tableDisplay.Size = new System.Drawing.Size(445, 307);
             this.tableDisplay.TabIndex = 7;
             // 
             // Type
@@ -197,40 +201,48 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableDisplay, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.05464F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.94535F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 371);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84.36658F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.63342F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 374);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.allButNDP);
-            this.panel1.Controls.Add(this.blockIPv6Box);
             this.panel1.Controls.Add(this.ipv6Box);
             this.panel1.Controls.Add(this.typeField);
             this.panel1.Controls.Add(this.viewICMP);
             this.panel1.Controls.Add(this.deleteButton);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.codeField);
-            this.panel1.Controls.Add(this.allBox);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 300);
+            this.panel1.Location = new System.Drawing.Point(3, 318);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(595, 68);
+            this.panel1.Size = new System.Drawing.Size(595, 53);
             this.panel1.TabIndex = 8;
+            // 
+            // allButNDP
+            // 
+            this.allButNDP.AutoSize = true;
+            this.allButNDP.Location = new System.Drawing.Point(458, 49);
+            this.allButNDP.Name = "allButNDP";
+            this.allButNDP.Size = new System.Drawing.Size(140, 17);
+            this.allButNDP.TabIndex = 14;
+            this.allButNDP.Text = "All ICMPv6 Except NDP";
+            this.allButNDP.UseVisualStyleBackColor = true;
+            this.allButNDP.CheckedChanged += new System.EventHandler(this.allButNDP_CheckedChanged);
             // 
             // blockIPv6Box
             // 
             this.blockIPv6Box.AutoSize = true;
-            this.blockIPv6Box.Location = new System.Drawing.Point(368, 48);
+            this.blockIPv6Box.Location = new System.Drawing.Point(458, 26);
             this.blockIPv6Box.Name = "blockIPv6Box";
             this.blockIPv6Box.Size = new System.Drawing.Size(92, 17);
             this.blockIPv6Box.TabIndex = 13;
@@ -249,16 +261,29 @@
             this.ipv6Box.UseVisualStyleBackColor = true;
             this.ipv6Box.CheckedChanged += new System.EventHandler(this.ipv6Box_CheckedChanged);
             // 
-            // allButNDP
+            // panel2
             // 
-            this.allButNDP.AutoSize = true;
-            this.allButNDP.Location = new System.Drawing.Point(222, 48);
-            this.allButNDP.Name = "allButNDP";
-            this.allButNDP.Size = new System.Drawing.Size(140, 17);
-            this.allButNDP.TabIndex = 14;
-            this.allButNDP.Text = "All ICMPv6 Except NDP";
-            this.allButNDP.UseVisualStyleBackColor = true;
-            this.allButNDP.CheckedChanged += new System.EventHandler(this.allButNDP_CheckedChanged);
+            this.panel2.Controls.Add(this.logBox);
+            this.panel2.Controls.Add(this.blockIPv6Box);
+            this.panel2.Controls.Add(this.allButNDP);
+            this.panel2.Controls.Add(this.tableDisplay);
+            this.panel2.Controls.Add(this.allBox);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(595, 309);
+            this.panel2.TabIndex = 9;
+            // 
+            // logBox
+            // 
+            this.logBox.AutoSize = true;
+            this.logBox.Location = new System.Drawing.Point(458, 73);
+            this.logBox.Name = "logBox";
+            this.logBox.Size = new System.Drawing.Size(58, 17);
+            this.logBox.TabIndex = 15;
+            this.logBox.Text = "Log All";
+            this.logBox.UseVisualStyleBackColor = true;
+            this.logBox.CheckedChanged += new System.EventHandler(this.logBox_CheckedChanged);
             // 
             // ICMPFilterDisplay
             // 
@@ -266,12 +291,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ICMPFilterDisplay";
-            this.Size = new System.Drawing.Size(601, 371);
+            this.Size = new System.Drawing.Size(601, 374);
             this.Load += new System.EventHandler(this.ICMPFilterDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tableDisplay)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -297,6 +324,8 @@
         private System.Windows.Forms.CheckBox ipv6Box;
         private System.Windows.Forms.CheckBox blockIPv6Box;
         private System.Windows.Forms.CheckBox allButNDP;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox logBox;
 
     }
 }

@@ -226,6 +226,9 @@ namespace ICMPFilter
 
             // deny ipv6 except ndp
             allButNDP.Checked = filter.data.DenyIPv6NDP;
+
+            // log state
+            logBox.Checked = filter.data.Log;
         }
 
         // pushes update to the ruletable object
@@ -453,6 +456,16 @@ namespace ICMPFilter
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Set the logging mode
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void logBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.filter.data.Log = logBox.Checked;
         }
 
         /*
