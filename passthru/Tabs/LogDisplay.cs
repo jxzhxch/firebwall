@@ -15,6 +15,8 @@ namespace PassThru.Tabs
             InitializeComponent();
         }
 
+        List<string> lines = new List<string>();
+
         /*
          * Object handles logging of a log event to the window
          * @param le is the log event object to be logged
@@ -22,16 +24,20 @@ namespace PassThru.Tabs
         public void AddLogEvent(object le)
         {
             // if the logger is busy, invoke it
-            if (textBox1.InvokeRequired)
+            if (listBox1.InvokeRequired)
             {
                 System.Threading.ParameterizedThreadStart d = new System.Threading.ParameterizedThreadStart(AddLogEvent);
-                textBox1.Invoke(d, new object[] { le });
+                listBox1.Invoke(d, new object[] { le });
             }
             // else log the message
             else
             {
                 LogEvent e = (LogEvent)le;
-                textBox1.Text = e.time.ToString() + " " + e.Module + ": " + e.Message + "\r\n" + textBox1.Text;
+                listBox1.Items.Insert(0, e.time.ToString() + " " + e.Module + ": " + e.Message);
+                while (listBox1.Items.Count > 1000)
+                {
+                    listBox1.Items.RemoveAt(1000);
+                }
             }
         }
 
