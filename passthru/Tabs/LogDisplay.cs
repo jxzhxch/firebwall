@@ -46,5 +46,11 @@ namespace PassThru.Tabs
         {
             AddLogEvent(e);
         }
+
+        // copy the selected log to their clipboard for easy access
+        private void listBox1_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(listBox1.SelectedItem.ToString());
+        }
     }
 }
