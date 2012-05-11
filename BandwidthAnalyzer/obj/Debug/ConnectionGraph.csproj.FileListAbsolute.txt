@@ -1,0 +1,12 @@
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\ConnectionGraph.dll
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\ConnectionGraph.pdb
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\FirewallModule.dll
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\FirewallModule.pdb
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ConnectionGraph.dll
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ConnectionGraph.pdb
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ConnectionGraph.ConnectionGraphControl.resources
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ResGen.read.1.tlog
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\obj\Debug\ResGen.write.1.tlog
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\fireBwall.exe
+C:\Users\stephen\Projects\firebwall\trunk\ConnectionGraph\bin\Debug\fireBwall.pdb
